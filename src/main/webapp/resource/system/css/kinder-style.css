@@ -1,0 +1,87 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* ` Global
+----------------------------------------------------------------------------------------------------*/
+body{
+	background:url(../images/admin/bg.png) no-repeat center center;
+	font-family: "Microsoft YaHei", "微软雅黑", "SimSun", "宋体";
+}
+/* ` Login
+----------------------------------------------------------------------------------------------------*/
+.wrap{
+	width:480px;
+	margin:0 auto;
+}
+.login-area{
+	margin-top:160px;
+}
+
+.login-title .h1{
+	color:#fff;
+	font-size: 34px;
+}
+.login-title .h2{
+	color:#fff;
+	font-size:22px;
+	margin-top:-5px;
+}
+.login-panel{
+	float:left;
+	width:475px;
+	height:auto;
+}
+.login-panel-top{
+	height:17px;
+	background:url(../images/admin/login-panel-top.png) no-repeat;
+}
+.login-panel-middle{
+	height:auto;
+	background:url(../images/admin/login-panel-middle.png) repeat-y;
+}
+.login-panel-bottom{
+	height:10px;
+	background:url(../images/admin/login-panel-bottom.png) no-repeat;
+}
+.avatar{
+	height:80px;
+	text-align:center;
+	padding-top:30px;
+	background:url(../images/admin/avatar.png) 180px 10px no-repeat;
+}
+.login-form{
+	margin-left:60px;
+}
+.login-form p{
+	margin-top:8px;
+	width:350px;
+}
+.login-form .input{
+	height:40px;
+	line-height:40px;
+	width:310px;
+	border:none;
+	padding-left:40px;
+}
+.login-form .username{
+	background:#fff url(../images/admin/icon-username.png) no-repeat 8px 8px;
+}
+.login-form .password{
+	background:#fff url(../images/admin/icon-password.png) no-repeat 8px 8px;
+}
+.login-form .verifycode{
+	float:left;
+	margin-right:5px;
+	width:180px;
+	background:#fff url(../images/admin/icon-verifycode.png) no-repeat 8px 8px;
+}
+.login-form .submit{
+	width:137px;
+	height:40px;
+	border:none;
+	color:#fff;
+	font-size:18px;
+	font-weight:bold;
+	background:#fff url(../images/admin/submit.png) no-repeat 0px 0px;
+	cursor:pointer;
+}

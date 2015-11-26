@@ -1,0 +1,233 @@
+@charset "utf-8";
+/* CSS Document */
+
+/* ` Global
+----------------------------------------------------------------------------------------------------*/
+body{
+	font-family: "Microsoft YaHei", "微软雅黑", "SimSun", "宋体";
+	font-size:14px;
+}
+/* container */
+.container{
+	width:100%;
+	margin:0 auto;
+}
+/* ` Header
+----------------------------------------------------------------------------------------------------*/
+.header{
+	width:100%;
+	height:70px;
+}
+.logo{
+	float:left;
+	width:157px;
+	height:70px;
+	background:url(../images/admin/header__logo.png)
+}
+.topbar{
+	margin-left:157px;
+	height: 69px;
+	border-bottom: 1px solid #ddd;
+}
+
+.user-info{
+	line-height:70px;
+	padding-right:23px;
+	background:url(../images/admin/userinfo.png) 144px 2px no-repeat;
+}
+.user-menu{
+	line-height:70px;
+	margin-left:25px;
+	margin-right: 20px;
+	padding-left:25px;
+	background:url(../images/admin/logout.png) 2px 2px no-repeat;
+}
+
+/* ` Main
+----------------------------------------------------------------------------------------------------*/
+.sidebar{
+	float:left;
+	width:157px;
+	height:100%;
+	background:#E9E9E9;
+}
+.leftnav{
+}
+.leftnav ul{
+	float:left;
+	padding-top:15px;
+}
+.leftnav li{
+	float:left;
+	width:157px;
+	height:75px;
+}
+.leftnav li a{
+	display:block;
+	text-align:center;
+	padding-top:45px;
+	padding-bottom:8px;
+	border-right:1px solid #E3E3E3;
+}
+.leftnav li a:hover,.leftnav li a.on{
+	border-right:none;
+	padding-right:1px;
+	background-color:#fff;
+	color:#0168B7;
+}
+.leftnav .kinderinfo-management a{
+	background:url(../images/admin/kinderinfo.png) no-repeat 64px 10px;
+}
+.leftnav .kinderinfo-management a:hover,.leftnav .kinderinfo-management a.on{
+	background:#fff url(../images/admin/kinderinfo__hover.png) no-repeat 64px 10px;
+}
+.leftnav .menu-management a{
+	background:url(../images/admin/menu.png) no-repeat 64px 10px;
+}
+.leftnav .menu-management a:hover,.leftnav .menu-management a.on{
+	background:#fff url(../images/admin/menu__hover.png) no-repeat 64px 10px;
+}
+.leftnav .role-management a{
+	background:url(../images/admin/role.png) no-repeat 64px 10px;
+}
+.leftnav .role-management a:hover,.leftnav .role-management a.on{
+	background:#fff url(../images/admin/role__hover.png) no-repeat 64px 10px;
+}
+.leftnav .user-management a{
+	background:url(../images/admin/user.png) no-repeat 64px 10px;
+}
+.leftnav .user-management a:hover,.leftnav .user-management a.on{
+	background:#fff url(../images/admin/user__hover.png) no-repeat 64px 10px;
+}
+
+.content{
+	margin-left:200px;
+	margin-right:10px;
+}
+.page-header{
+	float:left;
+	width:99%;
+	border-bottom:none;
+}
+.page-header .title-bar{
+	border-bottom:2px solid #E6E6E6;
+	height:40px;
+	line-height:40px;
+}
+.page-header .title-bar span{
+	float:left;
+	display:block;
+	color:#0168B7;
+	font-size:23px;
+	position:relative;
+	border-bottom:2px solid #0168B7;
+}
+
+.page-header .title-bar .title-menu{
+	float:right;
+	border:none;
+	font-size:16px;
+	padding-left:25px;
+	background:url(../images/admin/add.png) no-repeat 0px 11px;
+}
+
+
+.main-content{
+	float:left;
+	width:99%;
+	border:1px solid #d9d9d9;
+}
+.list-table{
+}
+.list-table .first-td{
+	padding-left:20px;
+}
+.list-table tr {
+	border-top:none;
+	border-bottom: 1px solid #d9d9d9;
+}
+.list-table tr:hover{
+	background:#f5f5f5;
+}
+.list-table th,.list-table td{
+	height:40px;
+	line-height:40px;
+	padding-left:8px;
+}
+.list-table th{
+	font-size:16px;
+	background: #F6F6F6;
+}
+.list-table a{
+	padding-right:5px;
+}
+.pagebar{
+	border-top:1px solid #d9d9d9;
+	margin-top:50px;
+	height:45px;
+	line-height:45px;
+	background:#F3F3F3;
+}
+
+/* ` Pager
+----------------------------------------------------------------------------------------------------*/
+div.pagination {
+	float:right;
+	padding-right: 3px; padding-left: 3px; padding-bottom: 3px; margin: 3px; padding-top: 3px; text-align: center
+}
+div.pagination a {
+	padding: 4px 13px;
+	color: #205081;
+	text-decoration: none;
+	border: 1px solid #aaaadd;
+	display: inline-block;
+}
+div.pagination a:hover {
+	border: #205081 1px solid; color: #000;
+}
+div.pagination a:active {
+	border: #205081 1px solid;color: #000;
+}
+div.pagination li{
+	margin:0 2px;
+	background:none;
+	padding:0;
+	float:left;
+	height:22px;
+	line-height:22px;
+	list-style:none;
+	border:none;
+}
+div.pagination li.active a{
+	border:1px solid #205081;
+	font-weight:bold;
+	color:#fff;
+	background:#205081;
+}
+div.pagination li.disabled {
+	border:1px solid #eee;
+	color:#ddd;
+}
+div.pagination li.controls{
+	border:none;
+}
+div.pagination li.controls a{
+	border:none;
+}
+div.pagination .controls input{
+	width:40px;
+	display:inline-block;
+}
+/* ` Footer
+----------------------------------------------------------------------------------------------------*/
+.foot-content{
+	height:40px;
+	background:#0168B7;
+	line-height:40px;
+	color:#fff;
+}
+.foot-content p{
+	padding-left:20px;
+}
+
+

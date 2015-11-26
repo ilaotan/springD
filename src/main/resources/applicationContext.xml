@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+     http://www.springframework.org/schema/cache
+	 http://www.springframework.org/schema/cache/spring-cache.xsd"
+	default-lazy-init="true">
+	<!-- 参数载入 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 包扫描、注解相关 排除@Controller的注解-->
+	<context:component-scan base-package="com.springD.framework,com.springD.application.system">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
+	<!-- 开启注解注入 
+	<context:annotation-config />
+	-->
+	
+	<!-- 数据库相关 -->
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="slowSqlMillis" value="3000" />
+		<property name="logSlowSql" value="true" />
+	</bean>
+	
+	<!-- 数据源1 -->
+	<bean id="dataSourceOne" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+		<property name="filters" value="log4j,wall" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+			</list>
+		</property>
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!-- 初始化连接 -->
+		<property name="initialSize" value="${dataSource.initialSize}" />
+		<!-- 最大空闲连接 
+		<property name="maxIdle" value="${dataSource.maxIdle}" />
+		 最小空闲连接  -->
+		<property name="minIdle" value="${dataSource.minIdle}" />
+		<!-- 最大连接数量 -->
+		<property name="maxActive" value="${dataSource.maxActive}" />
+		<!--#是否自动回收超时连接 -->
+		<property name="removeAbandoned" value="${dataSource.removeAbandoned}" />
+		<!--超时时间(以秒数为单位) -->
+		<property name="removeAbandonedTimeout" value="${dataSource.removeAbandonedTimeout}" />
+		<!-- 超时等待时间以毫秒为单位 -->
+		<property name="maxWait" value="${dataSource.maxWait}" />
+		
+		<property name="logAbandoned" value="true" />
+	</bean>
+	<!-- 数据源2 -->
+	<bean id="dataSourceTwo" class="com.alibaba.druid.pool.DruidDataSource" destroy-method="close">
+		<property name="filters" value="log4j,wall" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+			</list>
+		</property>
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc2.url}" />
+		<property name="username" value="${jdbc2.username}" />
+		<property name="password" value="${jdbc2.password}" />
+		<!-- 初始化连接 -->
+		<property name="initialSize" value="${dataSource.initialSize}" />
+		<!-- 最大空闲连接 
+		<property name="maxIdle" value="${dataSource.maxIdle}" />
+		 最小空闲连接 -->
+		<property name="minIdle" value="${dataSource.minIdle}" />
+		<!--最大连接数量 -->
+		<property name="maxActive" value="${dataSource.maxActive}" />
+		<!--#是否自动回收超时连接 -->
+		<property name="removeAbandoned" value="${dataSource.removeAbandoned}" />
+		<!--超时时间(以秒数为单位) -->
+		<property name="removeAbandonedTimeout" value="${dataSource.removeAbandonedTimeout}" />
+		<!-- 超时等待时间以毫秒为单位 -->
+		<property name="maxWait" value="${dataSource.maxWait}" />
+	</bean>
+	
+	 <!-- druid界面 spring监控标签配置开始-->
+    <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+          scope="prototype">
+        <property name="patterns">
+            <list>
+                <value>com.springD.application.system.service.*</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="druid-stat-interceptor"
+          class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+    </bean>
+    <aop:config>
+        <aop:advisor advice-ref="druid-stat-interceptor"
+                     pointcut-ref="druid-stat-pointcut" />
+    </aop:config>
+     <!-- druid界面 spring监控标签配置结束-->
+	<!-- 动态数据源 -->
+	<bean id="dynamicDataSource" class="com.springD.framework.datasource.DynamicDataSource">  
+        <property name="targetDataSources">  
+            <map key-type="java.lang.String">  
+                <entry value-ref="dataSourceOne" key="dataSourceOne"></entry>  
+                <entry value-ref="dataSourceTwo" key="dataSourceTwo"></entry> 
+            </map>  
+        </property>  
+        <property name="defaultTargetDataSource" ref="dataSourceOne"></property>  
+    </bean>
+    
+    <!-- spring事务管理 -->
+	<bean id="transactionManager" class="org.springframework.jdbc.datasource.DataSourceTransactionManager">
+		<property name="dataSource" ref="dynamicDataSource" />
+	</bean>
+	
+	<tx:annotation-driven transaction-manager="transactionManager" proxy-target-class="true"  />
+	
+	<!-- 配置AOP -->
+	<bean id="aspect" class="com.springD.framework.spring.aop.DynamicDataSourceAspect"/>
+	<aop:config>
+		<aop:pointcut expression="@annotation(com.springD.framework.spring.annotation.CustomDataSource)" id="pointcut"/>
+		<aop:aspect ref="aspect">
+			<aop:before pointcut-ref="pointcut" method="beforeAdvice"/>
+			<aop:after pointcut-ref="pointcut" method="afterFinallyAdvice"/>  
+		</aop:aspect>
+		
+	</aop:config>
+	<!-- 开启AOP的注解模式 -->
+    <aop:aspectj-autoproxy/>
+    
+	<!-- mybatis相关 -->
+	<!-- sqlSessionFactory -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dynamicDataSource" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+	</bean>
+	<!-- 配置映射器 -自动扫描 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.tan" />
+		<!-- optional unless there are multiple session factories defined -->
+		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
+		<property name="annotationClass" value="com.springD.framework.persistence.annotation.MyBatisDao"/>
+	</bean>	
+	
+	<import resource="classpath:applicationContext-cache.xml" />
+	<import resource="classpath:applicationContext-shiro.xml" />
+	<import resource="classpath:applicationContext-captcha.xml" />
+	
+	<!-- bean -->
+	<!--HttpSession-->
+	<bean id="sessionProvider" class="com.springD.framework.web.session.HttpSessionProvider"/>
+	
+</beans>
