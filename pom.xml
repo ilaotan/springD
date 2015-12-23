@@ -8,7 +8,7 @@
   <name>springD Maven Webapp</name>
   <url>http://maven.apache.org</url>
   
-  <!-- 版本配置 -->
+  <!-- 版本配置1 -->
 	<properties>
 		<jdk.version>1.7</jdk.version>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
