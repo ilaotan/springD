@@ -24,7 +24,7 @@
 	</bean>
 	
 	<!-- 包扫描、注解相关 排除@Controller的注解-->
-	<context:component-scan base-package="com.springD.framework,com.springD.application.system">
+	<context:component-scan base-package="com.springD">
 		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
 	</context:component-scan>
 
@@ -94,9 +94,12 @@
 		<!-- 超时等待时间以毫秒为单位 -->
 		<property name="maxWait" value="${dataSource.maxWait}" />
 	</bean>
-	
-	 <!-- druid界面 spring监控标签配置开始-->
-    <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+
+	<!-- druid界面 spring监控标签配置开始-->
+	<bean id="druid-stat-interceptor"
+		  class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+	</bean>
+	<bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
           scope="prototype">
         <property name="patterns">
             <list>
@@ -104,12 +107,8 @@
             </list>
         </property>
     </bean>
-    <bean id="druid-stat-interceptor"
-          class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
-    </bean>
     <aop:config>
-        <aop:advisor advice-ref="druid-stat-interceptor"
-                     pointcut-ref="druid-stat-pointcut" />
+        <aop:advisor advice-ref="druid-stat-interceptor" pointcut-ref="druid-stat-pointcut" />
     </aop:config>
      <!-- druid界面 spring监控标签配置结束-->
 	<!-- 动态数据源 -->
@@ -151,7 +150,7 @@
 	</bean>
 	<!-- 配置映射器 -自动扫描 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
-		<property name="basePackage" value="com.tan" />
+		<property name="basePackage" value="com.springD" />
 		<!-- optional unless there are multiple session factories defined -->
 		<property name="sqlSessionFactoryBeanName" value="sqlSessionFactory" />
 		<property name="annotationClass" value="com.springD.framework.persistence.annotation.MyBatisDao"/>
@@ -162,7 +161,5 @@
 	<import resource="classpath:applicationContext-captcha.xml" />
 	
 	<!-- bean -->
-	<!--HttpSession-->
-	<bean id="sessionProvider" class="com.springD.framework.web.session.HttpSessionProvider"/>
-	
+
 </beans>

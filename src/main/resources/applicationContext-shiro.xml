@@ -110,8 +110,8 @@
 		<!-- 声明自定义的过滤器 -->
 		<property name="filters">
 			<map>
-				<entry key="authc" value-ref="authcFilter"></entry>
-				<entry key="systemPermissions" value-ref="systemPermissions"></entry>
+				<entry key="authc" value-ref="authcFilter"/>
+				<entry key="systemPermissions" value-ref="systemPermissions"/>
 				<entry key="logout" value-ref="logoutFilter" />
 			</map>
 		</property>
