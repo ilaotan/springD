@@ -1,0 +1,394 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:tx="http://www.springframework.org/schema/tx" xmlns:jdbc="http://www.springframework.org/schema/jdbc"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:cache="http://www.springframework.org/schema/cache"
+	xsi:schemaLocation="
+     http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context.xsd
+     http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+     http://www.springframework.org/schema/jdbc http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+     http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx.xsd
+     http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+     http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util.xsd
+     http://www.springframework.org/schema/cache
+	 http://www.springframework.org/schema/cache/spring-cache.xsd"
+	default-lazy-init="true">
+	<!-- 参数载入 -->
+	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
+		<property name="locations">
+			<list>
+				<value>classpath:jdbc.properties</value>
+				<value>classpath:systemcfg.properties</value>
+			</list>
+		</property>
+	</bean>
+	
+	<!-- 包扫描、注解相关 -->
+	<context:component-scan base-package="com.ibaby">
+		<context:exclude-filter type="annotation" expression="org.springframework.stereotype.Controller"/>
+	</context:component-scan>
+
+	<!-- 开启注解注入 
+	<context:annotation-config />
+	-->
+	<!-- 开启注解事务 -->
+
+	
+	<!-- 数据库相关 -->
+	<bean id="stat-filter" class="com.alibaba.druid.filter.stat.StatFilter">
+		<property name="slowSqlMillis" value="3000" />
+		<property name="logSlowSql" value="true" />
+	</bean>
+	
+	<!-- 数据源1 -->
+	<bean id="dataSourceDruidOne" class="com.alibaba.druid.pool.xa.DruidXADataSource" destroy-method="close">
+		<property name="filters" value="log4j,wall" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+			</list>
+		</property>
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc.url}" />
+		<property name="username" value="${jdbc.username}" />
+		<property name="password" value="${jdbc.password}" />
+		<!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${druid.initialSize}"/>
+        <property name="minIdle" value="${druid.minIdle}"/>
+        <property name="maxActive" value="${druid.maxActive}"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${druid.maxWait}"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+	</bean>
+	<!-- 数据源2 -->
+	<bean id="dataSourceDruidTwo" class="com.alibaba.druid.pool.xa.DruidXADataSource" destroy-method="close">
+		<property name="filters" value="log4j,wall" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+			</list>
+		</property>
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc2.url}" />
+		<property name="username" value="${jdbc2.username}" />
+		<property name="password" value="${jdbc2.password}" />
+		<!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${druid.initialSize}"/>
+        <property name="minIdle" value="${druid.minIdle}"/>
+        <property name="maxActive" value="${druid.maxActive}"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${druid.maxWait}"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+	</bean>
+	<!-- 数据源3 -->
+	<bean id="dataSourceDruidThree" class="com.alibaba.druid.pool.xa.DruidXADataSource" destroy-method="close">
+		<property name="filters" value="log4j,wall" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+			</list>
+		</property>
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc3.url}" />
+		<property name="username" value="${jdbc3.username}" />
+		<property name="password" value="${jdbc3.password}" />
+		<!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${druid.initialSize}"/>
+        <property name="minIdle" value="${druid.minIdle}"/>
+        <property name="maxActive" value="${druid.maxActive}"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${druid.maxWait}"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+	</bean>
+	<!-- 数据源4 -->
+	<bean id="dataSourceDruidFour" class="com.alibaba.druid.pool.xa.DruidXADataSource" destroy-method="close">
+		<property name="filters" value="log4j,wall" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+			</list>
+		</property>
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc4.url}" />
+		<property name="username" value="${jdbc4.username}" />
+		<property name="password" value="${jdbc4.password}" />
+		<!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${druid.initialSize}"/>
+        <property name="minIdle" value="${druid.minIdle}"/>
+        <property name="maxActive" value="${druid.maxActive}"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${druid.maxWait}"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+	</bean>
+	
+	<!-- 数据源5（用户信息） -->
+	<bean id="dataSourceDruidFive" class="com.alibaba.druid.pool.xa.DruidXADataSource" destroy-method="close">
+		<property name="filters" value="log4j,wall" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+			</list>
+		</property>
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc5.url}" />
+		<property name="username" value="${jdbc5.username}" />
+		<property name="password" value="${jdbc5.password}" />
+		<!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${druid.initialSize}"/>
+        <property name="minIdle" value="${druid.minIdle}"/>
+        <property name="maxActive" value="${druid.maxActive}"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${druid.maxWait}"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+	</bean>
+	
+	<!-- 数据源6（autoupdate） -->
+	<bean id="dataSourceDruidSix" class="com.alibaba.druid.pool.xa.DruidXADataSource" destroy-method="close">
+		<property name="filters" value="log4j,wall" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+			</list>
+		</property>
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc6.url}" />
+		<property name="username" value="${jdbc6.username}" />
+		<property name="password" value="${jdbc6.password}" />
+		<!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${druid.initialSize}"/>
+        <property name="minIdle" value="${druid.minIdle}"/>
+        <property name="maxActive" value="${druid.maxActive}"/>
+
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${druid.maxWait}"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+	</bean>
+	
+	<!-- 数据源7（discover） -->
+	<bean id="dataSourceDruidSeven" class="com.alibaba.druid.pool.xa.DruidXADataSource" destroy-method="close">
+		<property name="filters" value="log4j,wall" />
+		<property name="proxyFilters">
+			<list>
+				<ref bean="stat-filter" />
+			</list>
+		</property>
+		<property name="driverClassName" value="${jdbc.driver}" />
+		<property name="url" value="${jdbc7.url}" />
+		<property name="username" value="${jdbc7.username}" />
+		<property name="password" value="${jdbc7.password}" />
+		<!-- 配置初始化大小、最小、最大 -->
+        <property name="initialSize" value="${druid.initialSize}"/>
+        <property name="minIdle" value="${druid.minIdle}"/>
+        <property name="maxActive" value="${druid.maxActive}"/>
+        <!-- 配置获取连接等待超时的时间 -->
+        <property name="maxWait" value="${druid.maxWait}"/>
+        <!-- 配置间隔多久才进行一次检测，检测需要关闭的空闲连接，单位是毫秒 -->
+        <property name="timeBetweenEvictionRunsMillis" value="${druid.timeBetweenEvictionRunsMillis}" />
+        <!-- 配置一个连接在池中最小生存的时间，单位是毫秒 -->
+        <property name="minEvictableIdleTimeMillis" value="${druid.minEvictableIdleTimeMillis}" />
+	</bean>
+	
+	 <!-- druid界面 spring监控标签配置开始-->
+    <bean id="druid-stat-pointcut" class="org.springframework.aop.support.JdkRegexpMethodPointcut"
+          scope="prototype">
+        <property name="patterns">
+            <list>
+                <value>com.ibaby.application.kindergarten.service.*</value>
+                <value>com.ibaby.application.system.service.*</value>
+                <value>com.ibaby.application.constractor.service.*</value>
+            </list>
+        </property>
+    </bean>
+    <bean id="druid-stat-interceptor"
+          class="com.alibaba.druid.support.spring.stat.DruidStatInterceptor">
+    </bean>
+    <aop:config>
+        <aop:advisor advice-ref="druid-stat-interceptor"
+                     pointcut-ref="druid-stat-pointcut" />
+    </aop:config>
+     <!-- druid界面 spring监控标签配置结束-->
+     
+     <!-- 使用atomikos管理数据源/事物 -->
+   	<bean id="dataSourceOne" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="dataSourceOne"/>
+        <property name="xaDataSource" ref="dataSourceDruidOne"/>
+        <property name="poolSize" value="${atomikos.poolSize}"/> 
+	</bean>
+   	<bean id="dataSourceTwo" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="dataSourceTwo"/>
+        <property name="xaDataSource" ref="dataSourceDruidTwo"/>
+        <property name="poolSize" value="${atomikos.poolSize}"/> 
+	</bean>
+   	<bean id="dataSourceThree" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="dataSourceThree"/> 
+        <property name="xaDataSource" ref="dataSourceDruidThree"/>
+        <property name="poolSize" value="${atomikos.poolSize}"/>  
+	</bean>
+   	<bean id="dataSourceFour" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="dataSourceFour"/>
+        <property name="xaDataSource" ref="dataSourceDruidFour"/>
+        <property name="poolSize" value="${atomikos.poolSize}"/> 
+	</bean>
+   	<bean id="dataSourceFive" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="dataSourceFive"/>
+        <property name="xaDataSource" ref="dataSourceDruidFive"/>
+        <property name="poolSize" value="${atomikos.poolSize}"/> 
+	</bean>
+   	<bean id="dataSourceSix" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="dataSourceSix"/>
+        <property name="xaDataSource" ref="dataSourceDruidSix"/>
+        <property name="poolSize" value="${atomikos.poolSize}"/> 
+	</bean>
+   	<bean id="dataSourceSeven" class="com.atomikos.jdbc.AtomikosDataSourceBean" init-method="init" destroy-method="close">
+        <property name="uniqueResourceName" value="dataSourceSeven"/>
+        <property name="xaDataSource" ref="dataSourceDruidSeven"/>
+        <property name="poolSize" value="${atomikos.poolSize}"/> 
+	</bean>
+     
+     <!-- 配置SqlSessionFactoryBean -->
+	<bean id="sqlSessionFactoryOne" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceOne" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath*:com/**/dao/*Mapper.xml"></property>
+	</bean>
+	<bean id="sqlSessionFactoryTwo" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceTwo" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath*:com/**/dao/*Mapper.xml"></property>
+	</bean>
+	<bean id="sqlSessionFactoryThree" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceThree" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath*:com/**/dao/*Mapper.xml"></property>
+	</bean>
+	<bean id="sqlSessionFactoryFour" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceFour" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath*:com/**/dao/*Mapper.xml"></property>
+	</bean>
+	<bean id="sqlSessionFactoryFive" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceFive" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath*:com/**/dao/*Mapper.xml"></property>
+	</bean>
+	<bean id="sqlSessionFactorySix" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceSix" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath*:com/**/dao/*Mapper.xml"></property>
+	</bean>
+	<bean id="sqlSessionFactorySeven" class="org.mybatis.spring.SqlSessionFactoryBean">
+		<property name="dataSource" ref="dataSourceSeven" />
+		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations" value="classpath*:com/**/dao/*Mapper.xml"></property>
+	</bean>
+     
+    <bean id="sqlSessionTemplate" class="com.ibaby.framework.datasource.CustomSqlSessionTemplate">
+        <constructor-arg ref="sqlSessionFactoryOne" />
+        <property name="targetSqlSessionFactorys">
+            <map>
+            	<!-- 为了适配原来的DatabaseContextHolder中已定义好的字符串 这里的key向DatabaseContextHolder看齐 -->
+                <entry value-ref="sqlSessionFactoryOne" key="dataSourceOne"/>
+                <entry value-ref="sqlSessionFactoryTwo" key="dataSourceTwo"/>
+                <entry value-ref="sqlSessionFactoryThree" key="dataSourceThree"/>
+                <entry value-ref="sqlSessionFactoryFour" key="dataSourceFour"/>
+                <entry value-ref="sqlSessionFactoryFive" key="dataSourceFive"/>
+                <entry value-ref="sqlSessionFactorySix" key="dataSourceSix"/>
+                <entry value-ref="sqlSessionFactorySeven" key="dataSourceSeven"/>
+            </map> 
+        </property>
+    </bean>
+     
+   	<bean id="atomikosUserTransaction" class="com.atomikos.icatch.jta.UserTransactionImp">
+        <property name="transactionTimeout" value="300"/>
+    </bean>
+    
+    <bean id="atomikosTransactionManager" class="com.atomikos.icatch.jta.UserTransactionManager" init-method="init" destroy-method="close">
+        <property name="forceShutdown" value="true"/>
+    </bean>
+    <!-- 配置事务管理 -->
+    <bean id="transactionManager"  class="org.springframework.transaction.jta.JtaTransactionManager">  
+	    <property name="transactionManager" ref="atomikosTransactionManager" />  
+	    <property name="userTransaction" ref="atomikosUserTransaction" />  
+	    <property name="allowCustomIsolationLevels" value="true" />  
+	</bean> 
+    
+     <!-- 配置事务传播特性 -->  
+    <tx:advice id="transactionAdvice" transaction-manager="transactionManager">  
+        <tx:attributes>  
+            <tx:method name="insert*" propagation="REQUIRED" rollback-for="Exception"/>  
+            <tx:method name="update*" propagation="REQUIRED" rollback-for="Exception"/>  
+            <tx:method name="delete*" propagation="REQUIRED" rollback-for="Exception"/>  
+            <tx:method name="add*" propagation="REQUIRED" rollback-for="Exception"/>  
+            <tx:method name="save*" propagation="REQUIRED" rollback-for="Exception"/>  
+            <tx:method name="replace*" propagation="REQUIRED" rollback-for="Exception"/>  
+            <tx:method name="copy*" propagation="REQUIRED" rollback-for="Exception"/>  
+            <tx:method name="*" propagation="SUPPORTS" read-only="true"/>  
+        </tx:attributes>  
+    </tx:advice>  
+  
+    <!-- 配置相关类的方法参与事务 -->
+    <aop:config>  
+        <aop:pointcut id="findTrasactionPoint" expression="
+        	execution(* com.ibaby.application.kindergarten.service.impl.*.*(..))||
+        	execution(* com.ibaby.application.system.service.*.*(..))||
+        	execution(* com.ibaby.application.constractor.service.*.*(..))" />
+        <aop:advisor pointcut-ref="findTrasactionPoint" advice-ref="transactionAdvice" />  
+    </aop:config>
+    
+	 <!-- 配置注解实现管理事务 注意@Transactional(rollbackFor=Exception.class)-->
+	<tx:annotation-driven transaction-manager="transactionManager" 	proxy-target-class="true"  />
+     
+	<!-- 开启AOP的注解模式 -->
+    <aop:aspectj-autoproxy/>
+    
+	<!-- 配置映射器 -自动扫描 -->
+	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+		<property name="basePackage" value="com.ibaby.**.dao" />
+		<!-- optional unless there are multiple session factories defined -->
+		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate" />
+		<property name="annotationClass" value="com.ibaby.framework.persistence.annotation.MyBatisDao"/>
+	</bean>	
+	
+	<import resource="classpath:applicationContext-cache.xml" />
+	<import resource="classpath:applicationContext-shiro.xml" />
+	<import resource="classpath:applicationContext-captcha.xml" />
+	<import resource="classpath:applicationContext-task.xml" />
+	<import resource="classpath:applicationContext-redis.xml" />
+	<!-- mq 本地若禁用  -->
+	<import resource="classpath:applicationContext-mq.xml" />
+
+	<!-- bean -->
+	
+	
+	<!-- 参数配置 
+		<bean id="fTPConstant" class="com.ibaby.framework.config.FTPConstant">
+		<property name="USER_NAME" value="${ftp.util.username}" />
+		<property name="PORT" value="${ftp.util.port}" />
+		<property name="PASSWORD" value="${ftp.util.password}" />
+		<property name="IP" value="${ftp.util.ip}" />
+		<property name="encoding" value="${ftp.util.encoding}" />
+		<property name="timeout" value="${ftp.util.timeout}" />
+		<property name="path" value="${ftp.util.path}" />
+		<property name="url" value="${ftp.util.url}" />
+	</bean>-->
+</beans>
