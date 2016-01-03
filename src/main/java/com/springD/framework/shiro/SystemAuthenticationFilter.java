@@ -22,7 +22,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import com.octo.captcha.service.image.ImageCaptchaService;
-import com.springD.framework.config.StaticConstants;
+import com.springD.framework.common.Constants;
 import com.springD.framework.exception.CaptchaErrorException;
 import com.springD.framework.exception.CaptchaRequiredException;
 import com.springD.framework.utils.ResponseUtils;
@@ -68,12 +68,12 @@ public class SystemAuthenticationFilter extends FormAuthenticationFilter{
 		String username = (String) token.getPrincipal();
 		boolean adminLogin=false;
 		//判断是否管理员登录
-		if (req.getRequestURI().startsWith(req.getContextPath() + StaticConstants.ADMIN_PREFIX)){
+		if (req.getRequestURI().startsWith(req.getContextPath() + Constants.ADMIN_PREFIX)){
 			adminLogin=true;
 		}
 		//验证码校验
 		if (isCaptchaRequired(username,req, res)) {
-			String captcha = request.getParameter(StaticConstants.CAPTCHA_PARAM);
+			String captcha = request.getParameter(Constants.CAPTCHA_PARAM);
 			if (StringUtils.isNoneBlank(captcha)) {
 				if (!imageCaptchaService.validateResponseForID(req.getSession().getId(), captcha)) {
 					return onLoginFailure(token,adminLogin,new CaptchaErrorException(), request, response);
@@ -118,12 +118,12 @@ public class SystemAuthenticationFilter extends FormAuthenticationFilter{
 		HttpServletResponse res = (HttpServletResponse) response;
 		String successUrl = req.getParameter(RETURN_URL);
 		if (StringUtils.isBlank(successUrl)) {
-			if (req.getRequestURI().startsWith(req.getContextPath() + StaticConstants.ADMIN_PREFIX)) {
+			if (req.getRequestURI().startsWith(req.getContextPath() + Constants.ADMIN_PREFIX)) {
 				// 后台直接返回首页
 //				successUrl = getAdminIndex();
 				// 清除SavedRequest
 				WebUtils.getAndClearSavedRequest(request);
-				successUrl = StaticConstants.ADMIN_INDEX;
+				successUrl = Constants.ADMIN_INDEX;
 //				WebUtils.issueRedirect(request, response, successUrl, null,true);
 //				return;
 			}
@@ -156,9 +156,9 @@ public class SystemAuthenticationFilter extends FormAuthenticationFilter{
 	private boolean isCaptchaRequired(String username,HttpServletRequest request, HttpServletResponse response) {
 //		AtomicInteger retryCount = passwordRetryCache.get(username);
 		AtomicInteger retryCount = passwordRetryCache.get(request.getSession().getId());
-		String captcha = request.getParameter(StaticConstants.CAPTCHA_PARAM);
+		String captcha = request.getParameter(Constants.CAPTCHA_PARAM);
 		// 如果输入了验证码，那么必须验证；如果没有输入验证码，则根据当前用户判断是否需要验证码。
-		if (!StringUtils.isBlank(captcha)|| (retryCount != null && retryCount.get() > StaticConstants.LOGIN_TRY_TIME)) {
+		if (!StringUtils.isBlank(captcha)|| (retryCount != null && retryCount.get() > Constants.LOGIN_TRY_TIME)) {
 			return true;
 		}
 		return false;
@@ -166,7 +166,7 @@ public class SystemAuthenticationFilter extends FormAuthenticationFilter{
 
 	protected boolean isLoginRequest(ServletRequest req, ServletResponse resp) {
 		return pathsMatch(getLoginUrl(), req)
-			|| pathsMatch(StaticConstants.ADMIN_LOGIN_URL, req);
+			|| pathsMatch(Constants.ADMIN_LOGIN_URL, req);
 	}
 	/**
 	 * 登录成功
@@ -190,7 +190,7 @@ public class SystemAuthenticationFilter extends FormAuthenticationFilter{
 	
 		//为druid的session监控 添加当前登录用户的用户名
 		String name = UserUtils.getShiroUser().getName();
-		setAttribute(req, res, StaticConstants.LOGIN_USERNAME,name);
+		setAttribute(req, res, Constants.LOGIN_USERNAME,name);
 		
 		passwordRetryCache.remove(req.getSession().getId());
 		return super.onLoginSuccess(token, subject, request, response);
@@ -230,7 +230,7 @@ public class SystemAuthenticationFilter extends FormAuthenticationFilter{
         	Map<String, Object> resultMap = new HashMap<String, Object>();
         	resultMap.put("success", false);
         	resultMap.put("isCaptchaRequired",false);
-        	if(retryCount.get() > StaticConstants.LOGIN_TRY_TIME){
+        	if(retryCount.get() > Constants.LOGIN_TRY_TIME){
         		resultMap.put("isCaptchaRequired",true);
         	}
         	if("DisabledAccountException".equals(exceptionName)){

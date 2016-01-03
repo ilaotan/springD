@@ -1,24 +1,9 @@
 package com.springD.application.system.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.servlet.mvc.support.RedirectAttributes;
-
 import com.springD.application.system.entity.User;
 import com.springD.application.system.service.RoleService;
 import com.springD.application.system.service.UserPermissionService;
-import com.springD.framework.config.StaticConstants;
+import com.springD.framework.common.Constants;
 import com.springD.framework.persistence.Page;
 import com.springD.framework.shiro.ShiroUser;
 import com.springD.framework.utils.Identities;
@@ -26,6 +11,19 @@ import com.springD.framework.utils.ResponseUtils;
 import com.springD.framework.utils.StringUtils;
 import com.springD.framework.utils.UserUtils;
 import com.springD.framework.web.BaseController;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value="/system")
@@ -120,12 +118,13 @@ public class UserController extends BaseController{
 		//校验出错 邮箱为空
 		model.addAttribute("user", user);
 		model.addAttribute("roleMap", roleMap);
-		model.addAttribute("op", StaticConstants.BUTTON_TEXT_SUBMIT);
+		model.addAttribute("op", Constants.BUTTON_TEXT_SUBMIT);
 		
 		String url = "system/role/roleForm";
+
 		
 		if (!beanValidator(model, user)){
-			model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_ERROR);
+			model.addAttribute("messageType", Constants.MESSAGE_TYPE_ERROR);
 			return url;
 		}
 
@@ -149,13 +148,13 @@ public class UserController extends BaseController{
 		int num = userPermissionService.updateUserByUid(map);
 		
 		if (num == 0) {
-			model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_ERROR);
+			model.addAttribute("messageType", Constants.MESSAGE_TYPE_ERROR);
 			model.addAttribute("message", "操作失败！");
 			url = "system/admin/userAdminForm";
 		} else {
 			
 			if (StringUtils.isNotBlank(user.getUid())) {
-				model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_SUCCESS);
+				model.addAttribute("messageType", Constants.MESSAGE_TYPE_SUCCESS);
 				model.addAttribute("message", "操作成功！");
 				url = "system/admin/userAdminForm";
 			} else {
@@ -280,7 +279,7 @@ public class UserController extends BaseController{
 		model.addAttribute("user", newuser);
 		Map roleMap = roleService.getRoleMap();
 		model.addAttribute("roleMap", roleMap);
-		model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_ERROR);
+		model.addAttribute("messageType", Constants.MESSAGE_TYPE_ERROR);
 		model.addAttribute("message", "操作失败！");
 		model.addAttribute("op","增加");
 		model.addAttribute("pn", request.getParameter("pn"));
@@ -325,12 +324,12 @@ public class UserController extends BaseController{
 		Map roleMap = roleService.getRoleMap();
 		model.addAttribute("user", user);
 		model.addAttribute("roleMap", roleMap);
-		model.addAttribute("op", StaticConstants.BUTTON_TEXT_SUBMIT);
+		model.addAttribute("op", Constants.BUTTON_TEXT_SUBMIT);
 		
 		String url = "";
 		
 		if (!beanValidator(model, user)){
-			model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_ERROR);
+			model.addAttribute("messageType", Constants.MESSAGE_TYPE_ERROR);
 			return url;
 		}
 		String salt = Identities.randomBase62(8);
@@ -354,13 +353,13 @@ public class UserController extends BaseController{
 		int num = userPermissionService.updateUserByUid(map);
 		
 		if (num == 0) {
-			model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_ERROR);
+			model.addAttribute("messageType", Constants.MESSAGE_TYPE_ERROR);
 			model.addAttribute("message", "操作失败！");
 			url = "system/admin/userSystemForm";
 		} else {
 			
 			if (StringUtils.isNotBlank(user.getUid())) {
-				model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_SUCCESS);
+				model.addAttribute("messageType", Constants.MESSAGE_TYPE_SUCCESS);
 				model.addAttribute("message", "操作成功！");
 				url = "system/admin/userSystemForm";
 			} else {

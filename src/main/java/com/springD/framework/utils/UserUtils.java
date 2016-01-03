@@ -1,14 +1,12 @@
 package com.springD.framework.utils;
 
-import java.util.concurrent.atomic.AtomicInteger;
-
-import javax.servlet.http.HttpSession;
-
+import com.springD.framework.common.Constants;
+import com.springD.framework.shiro.ShiroUser;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 
-import com.springD.framework.config.StaticConstants;
-import com.springD.framework.shiro.ShiroUser;
+import javax.servlet.http.HttpSession;
+import java.util.concurrent.atomic.AtomicInteger;
 
 
 
@@ -40,7 +38,7 @@ public class UserUtils {
 	public static boolean isCaptchaRequired(HttpSession session){
 		String sessionId = session.getId();
 		AtomicInteger retryCount = (AtomicInteger) CacheUtils.get("passwordRetryCache", sessionId);
-		if(retryCount != null && retryCount.get() > StaticConstants.LOGIN_TRY_TIME){
+		if(retryCount != null && retryCount.get() > Constants.LOGIN_TRY_TIME){
 			return true;
 		}else{
 			return false;

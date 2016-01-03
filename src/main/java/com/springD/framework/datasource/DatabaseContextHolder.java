@@ -14,7 +14,7 @@ import com.springD.framework.utils.StringUtils;
 public class DatabaseContextHolder {
 	protected static final Logger LOG = LoggerFactory.getLogger(DatabaseContextHolder.class);
 	public static final String DATA_SOURCE_ONE_WEBPLATFORM = "dataSourceOne";
-	public static final String DATA_SOURCE_TWO_IBABY_BUSINESSPLATFORM = "dataSourceTwo";
+	public static final String DATA_SOURCE_TWO_BUSINESSPLATFORM = "dataSourceTwo";
 
 	private static final ThreadLocal<String> contextHolder = new ThreadLocal<String>();
 	
