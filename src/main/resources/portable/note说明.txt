@@ -18,3 +18,4 @@ clean package -Pproduction	(生产机配置)
 5 到target里面复制war包 扔到服务器上
 
 
+
