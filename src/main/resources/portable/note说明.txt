@@ -1,0 +1,20 @@
+
+0.本文件存在的意义是打包时,自动替换jdbc.porperties里的地址,用户名,密码为对应环境的数据
+
+1.本地开发请忽略此文件及文件夹,不会带来任何影响
+
+2.打war包时,
+eclipse项目上右键-->run as-->Maven build...(带三个点)--> 在新窗口的goals里 输入以下任意一行:
+clean package -Pproduction	(生产机配置)
+
+本地开发/打包完成时, 使用 clean package 覆盖打war包时残留的文件 
+
+(-P是参数 后面接的名字在pom.xml的最后profiles标签配置)
+
+然后run ,走起
+
+4.执行过一次后,以后直接run as--> Maven build(不带三个点)那个,选以前的命令即可.
+
+5 到target里面复制war包 扔到服务器上
+
+
