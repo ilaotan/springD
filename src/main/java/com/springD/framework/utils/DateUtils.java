@@ -10,9 +10,9 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import com.springD.framework.common.Constants;
 import org.apache.commons.lang.time.DateFormatUtils;
 
-import com.springD.framework.config.StaticConstants;
 
 /**
  * 日期工具类, 继承org.apache.commons.lang.time.DateUtils类
@@ -156,7 +156,7 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
 	public static int getAgeByBrithday(String brithday) {
 		try {
 			Calendar calendar = Calendar.getInstance();
-			SimpleDateFormat formatDate = new SimpleDateFormat(StaticConstants.INPUT_DATE_FORMAT);
+			SimpleDateFormat formatDate = new SimpleDateFormat(Constants.INPUT_DATE_FORMAT);
 			String currentTime = formatDate.format(calendar.getTime());
 			Date today = formatDate.parse(currentTime);
 			Date brithDay = formatDate.parse(brithday);
@@ -175,7 +175,7 @@ public class DateUtils extends org.apache.commons.lang.time.DateUtils {
 		
 		try {
 			Calendar calendar = Calendar.getInstance();
-			SimpleDateFormat formatDate = new SimpleDateFormat(StaticConstants.INPUT_DATE_FORMAT);
+			SimpleDateFormat formatDate = new SimpleDateFormat(Constants.INPUT_DATE_FORMAT);
 			String currentTime = formatDate.format(calendar.getTime());
 			Date today = formatDate.parse(currentTime);
 			return target.compareTo(today);
