@@ -166,7 +166,7 @@
     <!-- 配置相关类的方法参与事务 使用|| 连接多个切点-->
     <aop:config>  
         <aop:pointcut id="findTrasactionPoint" expression="
-        	execution(* com.springD.application.system.service.*.*(..))" />
+        	execution(* com.springD.application.system.service.*.*(..)) || execution(* com.springD.application.front.service.*.*(..)) " />
         <aop:advisor pointcut-ref="findTrasactionPoint" advice-ref="transactionAdvice" />  
     </aop:config>
     

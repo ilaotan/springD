@@ -126,16 +126,6 @@ public class SystemAuthenticationFilter extends FormAuthenticationFilter{
 				successUrl = StaticConstants.ADMIN_INDEX;
 //				WebUtils.issueRedirect(request, response, successUrl, null,true);
 //				return;
-			} else if (req.getRequestURI().startsWith(req.getContextPath() + StaticConstants.CONTRACTOR_PREFIX)) {
-				// 后台直接返回首页
-				// 清除SavedRequest
-				WebUtils.getAndClearSavedRequest(request);
-				successUrl = StaticConstants.CONTRACTOR_INDEX;
-			} else {
-//				successUrl = getSuccessUrl();//
-				// 清除SavedRequest
-				WebUtils.getAndClearSavedRequest(request);
-				successUrl = StaticConstants.KINDER_INDEX;
 			}
 		}
 //		WebUtils.redirectToSavedRequest(req, res, successUrl);
@@ -176,8 +166,7 @@ public class SystemAuthenticationFilter extends FormAuthenticationFilter{
 
 	protected boolean isLoginRequest(ServletRequest req, ServletResponse resp) {
 		return pathsMatch(getLoginUrl(), req)
-			|| pathsMatch(StaticConstants.ADMIN_LOGIN_URL, req)
-			|| pathsMatch(StaticConstants.CONTRACTOR_LOGIN_URL, req);
+			|| pathsMatch(StaticConstants.ADMIN_LOGIN_URL, req);
 	}
 	/**
 	 * 登录成功

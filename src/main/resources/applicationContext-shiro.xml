@@ -80,30 +80,28 @@
 		<!-- 安全管理器 -->
 		<property name="securityManager" ref="securityManager" />
 		<!-- 默认的登陆访问url -->
-		<property name="loginUrl" value="/kindergarten/login.do" />
+		<property name="loginUrl" value="/system/login.do" />
 		<!-- 登陆成功后跳转的url -->
-		<property name="successUrl" value="/kindergarten/admin.do" />
+		<property name="successUrl" value="/system/admin.do" />
 		<!-- 没有权限跳转的url -->
 		<property name="unauthorizedUrl" value="/login/unauth.do" />
 		<!-- 访问地址的过滤规则,从上至下的优先级,如果有匹配的规则,就会返回,不会再进行匹配 -->
 		<property name="filterChainDefinitions">
 			<value>
 			    /resource/** = anon
-			    /support/** = authc
-				//login/unauth.do = anon
+				/login/unauth.do = anon
 				/captcha.svl=anon
 				/auto/login = anon
 				/pwd/** = anon
 				/anon/** = anon
 				/findPwd/** = anon
-				/kindergarten/routine/anon/** = anon
-				/kindergarten/routine/scheduleView.do = anon
-				/kindergarten/login.do = authc
 				/system/login.do = authc
-				/contractor/login.do = authc
 				/qiniu/delPic.do = authc
 				/system/druid/** = authc
 				/logout.do = logout
+				#/** = systemPermissions
+				/system/** = systemPermissions
+				/front/** = anon
 				/** = systemPermissions
 			</value>
 		</property>

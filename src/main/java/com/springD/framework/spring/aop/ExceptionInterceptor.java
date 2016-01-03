@@ -40,7 +40,7 @@ public class ExceptionInterceptor {
 
 	protected static final Logger LOG = LoggerFactory.getLogger(ExceptionInterceptor.class);
 
-	@AfterThrowing(value="execution (* com.tan.application.system.service..*.*(..))",throwing="error")
+	@AfterThrowing(value="execution (* com.springD.application.system.service..*.*(..))",throwing="error")
 	public void doGetErrorInfo(JoinPoint jp,Throwable error){
 		ShiroUser user =UserUtils.getShiroUser();
 		//获得request 从request里拿相关内容

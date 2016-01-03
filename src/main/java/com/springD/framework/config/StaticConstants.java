@@ -20,30 +20,6 @@ public class StaticConstants {
 	public static final String ADMIN_INDEX = "/system/admin.do";
 	
 	/**
-	 * 幼儿园后台登录地址
-	 */
-	public static final String KINDER_LOGIN_URL = "/kindergarten/login.do";
-	/**
-	 * 幼儿园后台首页地址
-	 */
-	public static final String KINDER_INDEX = "/kindergarten/admin.do";
-	
-	/**
-	 * 工程商地址前缀
-	 */
-	public static final String CONTRACTOR_PREFIX = "/contractor";
-	
-	/**
-	 * 系统后台登录地址
-	 */
-	public static final String CONTRACTOR_LOGIN_URL = "/contractor/login.do";
-	
-	/**
-	 * 工程商
-	 */
-	public static final String CONTRACTOR_INDEX = "/contractor/admin.do";
-	
-	/**
 	 * 验证码名称
 	 */
 	public static final String CAPTCHA_PARAM = "captcha";
@@ -75,18 +51,7 @@ public class StaticConstants {
 	public static final String MESSAGE_TYPE_SUCCESS = "info";
 	
 	public static final String MESSAGE_TYPE_ERROR = "danger";
-	
-	public static final String CONTRACTOR_USER_PREFIX = "g_";
-	/**
-	 * 设备管理 添加时使用的超级幼儿园的id 默认是1
-	 */
-	public static final int kid = 1;
-	
-	/**
-	 * 匿名访问使用的幼儿园
-	 */
-	public static final int kid2 = 26;
-	
+
 	/**
 	 * (新闻页面使用的七牛公有仓库的名字,特殊名字(名字以/开头的)请自行加@符号 比如 名字为/img.jpg的图片 
 	 * 	http://7te8dq.com1.z0.glb.clouddn.com/@/img.jpg )

@@ -1,12 +1,11 @@
 package com.springD.application.system.controller;
 
-import java.util.HashMap;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.servlet.http.HttpSession;
-
+import com.springD.application.system.entity.User;
+import com.springD.application.system.service.UserPermissionService;
+import com.springD.framework.shiro.ShiroUser;
+import com.springD.framework.utils.Identities;
+import com.springD.framework.utils.UserUtils;
+import com.springD.framework.web.BaseController;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,14 +15,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.octo.captcha.service.image.ImageCaptchaService;
-import com.springD.application.system.entity.User;
-import com.springD.application.system.service.UserPermissionService;
-import com.springD.framework.common.Constants;
-import com.springD.framework.shiro.ShiroUser;
-import com.springD.framework.utils.Identities;
-import com.springD.framework.utils.UserUtils;
-import com.springD.framework.web.BaseController;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
+import java.util.HashMap;
+import java.util.Map;
 
 @Controller
 public class LoginController extends BaseController{
@@ -31,41 +27,8 @@ public class LoginController extends BaseController{
 	
 	@Autowired
 	private UserPermissionService userPermissionService;
-	@Autowired
-	private ImageCaptchaService imageCaptchaService;
-	
-	/**
-	 * 登录页面
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="kindergarten/login",method=RequestMethod.GET)
-	public String login(HttpServletRequest request, HttpServletResponse response,HttpSession session) throws Exception{
-		Boolean isCaptchaRequired = UserUtils.isCaptchaRequired(session);
-		request.setAttribute("isCaptchaRequired", isCaptchaRequired);
-		return "login/login";
-	}
-	
 
-	/**
-	 * 登录验证
-	 * 测试账号 admin  123456
-	 * @param crtUser
-	 * @param session
-	 * @param request
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="kindergarten/login",method=RequestMethod.POST)
-	public String loginPost(User crtUser,HttpSession session, HttpServletRequest request, Model model) throws Exception{
-		
-		return null;
-	}
-	
-	
+
 	/**
 	 * 系统管理员
 	 * @param request
@@ -84,34 +47,6 @@ public class LoginController extends BaseController{
 	@RequestMapping(value="/system/login",method=RequestMethod.POST)
 	public String sysLoginPost(User crtUser,HttpSession session, HttpServletRequest request, Model model) throws Exception{
 		return null;
-	}
-	
-	/**
-	 * 系统管理员
-	 * @param request
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/contractor/login",method=RequestMethod.GET)
-	public String contractorLogin(HttpServletRequest request, HttpServletResponse response, HttpSession session) throws Exception{
-		//如果已经登录，跳转
-		Boolean isCaptchaRequired = UserUtils.isCaptchaRequired(session);
-		request.setAttribute("isCaptchaRequired", isCaptchaRequired);
-		return "login/contractorLogin";
-	}
-	
-	@RequestMapping(value="/contractor/login",method=RequestMethod.POST)
-	public String contractorLoginPOST(User crtUser,HttpSession session, HttpServletRequest request, Model model) throws Exception{
-		return null;
-	}
-	
-	/**
-	*/
-	@RequestMapping(value="/system/admin/changePwd",method=RequestMethod.GET)
-	public String changePwd(HttpSession session,HttpServletRequest request, HttpServletResponse response,Model model){
-		
-		return "system/admin/changepwd";
 	}
 	
 	/**
@@ -169,54 +104,7 @@ public class LoginController extends BaseController{
         return "login/login";
 	}
 	
-	/**
-	 * @Description: 幼儿园管理员新用户激活
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/anon/activate")
-	public String activate(HttpServletRequest request,Model model) throws Exception{
-		String message = request.getParameter("message");
-		String from = request.getParameter("from");
-		String showUrl = Constants.KINDER_LOGIN_URL;
-		if("c".equals(from)){//工程商点击
-			showUrl = Constants.CONTRACTOR_LOGIN_URL;
-		}
-		model.addAttribute("showUrl",showUrl);
-		if(message==null||message.equals("")){
-			message=null;
-		}
-//		if(message!=null)
-//			message = new String(message.getBytes("ISO-8859-1"),"UTF-8");
-		model.addAttribute("message",message );
-		return "login/activateStep1";
-	}
-	
-	/**
-	 * @Description: 幼儿园管理员找回密码
-	 * @param model
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="/anon/findPwd")
-	public String findPwd(HttpServletRequest request,Model model) throws Exception{
-		String message = request.getParameter("message");
-		String from = request.getParameter("from");
-		String showUrl = Constants.KINDER_LOGIN_URL;
-		if("c".equals(from)){//工程商点击
-			showUrl = Constants.CONTRACTOR_LOGIN_URL;
-		}
-		model.addAttribute("showUrl",showUrl);
-		if(message==null||message.equals("")){
-			message=null;
-		}
-//		if(message!=null)
-//			message = new String(message.getBytes("ISO-8859-1"),"UTF-8");
-		model.addAttribute("message",message );
-		return "login/findPwdStep1";
-	}
-	
+
 	/**
 	 * @Description: 无权限提示页面
 	 * @return
@@ -249,8 +137,4 @@ public class LoginController extends BaseController{
 		return "exception/unauth";
 	}
 	
-	@RequestMapping(value="anon/console")
-	public String console() throws Exception{
-		return "exception/console";
-	}
 }

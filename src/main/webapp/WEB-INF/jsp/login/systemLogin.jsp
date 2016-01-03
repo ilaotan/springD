@@ -180,10 +180,7 @@ body.login {
 	<div class="panel panel-login">
     	<div class="panel-body">
         	<div class="logo text-center">
-            	<div style="width: 50%; float: left; text-align: left; -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; margin-bottom: 8px;margin-top: -5px;">
-            		<img src="${assets}/resource/common/images/logo-login.png" width="130" />
-            	</div>
-            	<div style="width: 46%;  float: left;  color: #E42762;  font: bold 15pt/40px 'Microsoft YaHei'; text-align: right; margin-bottom: 8px;border-left: solid #666 1px; ">系统管理平台</div>
+111111111
             </div>
             <div class="mb30" style="clear: left;"></div>
             <div class="alert alert-error" id="sysMsg"></div>

@@ -30,9 +30,7 @@ public class SystemLogoutFilter extends LogoutFilter {
 //			if (request.getRequestURI().startsWith(request.getContextPath() + Constants.ADMIN_PREFIX)) {
 			if(!StringUtils.isBlank(type) && type.equals("system")){
 				redirectUrl = StaticConstants.ADMIN_LOGIN_URL;
-			} else if(!StringUtils.isBlank(type) && type.equals("contractor")){
-				redirectUrl = StaticConstants.CONTRACTOR_LOGIN_URL;
-			} else {
+			}else {
 				redirectUrl = getRedirectUrl();
 			}
 		}

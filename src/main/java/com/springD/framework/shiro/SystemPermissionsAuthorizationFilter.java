@@ -54,7 +54,7 @@ public class SystemPermissionsAuthorizationFilter extends PermissionsAuthorizati
 		String permission = uri.replaceFirst("/", "").replaceAll("/", ":");
 		boolean permitted = false;
 		if("/".equals(uri)){
-//			permitted=true;
+			permitted=true;
 		}else if(null != shiroUser && null != shiroUser.getCode() && shiroUser.getCode().equals(StaticConstants.SUPER_ADMIN_CODE)){//如果是超管角色
 			return true;
 		}else{
@@ -71,8 +71,6 @@ public class SystemPermissionsAuthorizationFilter extends PermissionsAuthorizati
 		//后台地址跳转到后台登录地址，前台需要登录的跳转到shiro配置的登录地址
 		if (request.getRequestURI().startsWith(request.getContextPath() + StaticConstants.ADMIN_PREFIX)) {
 			loginUrl = StaticConstants.ADMIN_LOGIN_URL;
-		} else if (request.getRequestURI().startsWith(request.getContextPath() + StaticConstants.CONTRACTOR_PREFIX)) {
-			loginUrl = StaticConstants.CONTRACTOR_LOGIN_URL;
 		} else {
 			loginUrl = getLoginUrl();
 		}
