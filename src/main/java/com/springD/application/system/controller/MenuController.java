@@ -1,24 +1,22 @@
 package com.springD.application.system.controller;
 
-import java.util.Date;
-import java.util.List;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.google.common.collect.Lists;
+import com.springD.application.system.entity.Menu;
+import com.springD.application.system.service.MenuService;
+import com.springD.framework.common.Constants;
+import com.springD.framework.utils.ResponseUtils;
+import com.springD.framework.utils.StringUtils;
+import com.springD.framework.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.google.common.collect.Lists;
-import com.springD.application.system.entity.Menu;
-import com.springD.application.system.service.MenuService;
-import com.springD.framework.config.StaticConstants;
-import com.springD.framework.utils.ResponseUtils;
-import com.springD.framework.utils.StringUtils;
-import com.springD.framework.web.BaseController;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.Date;
+import java.util.List;
 
 /**
  * 菜单管理
@@ -62,7 +60,7 @@ public class MenuController extends BaseController {
 	@RequestMapping(value="form")
 	public String form(Menu menu, Model model, HttpServletRequest request) throws Exception{
 		Menu parentMenu = null;
-		model.addAttribute("op", StaticConstants.BUTTON_TEXT_SUBMIT);
+		model.addAttribute("op", Constants.BUTTON_TEXT_SUBMIT);
 		String pid = request.getParameter("pid");
 		if(StringUtils.isNotBlank(pid)){
 			parentMenu = menuService.get(pid);
@@ -103,10 +101,10 @@ public class MenuController extends BaseController {
 		model.addAttribute("pMenuId", menu.getParentId());
 		
 		menu.setCreateDate(new Date());
-		model.addAttribute("op", StaticConstants.BUTTON_TEXT_SUBMIT);
+		model.addAttribute("op", Constants.BUTTON_TEXT_SUBMIT);
 		//数据校验
 		if (!beanValidator(model, menu)){
-			model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_ERROR);
+			model.addAttribute("messageType", Constants.MESSAGE_TYPE_ERROR);
 			return form(menu, model, request);
 		}
 		// 排序值默认1
@@ -121,7 +119,7 @@ public class MenuController extends BaseController {
 		String returnUrl = "";
 		// 修改操作
 		if(StringUtils.isNotBlank(menu.getId())){
-			model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_SUCCESS);
+			model.addAttribute("messageType", Constants.MESSAGE_TYPE_SUCCESS);
 			model.addAttribute("message", "操作成功！");
 			returnUrl = "system/menu/menuForm";
 		// 添加操作
@@ -134,7 +132,7 @@ public class MenuController extends BaseController {
 		String message = menuService.save(menu);
 		
 		if (message != null && !"".equals(message) && !menu.getId().equals(message)) {
-			model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_ERROR);
+			model.addAttribute("messageType", Constants.MESSAGE_TYPE_ERROR);
 			model.addAttribute("message", message);
 			return "system/menu/menuForm";
 		}

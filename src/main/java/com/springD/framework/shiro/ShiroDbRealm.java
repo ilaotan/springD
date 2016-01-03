@@ -5,6 +5,7 @@ import java.util.Set;
 
 import javax.annotation.Resource;
 
+import com.springD.framework.common.Constants;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationException;
 import org.apache.shiro.authc.AuthenticationInfo;
@@ -23,7 +24,6 @@ import org.slf4j.LoggerFactory;
 
 import com.springD.application.system.entity.User;
 import com.springD.application.system.service.UserPermissionService;
-import com.springD.framework.config.StaticConstants;
 import com.springD.framework.encoder.Md5PwdEncoder;
 import com.springD.framework.utils.RegexValidateUtils;
 import com.springD.framework.utils.StringUtils;
@@ -70,7 +70,7 @@ public class ShiroDbRealm extends AuthorizingRealm{
 					sazi.addRole(shiroUser.getCode());
 				}
 //				sazi.addRoles(userPermissionService.getRolesAsString(uid));//添加多个角色
-				if(shiroUser.getCode().equals(StaticConstants.SUPER_ADMIN_CODE)){
+				if(shiroUser.getCode().equals(Constants.SUPER_ADMIN_CODE)){
 					Set<String> set = new HashSet<String>();
 					set.add("*");
 					sazi.addStringPermissions(set);

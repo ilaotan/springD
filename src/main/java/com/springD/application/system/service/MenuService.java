@@ -1,34 +1,36 @@
 package com.springD.application.system.service;
 
-import java.util.List;
-
+import com.springD.application.system.dao.MenuMapper;
+import com.springD.application.system.entity.Menu;
+import com.springD.framework.datasource.DatabaseContextHolder;
+import com.springD.framework.exception.SystemException;
+import com.springD.framework.utils.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.springD.application.system.dao.MenuMapper;
-import com.springD.application.system.entity.Menu;
-import com.springD.framework.exception.SystemException;
-import com.springD.framework.utils.StringUtils;
-
+import java.util.List;
 @Service
 public class MenuService {
 
 	@Autowired
 	private MenuMapper menuMapper;
-	
+
 	public Menu get(String id){
+		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		return menuMapper.findById(id);
 	}
-	
+
 	public List<Menu> findAll(){
+		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		return menuMapper.findAll();
 	}
-	
+
 	public List<Menu> findAll4Tree(){
+		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		return menuMapper.findAll4Tree();
 	}
-	
+
 	/**
 	 * 切换数据源外层方法
 	 * @param menu
@@ -37,7 +39,7 @@ public class MenuService {
 	public String save(Menu menu){
 		return saveTran(menu);
 	}
-	
+
 	/**
 	 * 保存菜单数据
 	 * @Description: 菜单修改和添加时，保存菜单数据
@@ -46,6 +48,7 @@ public class MenuService {
 	 */
 	@Transactional
 	public String saveTran(Menu menu){
+		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		String oldParentIds = menu.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
 		//查找新的父级
 		Menu parentMenu = menuMapper.findById(menu.getParentId());
@@ -56,15 +59,15 @@ public class MenuService {
 		}
 		try {
 			if(StringUtils.isNotBlank(menu.getId())){
-				
+
 				List<Menu> lstSame = menuMapper.findBeforeInsert(menu);
 				if (lstSame != null && lstSame.size() > 1) {
 					return "菜单名称与已有数据重复，请修改后重新提交。";
 				}
-				
+
 				menuMapper.update(menu);
 			}else{
-				
+
 				List<Menu> lstSame = menuMapper.findBeforeInsert(menu);
 				if (lstSame != null && lstSame.size() > 0) {
 					return "菜单名称与已有数据重复，请修改后重新提交。";
@@ -84,9 +87,9 @@ public class MenuService {
 		} catch (Exception e) {
 			throw new SystemException(e.getMessage());
 		}
-		
+
 	}
-	
+
 	/**
 	 * 切换数据源外层
 	 * @param id
@@ -95,7 +98,7 @@ public class MenuService {
 	public int delete(String id){
 		return deleteTran(id);
 	}
-	
+
 	/**
 	 * 删除菜单
 	 * @Description: 按菜单ID删除菜单
@@ -104,16 +107,17 @@ public class MenuService {
 	 */
 	@Transactional
 	public int deleteTran(String id){
+		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		try {
-			
+
 			menuMapper.delete(id);
 			return menuMapper.deleteByPid("," + id + ",");
-			
+
 		} catch (Exception e) {
 			throw new SystemException(e.getMessage());
 		}
 	}
-	
+
 	/**
 	 * 按父子类排序,用到了递归 有待优化
 	 * @param list
@@ -121,6 +125,7 @@ public class MenuService {
 	 * @param parentId
 	 */
 	public static void sortList(List<Menu> list, List<Menu> sourcelist, String parentId){
+		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		for (int i=0; i<sourcelist.size(); i++){
 			Menu e = sourcelist.get(i);
 			if (e.getParentId()!=null && e.getParentId().equals(parentId)){
@@ -136,6 +141,6 @@ public class MenuService {
 			}
 		}
 	}
-	
-	
+
+
 }

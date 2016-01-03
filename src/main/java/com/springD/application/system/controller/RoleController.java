@@ -1,12 +1,14 @@
 package com.springD.application.system.controller;
 
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-
+import com.springD.application.system.entity.Menu;
+import com.springD.application.system.entity.Role;
+import com.springD.application.system.service.MenuService;
+import com.springD.application.system.service.RoleService;
+import com.springD.framework.common.Constants;
+import com.springD.framework.exception.SystemException;
+import com.springD.framework.utils.ResponseUtils;
+import com.springD.framework.utils.StringUtils;
+import com.springD.framework.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,15 +16,11 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.springD.application.system.entity.Menu;
-import com.springD.application.system.entity.Role;
-import com.springD.application.system.service.MenuService;
-import com.springD.application.system.service.RoleService;
-import com.springD.framework.config.StaticConstants;
-import com.springD.framework.exception.SystemException;
-import com.springD.framework.utils.ResponseUtils;
-import com.springD.framework.utils.StringUtils;
-import com.springD.framework.web.BaseController;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @Controller
 @RequestMapping(value = "system/role")
@@ -43,7 +41,7 @@ public class RoleController extends BaseController{
 	@RequestMapping(value="form")
 	public String form(Role role, Model model, HttpServletRequest request) throws Exception{
 		
-		model.addAttribute("op", StaticConstants.BUTTON_TEXT_SUBMIT);
+		model.addAttribute("op", Constants.BUTTON_TEXT_SUBMIT);
 		String id = request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
 			role = roleService.get(id);
@@ -64,17 +62,17 @@ public class RoleController extends BaseController{
 			RedirectAttributes redirectAttributes) throws Exception{
 		
 		model.addAttribute("role", role);
-		model.addAttribute("op", StaticConstants.BUTTON_TEXT_SUBMIT);
+		model.addAttribute("op", Constants.BUTTON_TEXT_SUBMIT);
 		
 		String url = "system/role/roleForm";
 		
 		if (!beanValidator(model, role)){
-			model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_ERROR);
+			model.addAttribute("messageType", Constants.MESSAGE_TYPE_ERROR);
 			return url;
 		}
 		
 		if (StringUtils.isNotBlank(role.getId())) {
-			model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_SUCCESS);
+			model.addAttribute("messageType", Constants.MESSAGE_TYPE_SUCCESS);
 			model.addAttribute("message", "操作成功！");
 			url = "system/role/roleForm";
 		} else {
@@ -86,11 +84,11 @@ public class RoleController extends BaseController{
 		String message = roleService.save(role);
 		// 返回内容不为空且不是id
 		if (!"".equals(message) && !message.equals(role.getId())) {
-			model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_ERROR);
+			model.addAttribute("messageType", Constants.MESSAGE_TYPE_ERROR);
 			model.addAttribute("message", message);
 			return url;
 		}
-		model.addAttribute("messageType", StaticConstants.MESSAGE_TYPE_SUCCESS);
+		model.addAttribute("messageType", Constants.MESSAGE_TYPE_SUCCESS);
 		model.addAttribute("message", "操作成功！");
 		return url;
 	}
@@ -189,7 +187,7 @@ public class RoleController extends BaseController{
 	@RequestMapping(value="add",method=RequestMethod.GET)
 	public String add(Model model){
 
-		model.addAttribute("op", StaticConstants.BUTTON_TEXT_SUBMIT);
+		model.addAttribute("op", Constants.BUTTON_TEXT_SUBMIT);
 		return "system/role/roleForm";
 	}
 }

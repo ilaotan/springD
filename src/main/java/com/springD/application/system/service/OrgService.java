@@ -1,32 +1,34 @@
 package com.springD.application.system.service;
 
-import java.util.List;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-
 import com.springD.application.system.dao.OrgMapper;
 import com.springD.application.system.entity.Org;
 import com.springD.framework.exception.SystemException;
 import com.springD.framework.utils.StringUtils;
+import com.springD.framework.datasource.DatabaseContextHolder;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
+
+import java.util.List;
 
 @Service
 public class OrgService {
-	
+
 	@Autowired
 	private OrgMapper orgMapper;
-	
+
 	//
 	public Org get(String id) {
+		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		return orgMapper.findById(id);
 	}
-	
+
 	/**
 	 * 插入组织数据
 	 * @param org
 	 * @return
 	 */
 	public String save(Org org){
+		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		String oldParentIds = org.getParentIds(); // 获取修改前的parentIds，用于更新子节点的parentIds
 		//查找新的父级
 		Org parentOrg = this.get(org.getParentId());
@@ -47,9 +49,10 @@ public class OrgService {
 		} catch (Exception e) {
 			throw new SystemException(e.getMessage());
 		}
-		
+
 	}
 	public List<Org> findAll(){
+		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		return orgMapper.findAll();
 	}
 	/**
@@ -59,6 +62,7 @@ public class OrgService {
 	 * @param parentId
 	 */
 	public static void sortList(List<Org> list, List<Org> sourcelist, String parentId){
+		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		for (int i=0; i<sourcelist.size(); i++){
 			Org e = sourcelist.get(i);
 			if (e.getParentId()!=null && e.getParentId().equals(parentId)){
@@ -74,17 +78,18 @@ public class OrgService {
 			}
 		}
 	}
-	
+
 	/**
-	 * 
+	 *
 	 * @param id
 	 */
 	public void delete(String id){
+		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		try {
 			orgMapper.delete(id);
 		} catch (Exception e) {
 			throw new SystemException(e.getMessage());
 		}
 	}
-	
+
 }
