@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-<title>爱维宝贝系统管理平台</title>
+<title>系统管理平台</title>
 <%@ include file="/WEB-INF/common/assets.jsp"%>
 <script type="text/javascript">
 if(window.top !== window.self){ window.top.location = window.location;}
@@ -108,23 +108,6 @@ body.login {
                 </div>
             </div>
           <ul class="menu nav nav-tabs nav-stacked" id="menu">
-          		<shiro:hasPermission name="system:kindergarten:view">
-            	<li class="active">
-            		<a href="javascript:void(0)" target="win"><i class="fa fa-info-circle"></i><span>幼儿园管理</span></a>
-            		<ul class="children">
-               			<shiro:hasPermission name="system:kindergarten:list">
-                    	<li><a href="${ctx }/system/kindergarten/showList.do" target="win">幼儿园列表</a></li>
-               			</shiro:hasPermission>
-               			<shiro:hasPermission name="system:contractor:list">
-                    	<li><a href="${ctx }/system/contractor/showList.do" target="win">运营商列表</a></li>
-               			</shiro:hasPermission>
-               			<shiro:hasPermission name="system:kindergartenDevice:list">
-                    	<li><a href="${ctx }/system/kindergartenDevice/showList.do" target="win">演示幼儿园设备管理</a></li>
-               			</shiro:hasPermission>
-               			
-                    </ul>
-            	</li>
-          		</shiro:hasPermission>
                 <shiro:hasPermission name="system:permission:view">
                 <li class="parent">
                 	<a href="javascript:void(0)" target="win"><i class="fa fa-lock"></i><span>权限管理</span><b class="caret"></b></a>
@@ -147,30 +130,6 @@ body.login {
                 	<shiro:hasPermission name="system:user:showList">
                     	<li><a href="${ctx }/system/user/showList.do" target="win">用户列表</a></li>
                 	</shiro:hasPermission>
-                	<shiro:hasPermission name="system:parentBaby2:babyView">
-                    	<li><a href="${ctx }/system/parentBaby/babyList.do" target="win">宝宝列表</a></li>
-                	</shiro:hasPermission>
-                	<shiro:hasPermission name="system:parentBaby2:parentView">
-                    	<li><a href="${ctx }/system/parentBaby/parentList.do" target="win">家长列表</a></li>
-                	</shiro:hasPermission>
-                	<shiro:hasPermission name="system:teacher:showList">
-                    	<li><a href="${ctx }/system/teacher/showList.do" target="win">教师列表</a></li>
-                	</shiro:hasPermission>
-                	<shiro:hasPermission name="system:parentBaby2:parentType">
-                    	<li><a href="${ctx }/system/parentBaby/parentListforType.do" target="win">家长类型管理</a></li>
-                	</shiro:hasPermission>
-                    </ul>
-                </li>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="system:appUpdate:view">
-                <li class="parent"><a href="javascript:void(0)" class=""><i class="fa fa-cloud-upload"></i><span>APP更新管理</span><b class="caret"></b></a>
-                	<ul class="children">
-                	<shiro:hasPermission name="system:appUpdate2:showList">
-                    	<li><a href="${ctx }/system/appUpdate/showList.do" target="win">应用列表</a></li>
-                	</shiro:hasPermission>
-                	<shiro:hasPermission name="system:appUpdate2:showUserTypeList">
-                		<li><a href="${ctx }/system/appUpdate/showUserTypeList.do" target="win">版本更新列表</a></li>
-                	</shiro:hasPermission>
                     </ul>
                 </li>
                 </shiro:hasPermission>
@@ -189,20 +148,7 @@ body.login {
         <!-- /left panel -->
         <div class="main" id="main">
         	<!-- iframe区域 -->
-        	<c:if test="${user.roleId==3 }">
-        		<iframe src="${ctx }/system/kindergarten/showList.do" name="win" id="win" width="100%" height="100%" frameborder="0"></iframe>
-        	</c:if>
-        	<c:if test="${user.roleId==6 }">
-        		<iframe src="${ctx }/system/appUpdate/showList.do" name="win" id="win" width="100%" height="100%" frameborder="0"></iframe>
-        	</c:if>
-        	<c:if test="${user.roleId==5 }">
-        		<iframe src="${ctx }/system/parentBaby/parentList.do" name="win" id="win" width="100%" height="100%" frameborder="0"></iframe>
-        	</c:if>
-        	<c:if test="${user.roleId!=3 and user.roleId!=6 and user.roleId!=5 }">
-        		<iframe src="${ctx }/system/kindergarten/showList.do" name="win" id="win" width="100%" height="100%" frameborder="0"></iframe>
-
-        	</c:if>
-        	
+			<iframe src="${ctx }/system/kindergarten/showList.do" name="win" id="win" width="100%" height="100%" frameborder="0"></iframe>
             <!-- /iframe区域 -->
         </div>
     </div>

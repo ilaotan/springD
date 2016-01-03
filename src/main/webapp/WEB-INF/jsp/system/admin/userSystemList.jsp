@@ -5,7 +5,7 @@
 <head>
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=9; IE=8; IE=7; IE=EDGE" />
-<title>幼儿园管理后台</title>
+<title>管理后台</title>
 <%@ include file="/WEB-INF/common/assets.jsp"%>
 <script type="text/javascript">
 
