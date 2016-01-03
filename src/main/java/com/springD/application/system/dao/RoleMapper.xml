@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springD.application.system.dao.RoleMapper">
+	<resultMap id="roleResultMap" type="com.springD.application.system.entity.Role">
+		<id property="id" column="id" />
+		<result property="name" column="name"/>
+		<result property="code" column="code"/>
+		<result property="pid" column="pid"/>
+		<result property="remark" column="remark"/>
+		<result property="status" column="state"/>
+	</resultMap>
+	
+	<insert id="save" parameterType="com.springD.application.system.entity.Role" useGeneratedKeys="true" keyProperty="id">
+  		INSERT INTO tbl_role(name,status,remark,code)VALUES(#{name},#{status},#{remark},#{code});
+ 	</insert>
+ 	
+ 	<update id="update" parameterType="com.springD.application.system.entity.Role">
+ 		UPDATE tbl_role SET name=#{name},status=#{status},remark=#{remark},code=#{code} WHERE id=#{id}
+ 	</update>
+
+ 	<!-- 根据ID查找数据 -->
+ 	<select id="findById" resultType="com.springD.application.system.entity.Role" parameterType="java.lang.String">
+		SELECT * FROM tbl_role WHERE id=#{id}
+   	</select>
+ 	
+   	<!-- 根据ID查找所有子级数据 -->
+ 	<select id="findAll" resultType="com.springD.application.system.entity.Role" parameterType="java.util.Map">
+		SELECT * FROM tbl_role
+		WHERE 1 = 1
+		<if test="roleName != null and roleName != ''">
+		AND name like  CONCAT('%','${roleName}','%' )  
+		</if>
+		<if test="roleStatus != null and roleStatus != ''">
+		AND status = #{roleStatus }
+		</if>
+		<if test="code != null and code != ''">
+		AND code != #{code }
+		</if>
+		order by id desc
+   	</select>
+   	
+   	<!-- 根据id删除单条数据 -->
+   	<delete id="delete" parameterType="java.lang.String">
+		DELETE FROM tbl_role WHERE id = #{id} and NOT EXISTS (SELECT '' FROM tbl_user WHERE role_id = #{id})
+	</delete>
+	
+	<update id="savePermission" parameterType="com.springD.application.system.entity.Role">
+ 		UPDATE tbl_role SET menu_ids=#{menuIds} WHERE id=#{id}
+ 	</update>
+ 	
+ 	<select id="findBeforeInsert" resultType="com.springD.application.system.entity.Role" parameterType="com.springD.application.system.entity.Role">
+ 		SELECT * FROM tbl_role
+ 		WHERE 1 = 2
+ 		<if test="name != null and name != ''">
+ 			OR name = #{name }
+ 		</if>
+ 		<if test="code != null and code != ''">
+ 			OR code = #{code }
+ 		</if>
+ 	</select>
+</mapper>

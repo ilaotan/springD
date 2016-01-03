@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8" ?>  
+<portable-config>
+<!-- 生产机数据源配置  &符号使用 &amp; 表达   -->
+	<!-- 将jdbc.properties里对应字段替换 -->
+    <config-file path="WEB-INF/classes/jdbc.properties">  
+        <replace key="jdbc.url">jdbc:mysql://localhost:3306/basep?useUnicode=true&amp;characterEncoding=UTF-8</replace>  
+        <replace key="jdbc.username">root</replace>  
+        <replace key="jdbc.password">mysqlali</replace>  
+    </config-file>
+    <!-- 将log4j对应字段替换 -->
+    <config-file  path="WEB-INF/classes/log4j.properties" >
+    	<replace key="log4j.rootLogger">error, stdout,RollingFile</replace>
+    </config-file>
+</portable-config>

@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<taglib xmlns="http://java.sun.com/xml/ns/j2ee"
+        xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:schemaLocation="http://java.sun.com/xml/ns/j2ee http://java.sun.com/xml/ns/j2ee/web-jsptaglibrary_2_0.xsd"
+        version="2.0">
+    <description>functions</description>
+    <tlib-version>3.0</tlib-version>
+    <short-name>fn</short-name>
+    <uri>http://github.com/chenz/tags/functions</uri>
+
+    <function>
+        <description>obj in collection</description>
+        <name>isIn</name>
+        <function-class> com.springD.framework.taglibs.PermissionFunction</function-class>
+        <function-signature>boolean isIn(java.lang.String,java.lang.Object)</function-signature>
+    </function>
+
+
+
+</taglib>

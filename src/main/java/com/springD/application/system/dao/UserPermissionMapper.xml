@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"  "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.springD.application.system.dao.UserPermissionMapper">
+	<resultMap id="roleResultMap" type="com.springD.application.system.entity.Role">
+		<id property="id" column="id" />
+		<result property="name" column="name"/>
+		<result property="code" column="code"/>
+		<result property="pid" column="pid"/>
+		<result property="remark" column="remark"/>
+		<result property="status" column="state"/>
+	</resultMap>
+
+	<!-- 根据类型，返回使用帮助文档 -->
+	<select id="findRoleByUid" resultMap="roleResultMap" parameterType="java.lang.String">
+		SELECT r.* FROM tbl_role r ,tbl_user_role re WHERE re.uid=#{uid} AND re.role_id=r.id ORDER BY r.id
+	</select>
+ 	
+ 	<!-- 根据类型，返回使用帮助文档 -->
+	<select id="findLoginUser" resultType="com.springD.application.system.entity.User" parameterType="java.lang.String">
+		SELECT u.*,r.`code`,r.`name`
+		FROM tbl_user u  
+		LEFT JOIN tbl_role r 
+		ON u.`role_id`=r.`id` 
+		WHERE 1=1
+		<if test="uid != null" >
+	      	and u.uid=#{uid}
+	      </if>
+			 <if test="username != null" >
+	      	and u.username=#{username}
+	      </if>
+			 <if test="email != null" >
+	      	and u.email = #{email}
+	     </if>
+	     <if test="mobile != null" >
+	      	and u.phone = #{mobile}
+	     </if>
+	</select>
+	
+	<select id="getRoleMenus" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT menu_ids FROM tbl_role WHERE id=#{id}
+	</select>
+	
+	<select id="findMenusByIds" resultType="java.lang.String" parameterType="java.lang.String">
+		SELECT url FROM tbl_menu WHERE id in (${id})
+	</select>
+	
+	<insert id="saveUser" parameterType="com.springD.application.system.entity.User" useGeneratedKeys="true" keyProperty="uid">
+  		INSERT INTO tbl_user(uid, username,password,email,salt,status,kindergarten_id,regip,role_id,usertype,regdate)
+  		VALUES(#{uid},#{username},#{password},#{email},#{salt},#{status},#{kindergartenId},#{regip},#{roleId},#{usertype},now())
+ 	</insert>
+ 	<!-- set标签会消除无关逗号 -->
+ 	<update id="updateUserByUid" parameterType="java.util.Map">
+ 		update tbl_user
+ 			<set>
+ 				<if test="username != null" >
+		      		username = #{username},
+		     	 </if>
+ 				<if test="email != null" >
+		      		email = #{email},
+		     	 </if>
+		     	 <if test="password != null" >
+		      		 password = #{password}, salt = #{salt},
+		    	  </if>
+	 			 <if test="roleId != null" >
+			      	 role_id = #{roleId},
+			      </if>
+			      <if test="phone != null">
+			      	 phone = #{phone},
+			      </if>
+			      <if test="sex != null">
+			      	 sex = #{sex},
+			      </if>
+			      <if test="status != null">
+			      	 status = #{status},
+			      </if>
+ 			</set>
+ 			where uid=#{uid}
+ 	</update>
+ 	<select id="getOneByMap" resultType="com.springD.application.system.entity.User" >
+ 		select u.* from tbl_user u where 1=1 
+ 			 <if test="uid != null" >
+		      	and u.uid=#{uid}
+		      </if>
+ 			 <if test="username != null" >
+		      	and u.username=#{username}
+		      </if>
+ 			 <if test="email != null" >
+		      	and u.email = #{email}
+		     </if>
+		     <if test="mobile != null" >
+		      	and u.phone = #{mobile}
+		     </if>
+		     <if test="usertype != null">
+		     	and u.usertype = #{usertype}
+		     </if>
+		     <if test="kindergartenId != null">
+		     	and u.kindergarten_id = #{kindergartenId}
+		     </if>
+		LIMIT 1
+ 	</select>
+ 	<select id="getAllForPage" resultType="com.springD.application.system.entity.User" >
+ 		select r.name as roleName,u.* 
+ 		from tbl_user u left JOIN tbl_role r on u.role_id= r.id 
+ 		where 1=1 
+	      <if test="username != null" >
+	      	and u.username like  CONCAT('%','${username}','%' )  
+	      </if>
+	      <if test="email != null" >
+	      	and u.email like   CONCAT('%','${email}','%' )  
+	      </if>
+	      <if test="sex != null" >
+	      	and u.sex = #{sex}
+	      </if>
+	      <if test="phone != null" >
+	      	and u.phone like  CONCAT('%','${phone}','%' )  
+	      </if>
+	      <if test="userType != null" >
+	      	and u.usertype =#{userType} 
+	      	AND u.username NOT LIKE &apos;%\_admin&apos;
+	      </if>
+		  order by u.uid desc
+ 	</select>
+ 	<delete id="deletByUid" parameterType="java.lang.Integer" >
+	    delete from tbl_user 
+	    where uid=#{uid}
+	</delete>
+	
+	<!-- 添加用户前，查询重复数据 -->
+	<select id="findBeforeInsert" parameterType="com.springD.application.system.entity.User" resultType="com.springD.application.system.entity.User">
+		SELECT * FROM
+			tbl_user
+		WHERE
+			username = #{username }
+	</select>
+	
+	<!-- 添加幼儿园和管理员关系 -->
+	<insert id="addManagerKinderRelation" parameterType="java.util.Map" useGeneratedKeys="true" keyProperty="relation_id">
+		INSERT INTO manager_kindergarten_relation (uid, kindergarten_id)
+		VALUES (#{uid}, #{kindergartenId})
+	</insert>
+	
+	<!-- 根据幼儿园id拿用户信息 -->
+	<select id="findUserByKinderId"  resultType="com.springD.application.system.entity.User" >
+		select * from tbl_user
+		where kindergarten_id in
+		<foreach collection="list" item="kid"  open="(" separator="," close=")">  
+		    #{kid}  
+		</foreach>  
+	</select>
+</mapper>
