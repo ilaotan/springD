@@ -82,7 +82,7 @@ public class Constants {
 	public static final String CONTRACTOR_USER_PREFIX = "g_";
 	
 	/**
-	 * 在 @com.ibaby.framework.shiro.SystemAuthenticationFilter.java的onLoginSuccess方法里使用 
+	 * 在 @com.springD.framework.shiro.SystemAuthenticationFilter.java的onLoginSuccess方法里使用
 	 * 往session里塞当前登录的用户名 
 	 */
 	public static final String LOGIN_USERNAME="username";
