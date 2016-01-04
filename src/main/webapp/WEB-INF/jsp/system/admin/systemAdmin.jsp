@@ -96,7 +96,7 @@ body.login {
         	<div class="shortcut">
                 <div class="media profile">
                 	<a href="#" class="pull-left profile-thumb">
-                		<img src="${assets }/resource/kindergarten/images/admin/avatar.png" class="img-circle">
+                		<img src="${assets }/resource/system/images/admin/avatar.png" class="img-circle">
                 	</a>
                 	<div class="media-body">
                 		<h4 class="media-heading">系统管理平台</h4>
@@ -148,7 +148,7 @@ body.login {
         <!-- /left panel -->
         <div class="main" id="main">
         	<!-- iframe区域 -->
-			<iframe src="${ctx }/system/kindergarten/showList.do" name="win" id="win" width="100%" height="100%" frameborder="0"></iframe>
+			<iframe src="${ctx }/system/welcome.do" name="win" id="win" width="100%" height="100%" frameborder="0"></iframe>
             <!-- /iframe区域 -->
         </div>
     </div>

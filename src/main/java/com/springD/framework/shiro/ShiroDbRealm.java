@@ -137,7 +137,7 @@ public class ShiroDbRealm extends AuthorizingRealm{
 ////			String password = Md5PwdEncoder.encodePassword(pwd, user.getSalt());NH-BLHG4a9cc60d6224169fb6e08e1342dd055a3
 			String password = user.getSalt() + pwd;
 			token.setPassword(password.toCharArray());
-//			System.out.println( "最终密码是~~~~~~~~~~~~"+Md5PwdEncoder.encodePassword(password,""));
+			System.out.println( "最终密码是~~~~~~~~~~~~"+Md5PwdEncoder.encodePassword(password,""));
 			AuthenticationInfo authinfo = new SimpleAuthenticationInfo(new ShiroUser(user), user.getPassword(), getName());
 			return authinfo;
 		}else{
