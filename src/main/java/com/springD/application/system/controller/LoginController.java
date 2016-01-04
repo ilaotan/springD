@@ -120,17 +120,9 @@ public class LoginController extends BaseController{
 		if (user != null && user.getRoleId() != null) {
 			Integer roleId = Integer.parseInt(user.getRoleId());
 			// 客服
-			if (3 == roleId || 5 == roleId || 6 == roleId) {
-				url = "http://system.aiwebaby.com/system/admin.do";
-			// 幼儿园
-			} else if (4 == roleId) {
-				url = "http://manager.aiwebaby.com/kindergarten/admin.do";
-			// 工程商
-			} else if (7 == roleId) {
-				url = "http://project.aiwebaby.com/contractor/admin.do";
-			}
+			url="http://www.baidu.com";
 		} else {
-			url = "http://manager.aiwebaby.com/";
+			url="http://www.baidu.com";
 		}
 		
 		model.addAttribute("url", url);

@@ -119,17 +119,8 @@ body.login {
                     	<li><a href="${ctx }/system/role/list.do" target="win">角色管理</a></li>
                			</shiro:hasPermission>
                			<shiro:hasPermission name="system:usersystem:list">
-                    	<li><a href="${ctx }/system/usersystem/showList.do" target="win">系统账号管理</a></li>
+                    	<li><a href="${ctx }/system/usersystem/showList.do" target="win">账号管理</a></li>
                			</shiro:hasPermission>
-                    </ul>
-                </li>
-                </shiro:hasPermission>
-                <shiro:hasPermission name="system:userManager:view">
-                <li class="parent"><a href="javascript:void(0)" class=""><i class="fa fa-child"></i><span>用户管理</span><b class="caret"></b></a>
-                	<ul class="children">
-                	<shiro:hasPermission name="system:user:showList">
-                    	<li><a href="${ctx }/system/user/showList.do" target="win">用户列表</a></li>
-                	</shiro:hasPermission>
                     </ul>
                 </li>
                 </shiro:hasPermission>

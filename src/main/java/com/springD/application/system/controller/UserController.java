@@ -35,49 +35,7 @@ public class UserController extends BaseController{
 	@Autowired
 	RoleService roleService;
 	
-	@RequestMapping(value="user/showList",method=RequestMethod.GET)
-	public String showList(HttpServletRequest request,HttpServletResponse response,Model model){
-		
-		String cxUserName = request.getParameter("cxUserName");
-		String cxEmail = request.getParameter("cxEmail");
-		String cxSex = request.getParameter("cxSex");
-		String cxPhone = request.getParameter("cxPhone");
-		model.addAttribute("cxUserName", cxUserName);
-		model.addAttribute("cxEmail", cxEmail);
-		model.addAttribute("cxPhone", cxPhone);
-		model.addAttribute("cxSex", cxSex);
-		
-		if(cxUserName == null || cxUserName.trim().equals(""))
-			cxUserName=null;
-		if(cxEmail == null || cxEmail.trim().equals(""))
-			cxEmail=null;
-		if(cxPhone == null || cxPhone.trim().equals(""))
-			cxPhone=null;
-		// 默认分页大小
-		Page page = getPage(request);
-		
-		Map map = new HashMap();
-		//可选
-		//map.put("creator", "");
-		map.put("page", page);
-		map.put("username", cxUserName);
-		map.put("email", cxEmail);
-		map.put("phone", cxPhone);
-		map.put("userType", "2");
-		if(cxSex!=null && !"0".equals(cxSex)) {
-			map.put("sex", cxSex);
-		}
-		
-		List userList= userPermissionService.getAllForPage(map);
-		page.setList(userList);
-		model.addAttribute("page", page);
-		
-		ShiroUser user =UserUtils.getShiroUser();
-		model.addAttribute("mainuser", user);
-		
-		return "system/admin/userAdminList";
-	} 
-	
+
 	/**
 	 * @创建人：tanliansheng
 	 * @创建时间： 2014年11月10日 下午2:09:42
