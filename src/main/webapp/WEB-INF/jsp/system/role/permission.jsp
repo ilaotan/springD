@@ -12,79 +12,96 @@
 <script src="${ctx}/resource/thirdparty/ztree3.5.12/js/jquery.ztree.all-3.5.min.js" type="text/javascript"></script>
 
 <script type="text/javascript">
-//组织树
-        $(function () {
-            var setting = {
-                check: {
-                    enable: true ,
-                    chkboxType: { "Y": "ps", "N": "ps"}
-                },
-                view: {
-                    dblClickExpand: false
-                },
-                data: {
-                    simpleData: {
-                        enable: true
-                    }
-                },
-                callback: {
-                    onCheck: onCheck
+    //组织树
+    $(function () {
+
+        $("input[type=submit]").on("click",function(){
+            //ajax 提交form
+            $.ajax({
+                type: "POST",
+                url:"${ctx}/system/role/permissionForm.do",
+                data:$('form').serialize(),
+                success: function(data) {
+
+//                    if(data.message=='保存成功'){
+//                        setTimeout(function(){ closeDialog() },1500);
+//                    }
                 }
-            };
-
-            var zNodes =[
-                <c:forEach items="${menuList}" var="m">
-	                { id:${m.id}, pId:${m.parentId}, name:"${m.name}", checked:${permfn:isIn(role.menuIds, m.id)}},
-                </c:forEach>
-            ];
-
-            function onCheck(e, treeId, treeNode) {
-                var zTree = $.fn.zTree.getZTreeObj("tree"),
-                        nodes = zTree.getCheckedNodes(true),
-                        id = "",
-                        name = "";
-                nodes.sort(function compare(a,b){return a.id-b.id;});
-                for (var i=0, l=nodes.length; i<l; i++) {
-                    id += nodes[i].id + ",";
-                    name += nodes[i].name + ",";
-                }
-                if (id.length > 0 ) id = id.substring(0, id.length-1);
-                if (name.length > 0 ) name = name.substring(0, name.length-1);
-                $("#menuIds").val(id);
-                $("#resourceName").val(name);
-//                hideMenu();
-            }
-
-            function showMenu() {
-                var cityObj = $("#resourceName");
-                var cityOffset = $("#resourceName").offset();
-                $("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
-
-                $("body").bind("mousedown", onBodyDown);
-            }
-            function hideMenu() {
-                $("#menuContent").fadeOut("fast");
-                $("body").unbind("mousedown", onBodyDown);
-            }
-            function onBodyDown(event) {
-                if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
-                    hideMenu();
-                }
-            }
-
-            $.fn.zTree.init($("#tree"), setting, zNodes);
-            $("#menuBtn").click(showMenu);
+            });
         });
+
+
+        var setting = {
+            check: {
+                enable: true ,
+                chkboxType: { "Y": "ps", "N": "ps"}
+            },
+            view: {
+                dblClickExpand: false
+            },
+            data: {
+                simpleData: {
+                    enable: true
+                }
+            },
+            callback: {
+                onCheck: onCheck
+            }
+        };
+
+        var zNodes =[
+            <c:forEach items="${menuList}" var="m">
+                { id:${m.id}, pId:${m.parentId}, name:"${m.name}", open:true ,checked:${permfn:isIn(role.menuIds, m.id)}},
+            </c:forEach>
+        ];
+
+        function onCheck(e, treeId, treeNode) {
+            var zTree = $.fn.zTree.getZTreeObj("tree"),
+                    nodes = zTree.getCheckedNodes(true),
+                    id = "",
+                    name = "";
+            nodes.sort(function compare(a,b){return a.id-b.id;});
+            for (var i=0, l=nodes.length; i<l; i++) {
+                id += nodes[i].id + ",";
+                name += nodes[i].name + ",";
+            }
+            if (id.length > 0 ) id = id.substring(0, id.length-1);
+            if (name.length > 0 ) name = name.substring(0, name.length-1);
+            $("#menuIds").val(id);
+            $("#resourceName").val(name);
+//                hideMenu();
+        }
+
+        function showMenu() {
+            var cityObj = $("#resourceName");
+            var cityOffset = $("#resourceName").offset();
+            $("#menuContent").css({left:cityOffset.left + "px", top:cityOffset.top + cityObj.outerHeight() + "px"}).slideDown("fast");
+
+            $("body").bind("mousedown", onBodyDown);
+        }
+        function hideMenu() {
+            $("#menuContent").fadeOut("fast");
+            $("body").unbind("mousedown", onBodyDown);
+        }
+        function onBodyDown(event) {
+            if (!(event.target.id == "menuBtn" || event.target.id == "menuContent" || $(event.target).parents("#menuContent").length>0)) {
+                hideMenu();
+            }
+        }
+
+        $.fn.zTree.init($("#tree"), setting, zNodes);
+        $("#menuBtn").click(showMenu);
+    });
 </script>
 </head>
 <body>
 <div>
 <ul id="tree" class="ztree" style="margin-top:0; width:160px;"></ul>
 </div>
-<form action="${ctx }/system/role/savePermission.do" method="post">
-<input type="hidden" name="id" id="id" value="${role.id }"/>
-<input type="hidden" name="menuIds" id="menuIds" value="${role.menuIds }"/>
-<input type="submit" value="提交" />
+<form action="" method="post">
+    <input type="hidden" name="id" id="id" value="${role.id }"/>
+    <input type="hidden" name="menuIds" id="menuIds" value="${role.menuIds }"/>
+    <input type="submit" class="btn btn-success btn-medium" value="提交" />
 </form>
 </body>
 </html>

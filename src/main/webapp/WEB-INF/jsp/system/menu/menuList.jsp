@@ -19,14 +19,19 @@ $(function(){
 // 删除菜单
 function deleteMenu(id) {
 
-	var url = "${ctx }/system/menu/delete.do?id=" + id;
-	if ($("tr[pid='" + id + "']") != null && $("tr[pid='" + id + "']").length > 1) {
-		artConfirm("该菜单项下包含子菜单，确定要删除吗？",function(){
-			window.location.href = url;
-		});
-	} else {
-		window.location.href = url;
-	}
+	art.dialog.confirm("确定要删除吗?",function(){
+		//ok
+		$.post("${ctx }/system/menu/delete.do?id=" + id,{},function(data){
+			if(data.message=="删除成功"){
+				window.location.href = '${ctx}/system/menu/list.do';
+			}else{
+				artAlert(data.message);
+			}
+		},"json");
+	},function(){
+		//cancel
+		art.dialog.close();
+	});
 }
 </script>
 </head>

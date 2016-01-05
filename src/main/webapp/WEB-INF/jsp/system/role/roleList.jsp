@@ -105,7 +105,7 @@ function deleteRole(id, name){
 								<c:if test="${role.code!='superadmin' }">
 									<a href="${ctx }/system/role/form.do?id=${role.id}" >编辑</a>
 									<a href="javascript:deleteRole('${role.id}', '${role.name}')">删除</a>
-									<a href="javascript:void(0)" onclick="dialog('${ctx }/system/role/permissionForm.do?id=${role.id}','角色分配','','','')">权限管理</a>
+									<a href="javascript:void(0)" onclick="dialog('${ctx }/system/role/permissionForm.do?id=${role.id}','权限分配','','','')">权限管理</a>
 								</c:if>
 							</td>
 						</tr>

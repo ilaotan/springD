@@ -73,7 +73,7 @@ function dialog(url,title,width,height,lock){
 	}else{
 		lock = false;
 	}
-	var myDialog = art.dialog.open(url,{title: title, width: width, height: height,lock:lock});
+	art.dialog.open(url,{title: title, width: width, height: height,lock:lock});
 }
 
 function closeDialog(){
