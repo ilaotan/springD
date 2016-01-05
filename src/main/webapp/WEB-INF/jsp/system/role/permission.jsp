@@ -22,12 +22,13 @@
                 url:"${ctx}/system/role/permissionForm.do",
                 data:$('form').serialize(),
                 success: function(data) {
-
-//                    if(data.message=='保存成功'){
-//                        setTimeout(function(){ closeDialog() },1500);
-//                    }
+                    artAlert(data.message);
+                    if(data.message=='保存成功'){
+                        setTimeout(function(){ closeDialog() },1500);
+                    }
                 }
             });
+            return false;
         });
 
 
