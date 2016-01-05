@@ -180,7 +180,7 @@ body.login {
 	<div class="panel panel-login">
     	<div class="panel-body">
         	<div class="logo text-center">
-111111111
+
             </div>
             <div class="mb30" style="clear: left;"></div>
             <div class="alert alert-error" id="sysMsg"></div>

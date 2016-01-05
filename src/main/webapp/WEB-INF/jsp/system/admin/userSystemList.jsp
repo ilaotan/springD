@@ -60,7 +60,7 @@ function deleteUser(uid, name){
 			</div>
 		</div>
 		<div class="pull-right menu-right">
-			<a href="${ctx}/system/usersystem/add.do" class="btn btn-primary"><i class="fa fa-edit"></i>添加账号</a>
+			<a href="${ctx}/system/usersystem/add.do" class="btn btn-success"><i class="fa fa-edit"></i>添加账号</a>
 		</div>
 	</div>
 	

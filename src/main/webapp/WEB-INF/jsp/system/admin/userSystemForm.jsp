@@ -165,7 +165,7 @@
 	                    </div>
 	                    <div class="control-group form-actions">
 	                        <div class="span7">
-	                        	<input type="submit" class="btn btn-primary btn-medium" value="${op }">
+	                        	<input type="submit" class="btn btn-success btn-medium" value="${op }">
 	                        	<input type="button" class="btn btn-default btn-medium" value="返回" onclick="javascript:backToList('${ctx }/system/user/showList.do', '${pn}', '');" />
 	                        </div>
 	                    </div>

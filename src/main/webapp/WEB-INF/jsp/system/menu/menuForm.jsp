@@ -95,7 +95,8 @@ $(function(){
                         <label class="control-label" for="parentName"><span class="txt-impt">*</span>上级菜单：</label>
                         <div class="controls">
 							<input type="text" name="parentName" value="${pMenuName }" id="parentName" readonly="readonly"/>
-                          	<span class="help-inline">2-10个字符</span>
+							<input type="hidden" name="parentId" value="${pMenuId }" id="parentId"/>
+							<span class="help-inline">2-10个字符</span>
                         </div>
                     </div>
                     <div class="control-group">
@@ -114,7 +115,7 @@ $(function(){
                     </div>
                     <div class="control-group form-actions">
                         <div class="span7">
-                        	<input type="submit" class="btn btn-primary btn-medium" value="${op }">
+                        	<input type="submit" class="btn btn-success btn-medium" value="${op }">
                         	<input type="button" class="btn btn-default btn-medium" value="返回" onclick="javascript:backToList('${ctx }/system/menu/list.do', '', '');" />
                         </div>
                     </div>
