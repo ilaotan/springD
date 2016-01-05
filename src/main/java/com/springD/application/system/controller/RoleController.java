@@ -32,9 +32,6 @@ public class RoleController extends BaseController{
 	private MenuService menuService;
 	/**
 	 * 添加表单
-	 * @param role
-	 * @param model
-	 * @param request
 	 * @return
 	 * @throws Exception
 	 */
@@ -51,9 +48,6 @@ public class RoleController extends BaseController{
 	}
 	/**
 	 * 角色新增和编辑
-	 * @param role
-	 * @param model
-	 * @param request
 	 * @return
 	 * @throws Exception
 	 */
@@ -96,9 +90,6 @@ public class RoleController extends BaseController{
 	/**
 	 * 删除角色
 	 * @Description: 根据角色ID删除角色
-	 * @param role
-	 * @param model
-	 * @param request
 	 * @return
 	 * @throws Exception
 	 */
@@ -125,7 +116,6 @@ public class RoleController extends BaseController{
 	
 	/**
 	 * 角色列表
-	 * @param model
 	 * @return
 	 */
 	@RequestMapping(value="list")
@@ -150,10 +140,9 @@ public class RoleController extends BaseController{
 	
 	/**
 	 * 权限分配
-	 * @param model
 	 * @return
 	 */
-	@RequestMapping(value="permissionForm")
+	@RequestMapping(value="permissionForm",method=RequestMethod.GET)
 	public String permissionForm(Model model, HttpServletRequest request){
 		String id = request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
@@ -168,19 +157,22 @@ public class RoleController extends BaseController{
 		return "system/role/permission";
 	}
 	
-	@RequestMapping(value="savePermission")
-	public String savePermission(Role role, Model model){
-		roleService.savePermission(role);
-		String message = "操作成功！";
-		return showDialog(model, message);
+	@RequestMapping(value="permissionForm",method=RequestMethod.POST)
+	public String permissionFormPOST(Role role,HttpServletRequest request, HttpServletResponse response){
+		int num = roleService.savePermission(role);
+		Map<String, Object> result = new HashMap<String, Object>();
+		if(num>0){
+			result.put("message", "保存成功");
+		}else{
+			result.put("message", "保存失败");
+		}
+		ResponseUtils.renderJson(response, result);
+		return null;
 	}
 	
 	/**
 	 * 添加角色
 	 * @Description: 添加新角色
-	 * @param role
-	 * @param model
-	 * @param request
 	 * @return
 	 * @throws Exception
 	 */

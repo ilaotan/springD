@@ -8,15 +8,15 @@ import com.springD.framework.persistence.annotation.MyBatisDao;
 @MyBatisDao
 public interface OrgMapper {
 
-	public void save(Org org);
+	void save(Org org);
 	
-	public void update(Org org);
+	void update(Org org);
+
+	Org findById(String id);
 	
-	public Org findById(String id);
+	List<Org> findByParentIdsLike(String str);
 	
-	public List<Org> findByParentIdsLike(String str);
+	List<Org> findAll();
 	
-	public List<Org> findAll();
-	
-	public void delete(String id);
+	void delete(String id);
 }

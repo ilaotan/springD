@@ -9,17 +9,17 @@ import com.springD.framework.persistence.annotation.MyBatisDao;
 @MyBatisDao
 public interface RoleMapper {
 
-	public void save(Role role);
+	int save(Role role);
 	
-	public void update(Role role);
+	int update(Role role);
 	
-	public Role findById(String id);
+	Role findById(String id);
 	
-	public List<Role> findAll(Map param);
+	List<Role> findAll(Map param);
 	
-	public int delete(String id);
+	int delete(String id);
 	
-	public void savePermission(Role role);
+	int savePermission(Role role);
 	
-	public List<Role> findBeforeInsert(Role role);
+	List<Role> findBeforeInsert(Role role);
 }

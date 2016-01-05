@@ -10,21 +10,21 @@ import com.springD.framework.persistence.annotation.MyBatisDao;
 @MyBatisDao
 public interface MenuMapper {
 
-	public void save(Menu menu);
+	void save(Menu menu);
 	
-	public void update(Menu menu);
+	void update(Menu menu);
 	
-	public Menu findById(String id);
+	Menu findById(String id);
 	
-	public List<Menu> findAll();
+	List<Menu> findAll();
 	
-	public List<Menu> findAll4Tree();
+	List<Menu> findAll4Tree();
 	
-	public int delete(String id);
+	int delete(String id);
 	
-	public int deleteByPid(@Param(value="pid")String pid);
+	int deleteByPid(@Param(value="pid")String pid);
 	
-	public List<Menu> findByParentIdsLike(@Param(value="str")String str);
+	List<Menu> findByParentIdsLike(@Param(value="str")String str);
 	
-	public List<Menu> findBeforeInsert(Menu menu);
+	List<Menu> findBeforeInsert(Menu menu);
 }

@@ -17,7 +17,7 @@ public interface UserPermissionMapper {
 	 * @param uid
 	 * @return
 	 */
-	public List<Role> findRoleByUid(String uid);
+	List<Role> findRoleByUid(String uid);
 	
 	/**
 	 * 查找登录用户
@@ -25,25 +25,25 @@ public interface UserPermissionMapper {
 	 * @param password
 	 * @return
 	 */
-	public User findLoginUser(Map<String, Object> map);
+	User findLoginUser(Map<String, Object> map);
 	
-	public String getRoleMenus(String id);
+	String getRoleMenus(String id);
 	
-	public List<String> findMenusByIds(@Param(value="id")String id);
+	List<String> findMenusByIds(@Param(value="id")String id);
 	
-	public int saveUser(User user);
+	int saveUser(User user);
 	
-	public int updateUserByUid(Map map);
+	int updateUserByUid(Map map);
 	
-	public User getOneByMap(Map map);
+	User getOneByMap(Map map);
 	
-	public List<User> getAllForPage(Map map);
+	List<User> getAllForPage(Map map);
 	
-	public int deletByUid(int uid);
+	int deletByUid(int uid);
 	
-	public List<User> findBeforeInsert(User user);
+	List<User> findBeforeInsert(User user);
 	
-	public int addManagerKinderRelation(Map map);
+	int addManagerKinderRelation(Map map);
 	
-	public List<User> findUserByKinderId(List list);
+	List<User> findUserByKinderId(List list);
 }

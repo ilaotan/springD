@@ -16,7 +16,9 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * 菜单管理
@@ -51,14 +53,13 @@ public class MenuController extends BaseController {
 	/**
 	 * 校验未通过表单项重新赋值
 	 * @Description: 校验未通过表单项重新赋值
-	 * @param menu
 	 * @param model
 	 * @param request
 	 * @return
 	 * @throws Exception
 	 */
 	@RequestMapping(value="form")
-	public String form(Menu menu, Model model, HttpServletRequest request) throws Exception{
+	public String form( Model model, HttpServletRequest request) throws Exception{
 		Menu parentMenu = null;
 		model.addAttribute("op", Constants.BUTTON_TEXT_SUBMIT);
 		String pid = request.getParameter("pid");
@@ -68,7 +69,7 @@ public class MenuController extends BaseController {
 		
 		String id = request.getParameter("id");
 		if(StringUtils.isNotBlank(id)){
-			menu = menuService.get(id);
+			Menu menu = menuService.get(id);
 			parentMenu = menuService.get(menu.getParentId());
 			model.addAttribute("menu",menu);
 		}
@@ -102,11 +103,7 @@ public class MenuController extends BaseController {
 		
 		menu.setCreateDate(new Date());
 		model.addAttribute("op", Constants.BUTTON_TEXT_SUBMIT);
-		//数据校验
-		if (!beanValidator(model, menu)){
-			model.addAttribute("messageType", Constants.MESSAGE_TYPE_ERROR);
-			return form(menu, model, request);
-		}
+
 		// 排序值默认1
 		if (menu.getListorder() == null) {
 			menu.setListorder("1");
@@ -141,34 +138,21 @@ public class MenuController extends BaseController {
 	}
 	
 	/**
-	 * 保存菜单
-	 * @Description: 添加新菜单或编辑更新菜单方法
-	 * @param menu   菜单内容(表单项)
-	 * @param model  表单实体
-	 * @param request 请求对象
 	 * @return
-	 * @throws Exception
 	 */
 	@RequestMapping(value="delete")
-	public String delete(Menu menu, Model model, HttpServletRequest request) throws Exception{
-		
+	public String delete(HttpServletRequest request, HttpServletResponse response){
+
 		//保存到数据库
-		menuService.delete(menu.getId());
-		return showSuccess(model.asMap(), "/system/menu/list.do", "操作成功！");
-	}
-	
-	/**
-	 * 菜单编辑页面上级菜单树
-	 * @Description: 菜单编辑页面上级菜单数据以树形结构显示
-	 * @param response
-	 * @return
-	 * @throws Exception
-	 */
-	@RequestMapping(value="jsonTreeData")
-	public String jsonTreeData(HttpServletResponse response) throws Exception{
-		List<Menu> list = menuService.findAll4Tree();
-		ResponseUtils.renderJson(response, list);
+		String id = request.getParameter("id");
+		int num = menuService.delete(id);
+		Map<String, Object> result = new HashMap<String, Object>();
+		if(num>0){
+			result.put("message", "删除成功");
+		}else{
+			result.put("message", "删除失败");
+		}
+		ResponseUtils.renderJson(response, result);
 		return null;
 	}
-	
 }

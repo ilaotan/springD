@@ -99,14 +99,9 @@ public class RoleService {
 	 * @param role
 	 * @return
 	 */
-	public String savePermission(Role role){
+	public int savePermission(Role role){
 		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
-		try {
-			roleMapper.savePermission(role);
-		} catch (Exception e) {
-			throw new SystemException(e.getMessage());
-		}
-		return role.getId();
+		return roleMapper.savePermission(role);
 	}
 
 	/**

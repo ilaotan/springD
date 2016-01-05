@@ -48,6 +48,14 @@ public class LoginController extends BaseController{
 	public String sysLoginPost(User crtUser,HttpSession session, HttpServletRequest request, Model model) throws Exception{
 		return null;
 	}
+
+	/**
+	 */
+	@RequestMapping(value="/system/admin/changePwd",method=RequestMethod.GET)
+	public String changePwd(HttpSession session,HttpServletRequest request, HttpServletResponse response,Model model){
+
+		return "system/admin/changepwd";
+	}
 	
 	/**
 	*/

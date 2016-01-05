@@ -1,6 +1,8 @@
 package com.springD.application.system.entity;
 
 
+import org.apache.ibatis.annotations.Param;
+
 import java.io.Serializable;
 
 import javax.validation.constraints.Size;

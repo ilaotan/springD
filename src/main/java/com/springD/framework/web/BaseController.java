@@ -105,56 +105,6 @@ public abstract class BaseController {
 	}
 	
 	/**
-	 * 操作成功提示界面
-	 * @param request
-	 * @param model
-	 * @param nextUrl
-	 * @param message
-	 * @return
-	 */
-	public String showSuccess(Map<String, Object> model, String nextUrl, String message){
-		if (!StringUtils.isBlank(nextUrl)) {
-			model.put("nextUrl", nextUrl);
-		}
-		if(!StringUtils.isBlank(message)){
-			model.put("message", message);
-		}else{
-			model.put("message", "操作成功！");
-		}
-		return "/common/successMsg";
-	}
-	
-	/**
-	 * 操作失败提示界面
-	 * @param request
-	 * @param model
-	 * @param nextUrl
-	 * @param message
-	 * @return
-	 */
-	public String showError(Map<String, Object> model, String nextUrl, String message){
-		if (!StringUtils.isBlank(nextUrl)) {
-			model.put("nextUrl", nextUrl);
-		}
-		if(!StringUtils.isBlank(message)){
-			model.put("message", message);
-		}else{
-			model.put("message", "操作成功！");
-		}
-		return "/common/errorMsg";
-	}
-	
-	/**
-	 * 弹窗信息提示
-	 * @param model
-	 * @param message
-	 * @return
-	 */
-	public String showDialog(Model model, String message){
-		
-		return "/common/dialog";
-	}
-	/**
 	 * 初始化数据绑定
 	 * 1. 将所有传递进来的String进行HTML编码，防止XSS攻击
 	 * 2. 将字段中Date类型转换为String类型
