@@ -1,16 +1,16 @@
 /*
-Navicat MySQL Data Transfer
+Navicat MariaDB Data Transfer
 
-Source Server         : local
-Source Server Version : 50534
+Source Server         : localMDB
+Source Server Version : 100108
 Source Host           : localhost:3306
-Source Database       : tanframework
+Source Database       : springd
 
-Target Server Type    : MYSQL
-Target Server Version : 50534
+Target Server Type    : MariaDB
+Target Server Version : 100108
 File Encoding         : 65001
 
-Date: 2015-08-29 23:04:39
+Date: 2016-01-06 00:07:32
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -30,21 +30,18 @@ CREATE TABLE `tbl_menu` (
   `parent_ids` varchar(100) DEFAULT NULL COMMENT '所有父ID',
   `create_date` datetime DEFAULT NULL COMMENT '创建时间',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=85 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tbl_menu
 -- ----------------------------
-INSERT INTO `tbl_menu` VALUES ('2', '顶级菜单', '0', '#', null, '1', '1', '0,', '2015-01-13 15:19:16');
+INSERT INTO `tbl_menu` VALUES ('2', '顶级菜单', '0', '#', null, '1', '1', '0,', '2016-01-05 22:50:00');
 INSERT INTO `tbl_menu` VALUES ('13', '系统管理员界面', '2', 'system:admin:*', null, '1', '1', '0,2,', '2015-01-13 17:44:09');
-INSERT INTO `tbl_menu` VALUES ('21', '权限管理', '13', 'system:permission:view', null, '1', '1', '0,2,13,', '2015-01-13 16:31:36');
-INSERT INTO `tbl_menu` VALUES ('22', '用户管理', '13', 'system:userManager:view', null, '1', '1', '0,2,13,', '2015-01-13 16:42:07');
-INSERT INTO `tbl_menu` VALUES ('48', '菜单管理', '21', 'system:menu:*', null, '1', '1', '0,2,13,21,', '2015-01-13 16:30:50');
+INSERT INTO `tbl_menu` VALUES ('21', '权限管理', '13', '#', null, '1', '1', '0,2,13,', '2016-01-05 22:50:13');
+INSERT INTO `tbl_menu` VALUES ('22', '账号管理', '21', 'system:userManager:*', null, '1', '1', '0,', '2016-01-05 22:31:37');
+INSERT INTO `tbl_menu` VALUES ('48', '菜单管理', '21', 'system:menu:*', null, '1', '1', '0,2,13,21,', '2016-01-05 22:31:47');
 INSERT INTO `tbl_menu` VALUES ('49', '角色管理', '21', 'system:role:*', null, '1', '1', '0,2,13,21,', '2015-01-13 16:31:07');
-INSERT INTO `tbl_menu` VALUES ('51', '用户列表', '22', 'system:user:*', null, '1', '1', '0,2,13,22,', '2015-01-13 16:46:20');
-INSERT INTO `tbl_menu` VALUES ('52', '宝宝家长列表', '22', 'system:parentBaby:*', null, '1', '1', '0,2,13,22,', '2015-01-13 16:46:45');
-INSERT INTO `tbl_menu` VALUES ('79', '用户列表(查看)', '22', 'system:user:showList', null, '1', '1', '0,2,13,22,', '2015-04-15 11:30:27');
-INSERT INTO `tbl_menu` VALUES ('81', '修改密码', '2', 'kindergarten:garten:changePwd', null, '1', '1', '0,2,', '2015-04-15 14:06:44');
+INSERT INTO `tbl_menu` VALUES ('81', '修改密码', '2', 'system:admin:changePwd', null, '1', '1', '0,2,', '2016-01-05 22:32:36');
 
 -- ----------------------------
 -- Table structure for tbl_org
@@ -86,18 +83,14 @@ CREATE TABLE `tbl_role` (
   `code` varchar(50) NOT NULL COMMENT '角色编码，唯一',
   `menu_ids` text COMMENT '权限id',
   PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tbl_role
 -- ----------------------------
 INSERT INTO `tbl_role` VALUES ('1', '超级管理员', '1', '超级管理员，拥有所有权限', 'superadmin', '2,12,13,15,16,17,18,19,20,21,22,23,29,30,31,32,33,37,38,39,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63');
-INSERT INTO `tbl_role` VALUES ('2', 'admin', '1', 'asdfasdf', 'a', '2,3,5,24');
-INSERT INTO `tbl_role` VALUES ('3', '客服人员', '1', '客服账号,只能查看统计报表', 'kf', '2,13,20,50,74,81,82');
-INSERT INTO `tbl_role` VALUES ('4', '幼儿园管理员', '1', '幼儿园顶级管理员', 'k', '2,12,15,16,17,18,19,29,30,31,32,33,37,38,39,40,42,43,44,45,46,47,65,71,83,84');
-INSERT INTO `tbl_role` VALUES ('5', '产品管理员', '1', '产品管理员专用', 'product', '2,13,20,50,74');
-INSERT INTO `tbl_role` VALUES ('6', 'app管理员', '1', 'app管理员', 'app', '2,13,22,52,61,62,63,76');
-INSERT INTO `tbl_role` VALUES ('7', '工程商', '1', '工程商角色', 'contractor', '2,80,81');
+INSERT INTO `tbl_role` VALUES ('2', 'admin', '1', 'asdfasdf', 'a', '2,13,21,22,48,49,81');
+INSERT INTO `tbl_role` VALUES ('4', '幼儿园管理员', '1', '幼儿园顶级管理员', 'k', '2,13,21,22,48,49,81');
 
 -- ----------------------------
 -- Table structure for tbl_role_menu
@@ -135,12 +128,12 @@ CREATE TABLE `tbl_user` (
   `kindergarten_id` int(10) DEFAULT NULL COMMENT '关联幼儿园id',
   `usertype` char(2) DEFAULT NULL COMMENT '1管理员 2幼儿园管理员 3待确定',
   PRIMARY KEY (`uid`)
-) ENGINE=InnoDB AUTO_INCREMENT=508 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
 -- Records of tbl_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('1', 'tanlsh', '81ca1ec204e581381698c5c5e2511261', '123456@mima4.com', '13553167926', '53iTek8y', '1', '', '1', '1', null, '', null, '1', '1', '1');
+INSERT INTO `tbl_user` VALUES ('1', 'tanlsh', '7f733e92fadfd1df8ae68c9d35df5246', '123456@mima4.com', '13553167926', 'alTB3OCV', '1', '', '1', '1', null, '', null, '1', '1', '1');
 
 -- ----------------------------
 -- Table structure for tbl_user_role
