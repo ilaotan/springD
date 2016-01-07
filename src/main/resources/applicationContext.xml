@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <beans xmlns="http://www.springframework.org/schema/beans"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:aop="http://www.springframework.org/schema/aop"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop"
 	xmlns:tx="http://www.springframework.org/schema/tx"
 	xmlns:context="http://www.springframework.org/schema/context"
 	xsi:schemaLocation="
@@ -173,9 +174,6 @@
 	 <!-- 配置注解实现管理事务 注意@Transactional(rollbackFor=Exception.class)-->
 	<tx:annotation-driven transaction-manager="transactionManager" 	proxy-target-class="true"  />
      
-	<!-- 开启AOP的注解模式 -->
-    <aop:aspectj-autoproxy/>
-    
 	<!-- 配置映射器 -自动扫描 -->
 	<bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
 		<property name="basePackage" value="com.springD.**.dao" />

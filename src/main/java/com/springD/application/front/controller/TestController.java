@@ -1,6 +1,9 @@
 package com.springD.application.front.controller;
 
 import com.springD.framework.web.BaseController;
+import org.apache.shiro.authz.annotation.Logical;
+import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.authz.annotation.RequiresRoles;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.CookieValue;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -19,8 +22,7 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class TestController extends BaseController {
 
-
-
+    @RequiresPermissions("/aaa")
     @RequestMapping(value = "/front/test",method = RequestMethod.GET)
     public String test(@RequestParam(value = "zhangsan",defaultValue = "wangwu")String username){
 
