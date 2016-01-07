@@ -23,30 +23,6 @@ public class Constants {
 	public static final String ADMIN_INDEX = "/system/admin.do";
 	
 	/**
-	 * 幼儿园后台登录地址
-	 */
-	public static final String KINDER_LOGIN_URL = "/kindergarten/login.do";
-	/**
-	 * 幼儿园后台首页地址
-	 */
-	public static final String KINDER_INDEX = "/kindergarten/admin.do";
-	
-	/**
-	 * 工程商地址前缀
-	 */
-	public static final String CONTRACTOR_PREFIX = "/contractor";
-	
-	/**
-	 * 系统后台登录地址
-	 */
-	public static final String CONTRACTOR_LOGIN_URL = "/contractor/login.do";
-	
-	/**
-	 * 工程商
-	 */
-	public static final String CONTRACTOR_INDEX = "/contractor/admin.do";
-	
-	/**
 	 * 验证码名称
 	 */
 	public static final String CAPTCHA_PARAM = "captcha";
