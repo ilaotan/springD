@@ -22,7 +22,8 @@ import javax.servlet.http.HttpServletResponse;
 @Controller
 public class TestController extends BaseController {
 
-    @RequiresPermissions("/aaa")
+    //只是模拟 测试注解可用. 此方法放这里不合适 因为/front已经是anon了,这里再限制权限.shiro无法判断
+    @RequiresPermissions("/system")
     @RequestMapping(value = "/front/test",method = RequestMethod.GET)
     public String test(@RequestParam(value = "zhangsan",defaultValue = "wangwu")String username){
 
