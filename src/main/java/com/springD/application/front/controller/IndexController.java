@@ -18,7 +18,6 @@ public class IndexController extends BaseController {
 
     @RequestMapping(value = "/front/index",method = RequestMethod.GET)
     public String index(HttpServletRequest request, HttpServletResponse response){
-        System.err.print("1111");
         return "front/index";
     }
 }
