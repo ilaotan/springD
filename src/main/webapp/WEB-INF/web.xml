@@ -3,7 +3,7 @@
   <display-name>springD</display-name>
   
 	<welcome-file-list>
-		<welcome-file>index.html</welcome-file>
+		<welcome-file>index.jsp</welcome-file>
 	</welcome-file-list>
   	<!-- 设置spring容器加载配置文件的路径 -->
 	<context-param>
