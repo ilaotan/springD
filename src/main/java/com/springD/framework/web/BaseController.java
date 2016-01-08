@@ -131,64 +131,6 @@ public abstract class BaseController {
 				setValue(DateUtils.parseDate(text));
 			}
 		});
-		//Integer类型转换
-		binder.registerCustomEditor(Integer.class, new PropertyEditorSupport() {
-			public void setAsText(String value) {
-				try {
-					if (StringUtils.isNotBlank(value)) {
-						setValue(Integer.valueOf(value));
-					} else {
-						setValue(null);
-					}
-				} catch (Exception e) {
-					setValue(null);
-					logger.error(e.getMessage(), e);
-				}
-			}
-		});
-		binder.registerCustomEditor(Long.class, new PropertyEditorSupport() {
-			public void setAsText(String value) {
-				try {
-					if (StringUtils.isNotBlank(value)) {
-						setValue(Long.valueOf(value));
-					} else {
-						setValue(null);
-					}
-				} catch (Exception e) {
-					setValue(null);
-					logger.error(e.getMessage(), e);
-				}
-			}
-		});
-		binder.registerCustomEditor(Double.class, new PropertyEditorSupport() {
-			public void setAsText(String value) {
-				try {
-					if (StringUtils.isNotBlank(value)) {
-						setValue(Double.valueOf(value));
-					} else {
-						setValue(null);
-					}
-				} catch (Exception e) {
-					setValue(null);
-					logger.error(e.getMessage(), e);
-				}
-			}
-		});
-
-		binder.registerCustomEditor(BigDecimal.class, new PropertyEditorSupport() {
-			public void setAsText(String value) {
-				try {
-					if (StringUtils.isNotBlank(value)) {
-						setValue(new BigDecimal(value));
-					} else {
-						setValue(null);
-					}
-				} catch (Exception e) {
-					setValue(null);
-					logger.error(e.getMessage(), e);
-				}
-			}
-		});
 	}
 	
 	/**
