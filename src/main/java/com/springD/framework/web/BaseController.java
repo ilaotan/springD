@@ -108,7 +108,7 @@ public abstract class BaseController {
 	 * 初始化数据绑定
 	 * 1. 将所有传递进来的String进行HTML编码，防止XSS攻击
 	 * 2. 将字段中Date类型转换为String类型
-	 * 3. 处理int double等类型的数据绑定
+	 * update by tan: 其他的绑定去掉
 	 */
 	@InitBinder
 	protected void initBinder(WebDataBinder binder) {
