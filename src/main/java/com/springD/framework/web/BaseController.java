@@ -1,18 +1,10 @@
 package com.springD.framework.web;
 
-import java.beans.PropertyEditorSupport;
-import java.math.BigDecimal;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
-
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
-import javax.validation.ConstraintViolationException;
-import javax.validation.Validator;
-
+import com.octo.captcha.service.image.ImageCaptchaService;
+import com.springD.framework.common.BeanValidators;
+import com.springD.framework.persistence.Page;
+import com.springD.framework.utils.DateUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
-import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -21,16 +13,16 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import com.octo.captcha.service.image.ImageCaptchaService;
-import com.springD.framework.common.BeanValidators;
-import com.springD.framework.persistence.Page;
-import com.springD.framework.utils.DateUtils;
+import javax.servlet.http.HttpServletRequest;
+import javax.validation.ConstraintViolationException;
+import javax.validation.Validator;
+import java.beans.PropertyEditorSupport;
+import java.util.Date;
+import java.util.List;
 
 /**   
  * @Description: 控制器基类
- * @author Chenz
- * @date Nov 13, 2014 1:12:12 PM 
- * @version V1.0   
+ * @version V1.0
 */
 public abstract class BaseController {
 
@@ -133,33 +125,7 @@ public abstract class BaseController {
 		});
 	}
 	
-	/**
-	 * 验证码校验
-	 * @param model
-	 * @return 1：正确， 0：错误
-	 * @throws Exception
-	 */
-	protected boolean verifyCaptcha(Model model, HttpServletRequest request, HttpServletResponse response) {
-		
-		boolean checkResult = false;
-		String captcha = request.getParameter("captcha");
 
-		try {
-			// 校验验证码
-			if (captcha != null &&
-					imageCaptchaService.validateResponseForID(request.getSession().getId(), captcha)) {
-				checkResult = true;
-				
-			}
-		} catch (Exception e) {
-			checkResult = false;
-		}
-		if (!checkResult) {
-			model.addAttribute("message", "验证码错误。");
-		}
-		return checkResult;
-	}
-	
 	/**
 	 * @Description: 分页操作
 	 * @param request

@@ -17,7 +17,7 @@
 		<context:include-filter type="annotation" expression="org.springframework.web.bind.annotation.ControllerAdvice"/>
 	</context:component-scan>
 
-	<!-- 开启AOP的注解模式 -->
+	<!-- 开启AOP的注解模式 (方便shiro的注解式权限拦截)-->
 	<aop:aspectj-autoproxy proxy-target-class="true"/>
 
 	<mvc:annotation-driven content-negotiation-manager="contentNegotiationManager">

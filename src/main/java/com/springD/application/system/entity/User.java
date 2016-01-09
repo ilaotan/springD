@@ -53,10 +53,6 @@ public class User implements Serializable {
 	 */
 	private String status;
 	/**
-	 * 用户所有部门
-	 */
-	private List<Org> userOrgs;
-	/**
 	 * 用户所有角色
 	 */
 	private List<Role> userRoles;
@@ -197,14 +193,6 @@ public class User implements Serializable {
 		this.status = status;
 	}
 
-	public List<Org> getUserOrgs() {
-		return userOrgs;
-	}
-
-	public void setUserOrgs(List<Org> userOrgs) {
-		this.userOrgs = userOrgs;
-	}
-
 	public List<Role> getUserRoles() {
 		return userRoles;
 	}
@@ -274,15 +262,28 @@ public class User implements Serializable {
 
 	@Override
 	public String toString() {
-		return "User [uid=" + uid + ", username=" + username + ", password="
-				+ password + ", sex=" + sex + ", phone=" + phone + ", mobile="
-				+ mobile + ", email=" + email + ", address=" + address
-				+ ", remark=" + remark + ", status=" + status + ", userOrgs="
-				+ userOrgs + ", userRoles=" + userRoles + ", roleId=" + roleId
-				+ ", code=" + code + ", salt=" + salt + ", kindergartenId="
-				+ kindergartenId + "]";
+		return "User{" +
+				"uid='" + uid + '\'' +
+				", username='" + username + '\'' +
+				", password='" + password + '\'' +
+				", sex='" + sex + '\'' +
+				", phone='" + phone + '\'' +
+				", mobile='" + mobile + '\'' +
+				", email='" + email + '\'' +
+				", address='" + address + '\'' +
+				", remark='" + remark + '\'' +
+				", status='" + status + '\'' +
+				", userRoles=" + userRoles +
+				", roleId='" + roleId + '\'' +
+				", code='" + code + '\'' +
+				", salt='" + salt + '\'' +
+				", kindergartenId=" + kindergartenId +
+				", regip='" + regip + '\'' +
+				", regdate=" + regdate +
+				", lastloginip='" + lastloginip + '\'' +
+				", lastlogindate=" + lastlogindate +
+				", roleName='" + roleName + '\'' +
+				", usertype='" + usertype + '\'' +
+				'}';
 	}
-	
-	
-	
 }
