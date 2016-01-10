@@ -10,7 +10,7 @@ Target Server Type    : MariaDB
 Target Server Version : 100108
 File Encoding         : 65001
 
-Date: 2016-01-06 00:07:32
+Date: 2016-01-07 23:17:08
 */
 
 SET FOREIGN_KEY_CHECKS=0;
@@ -44,34 +44,6 @@ INSERT INTO `tbl_menu` VALUES ('49', '角色管理', '21', 'system:role:*', null
 INSERT INTO `tbl_menu` VALUES ('81', '修改密码', '2', 'system:admin:changePwd', null, '1', '1', '0,2,', '2016-01-05 22:32:36');
 
 -- ----------------------------
--- Table structure for tbl_org
--- ----------------------------
-DROP TABLE IF EXISTS `tbl_org`;
-CREATE TABLE `tbl_org` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `name` varchar(100) NOT NULL COMMENT '组织名称',
-  `parent_id` int(11) DEFAULT NULL COMMENT '父级ID',
-  `parent_ids` varchar(100) DEFAULT NULL COMMENT '所有父级编号',
-  `type` tinyint(1) DEFAULT NULL COMMENT '组织类型',
-  `status` tinyint(1) DEFAULT NULL COMMENT '状态',
-  `remark` varchar(255) DEFAULT NULL COMMENT '备注',
-  `create_date` datetime DEFAULT NULL COMMENT '创建时间',
-  `grade` char(1) DEFAULT NULL COMMENT '机构等级',
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB AUTO_INCREMENT=8 DEFAULT CHARSET=utf8;
-
--- ----------------------------
--- Records of tbl_org
--- ----------------------------
-INSERT INTO `tbl_org` VALUES ('1', '顶级组织', '0', '0,', '1', '1', '顶级组织', '2014-10-23 19:45:45', null);
-INSERT INTO `tbl_org` VALUES ('2', '二级组织', '1', '0,1,', '1', '1', '二级组织', '2014-10-23 19:45:45', null);
-INSERT INTO `tbl_org` VALUES ('3', '三级组织', '2', '0,1,2,', '1', '1', '三级组织', '2014-10-23 19:51:48', null);
-INSERT INTO `tbl_org` VALUES ('4', '二级组织2', '1', '0,1,', '1', '1', '二级组织2', '2014-10-24 10:17:55', null);
-INSERT INTO `tbl_org` VALUES ('5', '三级组织2', '2', '0,1,2,', '1', '1', '三级组织2', '2014-10-24 10:18:31', null);
-INSERT INTO `tbl_org` VALUES ('6', '三级组织2', '1', '0,1,', null, null, '三级组织2', '2014-10-26 09:41:05', null);
-INSERT INTO `tbl_org` VALUES ('7', '华南大区', '4', '0,1,4,', '1', '1', '华南大区', '2014-10-27 16:29:56', null);
-
--- ----------------------------
 -- Table structure for tbl_role
 -- ----------------------------
 DROP TABLE IF EXISTS `tbl_role`;
@@ -89,8 +61,8 @@ CREATE TABLE `tbl_role` (
 -- Records of tbl_role
 -- ----------------------------
 INSERT INTO `tbl_role` VALUES ('1', '超级管理员', '1', '超级管理员，拥有所有权限', 'superadmin', '2,12,13,15,16,17,18,19,20,21,22,23,29,30,31,32,33,37,38,39,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63');
-INSERT INTO `tbl_role` VALUES ('2', 'admin', '1', 'asdfasdf', 'a', '2,13,21,22,48,49,81');
-INSERT INTO `tbl_role` VALUES ('4', '幼儿园管理员', '1', '幼儿园顶级管理员', 'k', '2,13,21,22,48,49,81');
+INSERT INTO `tbl_role` VALUES ('2', 'admin', '1', 'asdfasdf', 'admin', '2,13,21,22,48,49,81');
+INSERT INTO `tbl_role` VALUES ('4', '幼儿园管理员', '1', '幼儿园顶级管理员', 'user', '2,13,21,22,48,49,81');
 
 -- ----------------------------
 -- Table structure for tbl_role_menu

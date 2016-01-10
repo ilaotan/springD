@@ -19,7 +19,7 @@
             //ajax 提交form
             $.ajax({
                 type: "POST",
-                url:"${ctx}/system/role/permissionForm.do",
+                url:"${ctx}/system/role/permissionForm",
                 data:$('form').serialize(),
                 success: function(data) {
                     artAlert(data.message);

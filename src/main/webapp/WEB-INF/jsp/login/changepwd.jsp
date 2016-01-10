@@ -130,7 +130,7 @@ $(function() {
         </div>
         <div class="media-body">
             <ul class="breadcrumb">
-                <li><a href="${ctx }/kindergarten/admin.do"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
+                <li><a href="${ctx }/kindergarten/admin"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
             </ul>
             <h4>修改密码</h4>
         </div>

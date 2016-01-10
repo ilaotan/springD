@@ -117,7 +117,7 @@ public class UserController extends BaseController{
 				url = "system/admin/userAdminForm";
 			} else {
 				addMessage(redirectAttributes, "操作成功！");
-				url = "redirect:/system/user/showList.do";
+				url = "redirect:/system/user/showList";
 			}
 		}
 		return url;
@@ -232,7 +232,7 @@ public class UserController extends BaseController{
 		if(num>0){
 			//更新成功 回到列表
 			addMessage(redirectAttributes, "操作成功！");
-			return "redirect:/system/usersystem/showList.do";
+			return "redirect:/system/usersystem/showList";
 		}
 		model.addAttribute("user", newuser);
 		Map roleMap = roleService.getRoleMap();
@@ -322,7 +322,7 @@ public class UserController extends BaseController{
 				url = "system/admin/userSystemForm";
 			} else {
 				addMessage(redirectAttributes, "操作成功！");
-				url = "redirect:/system/usersystem/showList.do";
+				url = "redirect:/system/usersystem/showList";
 			}
 		}
 		return url;

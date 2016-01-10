@@ -18,7 +18,7 @@ function deleteRole(id, name){
         ok: function () {  
 			$.ajax({
 				type: "GET",
-				url:"${ctx}/system/role/delete.do",
+				url:"${ctx}/system/role/delete",
 				data:{id : id},
 				error: function(request) {
 					artAlert("删除失败");
@@ -51,22 +51,22 @@ function deleteRole(id, name){
 			</div>
 			<div class="media-body">
 				<ul class="breadcrumb">
-					<li><a href="${ctx }/system/admin.do"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
-					<li><a href="${ctx }/system/role/list.do">角色管理</a><span class="divider">/</span></li>
+					<li><a href="${ctx }/system/admin"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
+					<li><a href="${ctx }/system/role/list">角色管理</a><span class="divider">/</span></li>
 					<li><a href="">角色列表</a><span class="divider">/</span></li>
 				</ul>
 				<h4>角色管理</h4>
 			</div>
 		</div>
 		<div class="pull-right menu-right">
-			<a href="${ctx}/system/role/add.do" class="btn btn-success"><i class="fa fa-edit"></i>添加角色</a>
+			<a href="${ctx}/system/role/add" class="btn btn-success"><i class="fa fa-edit"></i>添加角色</a>
 		</div>
 	</div>
 	<!-- 主内容区 -->
 	<div class="contentpanel">
 		<div class="row">
 			<div class="pull-left">
-				<form class="form-inline"  action="${ctx}/system/role/list.do" id ="fenyeForm" method="get">
+				<form class="form-inline"  action="${ctx}/system/role/list" id ="fenyeForm" method="get">
 					<div class="control-group">
 						<div class="controls">
 							<input type="text" class="form-control" size="25" name="roleName" value="${roleName}"  placeholder="请输入角色名称" />
@@ -103,9 +103,9 @@ function deleteRole(id, name){
 							<td>${role.status == '1' ? '正常' : '禁用'}</td>
 							<td>
 								<c:if test="${role.code!='superadmin' }">
-									<a href="${ctx }/system/role/form.do?id=${role.id}" >编辑</a>
+									<a href="${ctx }/system/role/form?id=${role.id}" >编辑</a>
 									<a href="javascript:deleteRole('${role.id}', '${role.name}')">删除</a>
-									<a href="javascript:void(0)" onclick="dialog('${ctx }/system/role/permissionForm.do?id=${role.id}','权限分配','','','')">权限管理</a>
+									<a href="javascript:void(0)" onclick="dialog('${ctx }/system/role/permissionForm?id=${role.id}','权限分配','','','')">权限管理</a>
 								</c:if>
 							</td>
 						</tr>

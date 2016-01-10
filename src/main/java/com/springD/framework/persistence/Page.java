@@ -531,7 +531,7 @@ public class Page<T> {
 //	/**
 //	 * 设置 Spring data JPA 分页对象，转换为本系统分页对象
 //	 */
-//	public void setSpringPage(org.springframework.data.domain.Page<T> page){
+//	public void setSpringPage(org.springframework.datamain.Page<T> page){
 //		this.pageNo = page.getNumber();
 //		this.pageSize = page.getSize();
 //		this.count = page.getTotalElements();

@@ -59,7 +59,7 @@
       <div class="error-actions">                                
           <div class="row">
             <div class="span2">
-                <button class="btn btn-info btn-block" onclick="javascrip:window.location.href = '${ctx }/logout.do'">退出登录</button>
+                <button class="btn btn-info btn-block" onclick="javascrip:window.location.href = '${ctx }/logout'">退出登录</button>
             </div>
             <div class="span2">
                 <button class="btn btn-info btn-block" onclick="history.back();">返回上一页</button>

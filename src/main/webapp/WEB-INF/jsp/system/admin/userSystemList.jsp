@@ -19,7 +19,7 @@ function deleteUser(uid, name){
         ok: function () {  
 			$.ajax({
 				type: "GET",
-				url:"${ctx}/system/user/delete.do",
+				url:"${ctx}/system/user/delete",
 				data:{uid : uid},
 				error: function(request) {
 					artAlert("删除失败");
@@ -52,15 +52,15 @@ function deleteUser(uid, name){
 			</div>
 			<div class="media-body">
 				<ul class="breadcrumb">
-					<li><a href="${ctx }/system/admin.do"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
-					<li><a href="${ctx }/system/user/showList.do">用户管理</a><span class="divider">/</span></li>
+					<li><a href="${ctx }/system/admin"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
+					<li><a href="${ctx }/system/user/showList">用户管理</a><span class="divider">/</span></li>
 					<li><a href="">用户列表</a><span class="divider">/</span></li>
 				</ul>
 				<h4>用户管理</h4>
 			</div>
 		</div>
 		<div class="pull-right menu-right">
-			<a href="${ctx}/system/usersystem/add.do" class="btn btn-success"><i class="fa fa-edit"></i>添加账号</a>
+			<a href="${ctx}/system/usersystem/add" class="btn btn-success"><i class="fa fa-edit"></i>添加账号</a>
 		</div>
 	</div>
 	
@@ -68,7 +68,7 @@ function deleteUser(uid, name){
 	<div class="contentpanel">
 		<div class="row">
 			<div class="pull-left">
-				<form class="form-inline"  action="${ctx}/system/usersystem/showList.do" id ="fenyeForm" method="get">
+				<form class="form-inline"  action="${ctx}/system/usersystem/showList" id ="fenyeForm" method="get">
 					<div class="control-group">
 						<div class="controls">
 							<input id="pageNo" name="pageNo" type="hidden" value="${page.pageNo}"/>
@@ -126,9 +126,9 @@ function deleteUser(uid, name){
 			                </td> --%>
 			                <td>${user.roleName}</td>
 			                <td>
-			                	<a href="${ctx }/system/usersystem/update.do?uid=${user.uid}&pn=${page.pageNo}">编辑</a>
+			                	<a href="${ctx }/system/usersystem/update?uid=${user.uid}&pn=${page.pageNo}">编辑</a>
 			                	<a href="javascript:deleteUser('${user.uid}', '${user.username}')">删除</a>
-			                	<%-- <a href="javascript:void(0)" onclick="dialog('${ctx }/system/user/permissionForm.do?id=${user.uid}','权限分配','','','')">权限管理</a> --%>
+			                	<%-- <a href="javascript:void(0)" onclick="dialog('${ctx }/system/user/permissionForm?id=${user.uid}','权限分配','','','')">权限管理</a> --%>
 			                </td>
 						</tr>
 					</c:forEach>

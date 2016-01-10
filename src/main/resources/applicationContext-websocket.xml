@@ -14,7 +14,7 @@
 	<bean id="websocket" class="com.springD.framework.websocket.WebsocketEndPoint"/>  
   	
 	<websocket:handlers allowed-origins="*">  
-	    <websocket:mapping path="/anon/sswebsocket.do" handler="websocket"/>  
+	    <websocket:mapping path="/anon/sswebsocket" handler="websocket"/>
 	    <websocket:handshake-interceptors>  
 	    <bean class="com.springD.framework.websocket.HandshakeInterceptor"/>  
 	    </websocket:handshake-interceptors>  

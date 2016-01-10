@@ -122,7 +122,7 @@ public class MenuController extends BaseController {
 		// 添加操作
 		} else {
 			addMessage(redirectAttributes, "操作成功！");
-			returnUrl = "redirect:/system/menu/list.do";
+			returnUrl = "redirect:/system/menu/list";
 		}
 		
 		//保存到数据库

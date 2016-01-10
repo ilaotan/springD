@@ -76,9 +76,9 @@ body.login {
                         <li class="account dropdown">
                         	<a data-toggle="dropdown" href="" class="label"><i class="fa fa-user"></i>${user.name}<i class="caret"></i></a>
                             <ul class="dropdown-menu pull-right">
-                                <li><a href="${ctx }/system/admin/changePwd.do" target="win" class="glyphicons camera">修改密码<i></i></a></li>
+                                <li><a href="${ctx }/system/admin/changePwd" target="win" class="glyphicons camera">修改密码<i></i></a></li>
                                 <li class="divider"></li>
-                                <li><a href="${ctx }/logout.do?type=system" class="glyphicons camera">退出账号<i></i></a></li>
+                                <li><a href="${ctx }/logout?type=system" class="glyphicons camera">退出账号<i></i></a></li>
                             </ul>
                         </li>
                     </ul>
@@ -113,13 +113,13 @@ body.login {
                 	<a href="javascript:void(0)" target="win"><i class="fa fa-lock"></i><span>权限管理</span><b class="caret"></b></a>
                		<ul class="children">
                			<shiro:hasPermission name="system:menu:list">
-                    	<li><a href="${ctx }/system/menu/list.do" target="win">菜单管理</a></li>
+                    	<li><a href="${ctx }/system/menu/list" target="win">菜单管理</a></li>
                			</shiro:hasPermission>
                			<shiro:hasPermission name="system:role:list">
-                    	<li><a href="${ctx }/system/role/list.do" target="win">角色管理</a></li>
+                    	<li><a href="${ctx }/system/role/list" target="win">角色管理</a></li>
                			</shiro:hasPermission>
                			<shiro:hasPermission name="system:usersystem:list">
-                    	<li><a href="${ctx }/system/usersystem/showList.do" target="win">账号管理</a></li>
+                    	<li><a href="${ctx }/system/usersystem/showList" target="win">账号管理</a></li>
                			</shiro:hasPermission>
                     </ul>
                 </li>
@@ -139,7 +139,7 @@ body.login {
         <!-- /left panel -->
         <div class="main" id="main">
         	<!-- iframe区域 -->
-			<iframe src="${ctx }/system/welcome.do" name="win" id="win" width="100%" height="100%" frameborder="0"></iframe>
+			<iframe src="${ctx }/system/welcome" name="win" id="win" width="100%" height="100%" frameborder="0"></iframe>
             <!-- /iframe区域 -->
         </div>
     </div>

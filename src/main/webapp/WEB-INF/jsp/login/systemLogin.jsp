@@ -70,7 +70,7 @@ $(function(){
 			if(!remember){
 				$.cookie('ibabyuser',null);
 			}
-			var url = '${ctx}/system/login.do';
+			var url = '${ctx}/system/login';
  			$.post(url,{username:username,password:password,captcha:captcha},function(data){
 				//console.log(data);
 				if(data.success){
@@ -210,7 +210,7 @@ body.login {
                 	<div class="pull-left">
                     	<label for="remember" class="remember"><input type="checkbox" name="remember" id="remember">记住密码</label>
                     </div>
-                    <div class="pull-right" style="display:none"><a href="${ctx }/anon/findPwd.do">忘记密码</a></div>
+                    <div class="pull-right" style="display:none"><a href="${ctx }/anon/findPwd">忘记密码</a></div>
                 </div>
                 <div class="control-group mt20 text-center">
                 	<input type="hidden" name="ischange" id="ischange" value="0">
