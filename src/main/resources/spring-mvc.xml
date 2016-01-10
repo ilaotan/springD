@@ -45,22 +45,24 @@
 	<!-- 静态资源映射 -->
 	<mvc:resources mapping="/resource/**" location="/resource/"/>
 	
-	<!-- REST中根据URL后缀自动判定Content-Type及相应的View -->
+	<!-- 内容协商管理器  -->
+	<!--1、首先检查路径扩展名（如my.pdf）；2、其次检查Parameter（如my?format=pdf）；3、检查Accept Header-->
 	<bean id="contentNegotiationManager" class="org.springframework.web.accept.ContentNegotiationManagerFactoryBean">
 	    <property name="mediaTypes" >
 			<value>
 				json=application/json
 				xml=application/xml
+				html=text/html
 			</value>
 	    </property>
         <property name="ignoreAcceptHeader" value="true"/>
 		<!-- 扩展名至mimeType的映射,即 /user.json => application/json -->
 		<property name="favorPathExtension" value="true"/>
-		<!-- 用于开启 /userinfo/123?format=json 的支持
+		<!-- 用于开启 /userinfo/123?format=json 的支持-->
 		<property name="favorParameter" value="true"/>
-		<property name="parameterName" value="format"/>-->
-		<!-- 默认的content type
-		<property name="defaultContentType" value="text/html"/>-->
+		<property name="parameterName" value="format"/>
+		<!-- 默认的content type-->
+		<property name="defaultContentType" value="text/html"/>
 	</bean>
 	
 	

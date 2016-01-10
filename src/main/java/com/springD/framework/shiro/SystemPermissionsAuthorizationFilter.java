@@ -40,9 +40,9 @@ public class SystemPermissionsAuthorizationFilter extends PermissionsAuthorizati
 		if(uri.endsWith("/json")){// 去掉json
 			uri=uri.substring(0,uri.length()-5);
 		}
-		//if(uri.endsWith("")){// 去掉more
-		//	uri=uri.substring(0,uri.length()-3);
-		//}
+		if(uri.endsWith(".do")){// 去掉more
+			uri=uri.substring(0,uri.length()-3);
+		}
 		int i=uri.indexOf(contextPath);
 		if(i>-1){
 			uri=uri.substring(i+contextPath.length());
