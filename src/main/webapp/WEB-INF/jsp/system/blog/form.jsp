@@ -67,8 +67,8 @@ $(function(){
         </div>
         <div class="media-body">
             <ul class="breadcrumb">
-                <li><a href="${ctx }/system/admin.do"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
-                <li><a href="${ctx }/system/menu/list.do">菜单管理</a><span class="divider">/</span></li>
+                <li><a href="${ctx }/system/admin"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
+                <li><a href="${ctx }/system/menu/list">菜单管理</a><span class="divider">/</span></li>
             </ul>
             <h4>菜单信息</h4>
         </div>
@@ -90,7 +90,7 @@ $(function(){
 		            	${message}
 					</div>
 				</c:if>
-            	<form action="${ctx }/system/menu/save.do" class="form-horizontal row-border" method="post" id="myform">
+            	<form action="${ctx }/system/menu/save" class="form-horizontal row-border" method="post" id="myform">
             		<div class="control-group">
                         <label class="control-label" for="parentName"><span class="txt-impt">*</span>上级菜单：</label>
                         <div class="controls">
@@ -116,7 +116,7 @@ $(function(){
                     <div class="control-group form-actions">
                         <div class="span7">
                         	<input type="submit" class="btn btn-success btn-medium" value="${op }">
-                        	<input type="button" class="btn btn-default btn-medium" value="返回" onclick="javascript:backToList('${ctx }/system/menu/list.do', '', '');" />
+                        	<input type="button" class="btn btn-default btn-medium" value="返回" onclick="javascript:backToList('${ctx }/system/menu/list', '', '');" />
                         </div>
                     </div>
                     <input type="hidden" name="id" value="${menu.id }"/>

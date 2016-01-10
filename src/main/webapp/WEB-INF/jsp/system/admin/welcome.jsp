@@ -24,8 +24,8 @@
 			</div>
 			<div class="media-body">
 				<ul class="breadcrumb">
-					<li><a href="${ctx }/system/admin.do"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
-					<li><a href="${ctx }/system/user/showList.do">welcome</a><span class="divider">/</span></li>
+					<li><a href="${ctx }/system/admin"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
+					<li><a href="${ctx }/system/user/showList">welcome</a><span class="divider">/</span></li>
 				</ul>
 				<h4>欢迎使用</h4>
 			</div>

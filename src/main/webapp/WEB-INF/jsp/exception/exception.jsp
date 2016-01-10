@@ -58,7 +58,7 @@
       <div class="error-actions">                                
           <div class="row">
               <div class="span2">
-                  <button class="btn btn-info btn-block" onclick="document.location.href = 'index.do';">返回首页</button>
+                  <button class="btn btn-info btn-block" onclick="document.location.href = 'index';">返回首页</button>
             </div>
             <div class="span2">
                 <button class="btn btn-primary btn-block" onclick="history.back();">返回上一页</button>

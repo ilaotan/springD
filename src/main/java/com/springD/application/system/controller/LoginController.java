@@ -92,7 +92,7 @@ public class LoginController extends BaseController{
 		userPermissionService.updateUserByUid(map);
 		// 添加提示信息
 		addMessage(redirectAttributes, "修改成功！");
-		return "redirect:/system/admin.do";
+		return "redirect:/system/admin";
 	}
 	
 	

@@ -12,7 +12,7 @@ public class Constants {
 	/**
 	 * 系统后台登录地址
 	 */
-	public static final String ADMIN_LOGIN_URL = "/system/login.do";
+	public static final String ADMIN_LOGIN_URL = "/system/login";
 	/**
 	 * 系统后台前缀
 	 */
@@ -20,7 +20,7 @@ public class Constants {
 	/**
 	 * 系统后台首页地址
 	 */
-	public static final String ADMIN_INDEX = "/system/admin.do";
+	public static final String ADMIN_INDEX = "/system/admin";
 	
 	/**
 	 * 验证码名称

@@ -21,9 +21,9 @@ function deleteMenu(id) {
 
 	art.dialog.confirm("确定要删除吗?",function(){
 		//ok
-		$.post("${ctx }/system/menu/delete.do?id=" + id,{},function(data){
+		$.post("${ctx }/system/menu/delete?id=" + id,{},function(data){
 			if(data.message=="删除成功"){
-				window.location.href = '${ctx}/system/menu/list.do';
+				window.location.href = '${ctx}/system/menu/list';
 			}else{
 				artAlert(data.message);
 			}
@@ -44,8 +44,8 @@ function deleteMenu(id) {
         </div>
         <div class="media-body">
             <ul class="breadcrumb">
-                <li><a href="${ctx }/system/admin.do"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
-                <li><a href="${ctx }/system/menu/list.do">菜单管理</a><span class="divider">/</span></li>
+                <li><a href="${ctx }/system/admin"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
+                <li><a href="${ctx }/system/menu/list">菜单管理</a><span class="divider">/</span></li>
             </ul>
             <h4>菜单信息</h4>
         </div>
@@ -80,8 +80,8 @@ function deleteMenu(id) {
 								<td>${menu.name }</td>
 								<td>${menu.url }</td>
 								<td>
-									<a href="${ctx }/system/menu/form.do?id=${menu.id}">编辑</a>
-									<a href="${ctx }/system/menu/form.do?pid=${menu.id}">添加子菜单</a>
+									<a href="${ctx }/system/menu/form?id=${menu.id}">编辑</a>
+									<a href="${ctx }/system/menu/form?pid=${menu.id}">添加子菜单</a>
 									<a href="javascript:void(0);" onclick="deleteMenu('${menu.id}')">删除</a>
 								</td>
 							</tr>

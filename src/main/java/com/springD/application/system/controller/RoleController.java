@@ -71,7 +71,7 @@ public class RoleController extends BaseController{
 			url = "system/role/roleForm";
 		} else {
 			addMessage(redirectAttributes, "操作成功！");
-			url = "redirect:/system/role/list.do";
+			url = "redirect:/system/role/list";
 		}
 		
 		// 返回内容

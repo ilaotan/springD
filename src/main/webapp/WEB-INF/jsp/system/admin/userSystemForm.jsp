@@ -85,8 +85,8 @@
 			</div>
 			<div class="media-body">
 				<ul class="breadcrumb">
-					<li><a href="${ctx }/system/admin.do"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
-					<li><a href="${ctx }/system/user/showList.do">用户管理</a><span class="divider">/</span></li>
+					<li><a href="${ctx }/system/admin"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
+					<li><a href="${ctx }/system/user/showList">用户管理</a><span class="divider">/</span></li>
 				</ul>
 				<h4>用户管理</h4>
 			</div>
@@ -166,7 +166,7 @@
 	                    <div class="control-group form-actions">
 	                        <div class="span7">
 	                        	<input type="submit" class="btn btn-success btn-medium" value="${op }">
-	                        	<input type="button" class="btn btn-default btn-medium" value="返回" onclick="javascript:backToList('${ctx }/system/user/showList.do', '${pn}', '');" />
+	                        	<input type="button" class="btn btn-default btn-medium" value="返回" onclick="javascript:backToList('${ctx }/system/user/showList', '${pn}', '');" />
 	                        </div>
 	                    </div>
 	            	</form>

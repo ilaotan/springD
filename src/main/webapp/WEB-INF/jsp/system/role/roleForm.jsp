@@ -48,8 +48,8 @@ $(function(){
         </div>
         <div class="media-body">
             <ul class="breadcrumb">
-                <li><a href="${ctx }/system/admin.do"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
-                <li><a href="${ctx }/system/role/list.do">角色管理</a><span class="divider">/</span></li>
+                <li><a href="${ctx }/system/admin"><i class="fa fa-home"></i></a><span class="divider">/</span></li>
+                <li><a href="${ctx }/system/role/list">角色管理</a><span class="divider">/</span></li>
             </ul>
             <h4>角色信息</h4>
         </div>
@@ -71,7 +71,7 @@ $(function(){
 		            	${message}
 					</div>
 				</c:if>
-            	<form action="${ctx }/system/role/save.do" class="form-horizontal row-border" method="post" id="myform">
+            	<form action="${ctx }/system/role/save" class="form-horizontal row-border" method="post" id="myform">
 
                     <div class="control-group">
                         <label class="control-label" for="name"><span class="txt-impt">*</span>角色名称：</label>
@@ -105,7 +105,7 @@ $(function(){
                     <div class="control-group form-actions">
                         <div class="span7">
                         	<input type="submit" class="btn btn-success btn-medium" value="${op }" />
-                        	<input type="button" class="btn btn-default btn-medium" value="返回" onclick="javascript:backToList('${ctx }/system/role/list.do', '', '');" />
+                        	<input type="button" class="btn btn-default btn-medium" value="返回" onclick="javascript:backToList('${ctx }/system/role/list', '', '');" />
                         </div>
                     </div>
                     <input type="hidden" name="id" id="id" value="${role.id }"/>
