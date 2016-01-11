@@ -83,7 +83,7 @@ function deleteUser(uid, name){
 								<option value="2" ${cxSex == '2' ? 'selected' : '' }>女</option>
 							</select>
 							 --%>
-							<input type="button" class="btn" value="查询" onclick="$('#fenyeForm').submit();" />
+							<input type="button" class="btn btn-success" value="查询" onclick="$('#fenyeForm').submit();" />
 						</div>
 					</div>
 				</form>

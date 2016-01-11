@@ -75,7 +75,7 @@ function deleteRole(id, name){
 								<option value="1" ${roleStatus == '1' ? 'selected' : '' }>正常</option>
 								<option value="0" ${roleStatus == '0' ? 'selected' : '' }>禁用</option>
 							</select>
-							<input type="button" class="btn" value="查询" onclick="$('#fenyeForm').submit();" />
+							<input type="button" class="btn btn-success" value="查询" onclick="$('#fenyeForm').submit();" />
 						</div>
 					</div>
 				</form>
