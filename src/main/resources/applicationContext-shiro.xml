@@ -96,7 +96,6 @@
 				/anon/** = anon
 				/findPwd/** = anon
 				/system/login = authc
-				/qiniu/delPic = authc
 				/system/druid/** = authc
 				/logout = logout
 				#/** = systemPermissions

@@ -126,7 +126,10 @@
     <listener>
 		<listener-class>org.springframework.web.context.ContextLoaderListener</listener-class>
 	</listener>
-
+	<!-- Spring 刷新Introspector防止内存泄露 清除JavaBeans Introspector-->
+	<listener>
+		<listener-class>org.springframework.web.util.IntrospectorCleanupListener</listener-class>
+	</listener>
 	<error-page>
 		<error-code>403</error-code>
 		<location>/WEB-INF/jsp/exception/500.jsp</location>
