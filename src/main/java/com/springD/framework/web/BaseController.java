@@ -33,8 +33,6 @@ public abstract class BaseController {
 	 */
 	@Autowired
 	protected Validator validator;
-	@Autowired
-	private ImageCaptchaService imageCaptchaService;
 
 	/**
 	 * 服务端参数有效性验证
