@@ -9,11 +9,11 @@ import java.io.Serializable;
 import java.util.Map;
 import java.util.Properties;
 
+import com.springD.framework.common.Constants;
 import org.apache.ibatis.logging.Log;
 import org.apache.ibatis.logging.LogFactory;
 import org.apache.ibatis.plugin.Interceptor;
 
-import com.springD.framework.config.Global;
 import com.springD.framework.persistence.Page;
 import com.springD.framework.persistence.dialect.Dialect;
 import com.springD.framework.persistence.dialect.db.DB2Dialect;
@@ -80,7 +80,7 @@ public abstract class BaseInterceptor implements Interceptor, Serializable {
      */
     protected void initProperties(Properties p) {
     	Dialect dialect = null;
-        String dbType = Global.getConfig("jdbc.type");
+        String dbType = Constants.getConfig("jdbc.type");
         if ("db2".equals(dbType)){
         	dialect = new DB2Dialect();
         }else if("derby".equals(dbType)){

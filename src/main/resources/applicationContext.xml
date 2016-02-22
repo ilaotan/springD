@@ -14,7 +14,7 @@
 	<bean id="propertyConfigurer" class="org.springframework.beans.factory.config.PropertyPlaceholderConfigurer">
 		<property name="locations">
 			<list>
-				<value>classpath:jdbc.properties</value>
+				<value>classpath:application.properties</value>
 			</list>
 		</property>
 	</bean>
@@ -147,6 +147,9 @@
 		<property name="sqlSessionTemplateBeanName" value="sqlSessionTemplate" />
 		<property name="annotationClass" value="com.springD.framework.persistence.annotation.MyBatisDao"/>
 	</bean>	
+	
+	<!-- 配置 JSR303 Bean Validator 定义 -->
+	<bean id="validator" class="org.springframework.validation.beanvalidation.LocalValidatorFactoryBean" />
 	
 	<import resource="classpath:applicationContext-cache.xml" />
 	<import resource="classpath:applicationContext-shiro.xml" />

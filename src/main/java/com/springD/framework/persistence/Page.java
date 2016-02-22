@@ -6,16 +6,16 @@ import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import com.springD.framework.common.Constants;
 import org.apache.commons.lang3.StringUtils;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.springD.framework.config.Global;
 import com.springD.framework.utils.CookieUtils;
 
 public class Page<T> {
 	
 	private int pageNo = 1; // 当前页码
-	private int pageSize = Integer.valueOf(Global.getConfig("page.pageSize")); // 页面大小，设置为“-1”表示不进行分页（分页无效）
+	private int pageSize = Integer.valueOf(Constants.getConfig("page.pageSize")); // 页面大小，设置为“-1”表示不进行分页（分页无效）
 	
 	private long count;// 总记录数，设置为“-1”表示不查询总数
 	

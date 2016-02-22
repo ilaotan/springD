@@ -1,11 +1,14 @@
 package com.springD.framework.common;
 
 
-/**   
+import com.google.common.collect.Maps;
+import com.springD.framework.utils.PropertiesLoader;
+
+import java.util.Map;
+
+/**
  * @Description: 静态常量类
- * @author Chenz
- * @date Nov 13, 2014 1:21:25 PM 
- * @version V1.0   
+ * @version V1.0
 */
 public class Constants {
 	
@@ -62,5 +65,27 @@ public class Constants {
 	 * 往session里塞当前登录的用户名 
 	 */
 	public static final String LOGIN_USERNAME="username";
+
+	/**
+	 * 保存全局属性值
+	 */
+	private static Map<String, String> map = Maps.newHashMap();
+
+	/**
+	 * 属性文件加载对象
+	 */
+	private static PropertiesLoader propertiesLoader = new PropertiesLoader("application.properties");
+
+	/**
+	 * 获取配置
+	 */
+	public static String getConfig(String key) {
+		String value = map.get(key);
+		if (value == null){
+			value = propertiesLoader.getProperty(key);
+			map.put(key, value);
+		}
+		return value;
+	}
 	
 }

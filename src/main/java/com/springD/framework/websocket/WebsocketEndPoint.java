@@ -12,5 +12,6 @@ public class WebsocketEndPoint extends TextWebSocketHandler {
         super.handleTextMessage(session, message);  
         TextMessage returnMessage = new TextMessage(message.getPayload()+" received at server");  
         session.sendMessage(returnMessage);  
-    }  
+    }
+
 }

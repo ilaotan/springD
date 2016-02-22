@@ -16,6 +16,10 @@ public class MenuService {
 	@Autowired
 	private MenuMapper menuMapper;
 
+	public void setMenuMapper(MenuMapper menuMapper) {
+		this.menuMapper = menuMapper;
+	}
+
 	public Menu get(String id){
 		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		return menuMapper.findById(id);
