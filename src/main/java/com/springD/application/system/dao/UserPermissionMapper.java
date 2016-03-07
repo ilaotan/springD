@@ -1,15 +1,12 @@
 package com.springD.application.system.dao;
 
-import java.util.List;
-import java.util.Map;
-
-import com.springD.application.system.entity.Menu;
+import com.springD.application.system.entity.Role;
+import com.springD.application.system.entity.User;
 import com.springD.framework.mapper.MyMapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.springD.application.system.entity.Role;
-import com.springD.application.system.entity.User;
-import com.springD.framework.persistence.annotation.MyBatisDao;
+import java.util.List;
+import java.util.Map;
 
 public interface UserPermissionMapper extends MyMapper<User> {
 	
