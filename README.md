@@ -1,10 +1,8 @@
 # springD
 
-spring4  
+spring4-ssm-normal
+使用了分页插件  http://git.oschina.net/free/Mybatis_PageHelper/blob/master/wikis/HowToUse.markdown
 
-shiro  
+数据源切换使用切换datasource方式
 
-mybatis  
-
-
-##天下难事，必作于易；天下大事，必作于细。   
+未采用分布式事务
