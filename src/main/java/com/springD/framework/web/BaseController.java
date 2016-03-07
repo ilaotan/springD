@@ -1,8 +1,6 @@
 package com.springD.framework.web;
 
-import com.octo.captcha.service.image.ImageCaptchaService;
 import com.springD.framework.common.BeanValidators;
-import com.springD.framework.persistence.Page;
 import com.springD.framework.utils.DateUtils;
 import org.apache.commons.lang3.StringEscapeUtils;
 import org.slf4j.Logger;
@@ -13,7 +11,6 @@ import org.springframework.web.bind.WebDataBinder;
 import org.springframework.web.bind.annotation.InitBinder;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
-import javax.servlet.http.HttpServletRequest;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Validator;
 import java.beans.PropertyEditorSupport;
@@ -121,29 +118,6 @@ public abstract class BaseController {
 				setValue(DateUtils.parseDate(text));
 			}
 		});
-	}
-	
-
-	/**
-	 * @Description: 分页操作
-	 * @param request
-	 * @return
-	 */
-	protected Page getPage(HttpServletRequest request){
-		//分页操作
-		// 默认分页大小
-		int pageNo = 1;
-		int pageSize = 10;
-		String pageNostr = request.getParameter("pageNo");
-		String pageSizestr = request.getParameter("pageSize");
-		if(pageNostr!=null && !"".equals(pageNostr) && !"null".equals(pageNostr))
-			pageNo = Integer.parseInt(pageNostr);
-		if(pageSizestr!=null && !"".equals(pageSizestr))
-			pageSize = Integer.parseInt(pageSizestr);
-		Page page = new Page();
-		page.setPageNo(pageNo);
-		page.setPageSize(pageSize);
-		return page;
 	}
 	
 }

@@ -30,7 +30,7 @@
    	</select>
    	
    	<!-- 根据id删除单条数据 -->
-   	<delete id="delete" parameterType="java.lang.String">
+   	<delete id="deleteById" parameterType="java.lang.String">
 		DELETE FROM tbl_menu WHERE id = #{id}
 	</delete>
 	

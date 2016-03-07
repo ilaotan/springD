@@ -114,7 +114,7 @@ public class MenuService {
 		DatabaseContextHolder.setCustomerType(DatabaseContextHolder.DATA_SOURCE_ONE_WEBPLATFORM);
 		try {
 
-			menuMapper.delete(id);
+			menuMapper.deleteById(id);
 			return menuMapper.deleteByPid("," + id + ",");
 
 		} catch (Exception e) {

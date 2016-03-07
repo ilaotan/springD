@@ -1,12 +1,10 @@
 package com.springD.application.system.dao;
 
-import java.util.List;
-
+import com.springD.application.system.entity.Menu;
 import com.springD.framework.mapper.MyMapper;
 import org.apache.ibatis.annotations.Param;
 
-import com.springD.application.system.entity.Menu;
-import com.springD.framework.persistence.annotation.MyBatisDao;
+import java.util.List;
 
 public interface MenuMapper extends MyMapper<Menu> {
 
@@ -20,8 +18,8 @@ public interface MenuMapper extends MyMapper<Menu> {
 	
 	List<Menu> findAll4Tree();
 	
-	int delete(String id);
-	
+	int deleteById(String id);
+
 	int deleteByPid(@Param(value="pid")String pid);
 	
 	List<Menu> findByParentIdsLike(@Param(value="str")String str);
