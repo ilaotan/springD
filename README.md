@@ -1,10 +1,7 @@
 # springD
 
-spring4  
+dev-spring4-ssm-my 这个分支是1年多以来项目用的配置.
 
-shiro  
+使用了分布式事务 atomikos
 
-mybatis  
-
-
-##天下难事，必作于易；天下大事，必作于细。   
+但是 貌似有内存方面的问题
