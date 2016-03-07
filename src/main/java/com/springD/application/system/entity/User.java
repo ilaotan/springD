@@ -4,6 +4,11 @@ import java.io.Serializable;
 import java.util.Date;
 import java.util.List;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Transient;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.Size;
 
@@ -13,6 +18,9 @@ public class User implements Serializable {
 	/**
 	 * 编号
 	 */
+	@Id
+	@Column(name = "uid")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String uid;
 	/**
 	 * 姓名
@@ -55,6 +63,7 @@ public class User implements Serializable {
 	/**
 	 * 用户所有角色
 	 */
+	@Transient //不跟数据库对应
 	private List<Role> userRoles;
 	
 	private String roleId;//角色ID

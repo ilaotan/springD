@@ -3,13 +3,19 @@ package com.springD.application.system.entity;
 import java.io.Serializable;
 import java.util.Date;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 
 
 public class Menu implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;
 	@Size(min=2,max=20,message="菜单名称长度需大于2个字符小于20个字符")
 	private String name;

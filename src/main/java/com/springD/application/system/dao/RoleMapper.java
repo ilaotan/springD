@@ -4,10 +4,11 @@ import java.util.List;
 import java.util.Map;
 
 import com.springD.application.system.entity.Role;
+import com.springD.application.system.entity.User;
+import com.springD.framework.mapper.MyMapper;
 import com.springD.framework.persistence.annotation.MyBatisDao;
 
-@MyBatisDao
-public interface RoleMapper {
+public interface RoleMapper  extends MyMapper<Role> {
 
 	int save(Role role);
 	

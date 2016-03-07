@@ -2,13 +2,13 @@ package com.springD.application.system.dao;
 
 import java.util.List;
 
+import com.springD.framework.mapper.MyMapper;
 import org.apache.ibatis.annotations.Param;
 
 import com.springD.application.system.entity.Menu;
 import com.springD.framework.persistence.annotation.MyBatisDao;
 
-@MyBatisDao
-public interface MenuMapper {
+public interface MenuMapper extends MyMapper<Menu> {
 
 	void save(Menu menu);
 	

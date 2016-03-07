@@ -1,12 +1,12 @@
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
   xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
-  <modelVersion>4.0.0</modelVersion>
-  <groupId>com.springD</groupId>
-  <artifactId>springD</artifactId>
-  <packaging>war</packaging>
-  <version>0.0.1-SNAPSHOT</version>
-  <name>springD Maven Webapp</name>
-  <url>http://maven.apache.org</url>
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>com.springD</groupId>
+	<artifactId>springD</artifactId>
+	<packaging>war</packaging>
+	<version>0.0.1-SNAPSHOT</version>
+	<name>springD Maven Webapp</name>
+	<url>http://maven.apache.org</url>
   
   <!-- 版本配置1 -->
 	<properties>
@@ -16,6 +16,10 @@
 		<org.apache.shiro.version>1.2.2</org.apache.shiro.version>
 		<org.springframework.version>4.2.3.RELEASE</org.springframework.version>
 		<mysql.version>5.1.35</mysql.version>
+		<mapper.version>3.3.4</mapper.version>
+		<ehcache.version>2.6.11</ehcache.version>
+		<slf4j.version>1.7.5</slf4j.version>
+		<log4j.version>1.2.17</log4j.version>
 		<argLine>-Dfile.encoding=UTF-8</argLine>
 	</properties>
 	
@@ -45,48 +49,464 @@
 			<url>http://maven.oschina.net/content/groups/public</url>
 		</pluginRepository>
 	</pluginRepositories>
-<dependencies>
-	<!-- 依赖 如果使用本地的 可以这么配置 
+
+	<build>
+		<finalName>${project.artifactId}</finalName>
+		<plugins>
+			<!-- Compiler 插件, 设定JDK版本 -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-compiler-plugin</artifactId>
+				<version>3.1</version>
+				<configuration>
+					<source>${java.version}</source>
+					<target>${java.version}</target>
+					<showWarnings>true</showWarnings>
+					<encoding>UTF-8</encoding>
+				</configuration>
+			</plugin>
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-deploy-plugin</artifactId>
+				<version>2.8.2</version>
+				<configuration>
+					<skip>true</skip>
+				</configuration>
+			</plugin>
+			<!-- war打包插件,排除某些文件  绕了很多弯路,记录要点如下:
+				简单一句话说明:
+				warSourceExcludes是在编译周期进行完成后从src/main/webapp目录复制文件时忽略，
+				而packagingExcludes是在复制webapp目录完成后打包时忽略target/ibaby文件夹的文件
+			-->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-war-plugin</artifactId>
+				<version>2.6</version>
+				<configuration>
+					<warName>${project.artifactId}</warName>
+					<packagingExcludes>WEB-INF/classes/portable/**,WEB-INF/classes/_*.*</packagingExcludes>
+				</configuration>
+			</plugin>
+			  <!--
+				有时候，比如mybatis的mapper.xml文件
+				我们习惯把它和Mapper.java放一起，都在src/main/java下面
+				这样利用maven打包时，就需要修改pom.xml文件
+				来把mapper.xml文件一起打包进jar或者war里了
+				否则，这些文件不会被打包的。（maven认为src/main/java只是java的源代码路径）
+			-->
+			 <plugin>
+				  <groupId>org.apache.maven.plugins</groupId>
+				  <artifactId>maven-resources-plugin</artifactId>
+				  <version>2.7</version>
+				  <executions>
+					  <execution>
+						  <id>copy-xmls</id>
+						  <phase>process-sources</phase>
+						  <goals>
+							  <goal>copy-resources</goal>
+						  </goals>
+						  <configuration>
+							  <outputDirectory>${basedir}/target/classes</outputDirectory>
+							  <resources>
+								  <resource>
+									  <directory>${basedir}/src/main/java</directory>
+									  <includes>
+										  <include>**/*.xml</include>
+									  </includes>
+								  </resource>
+							  </resources>
+						  </configuration>
+					  </execution>
+				  </executions>
+				</plugin>
+
+			<!--使用 mybatis-generator:generate  -->
+			<plugin>
+				<groupId>org.mybatis.generator</groupId>
+				<artifactId>mybatis-generator-maven-plugin</artifactId>
+				<version>1.3.2</version>
+				<configuration>
+					<configurationFile>${basedir}/src/main/resources/generator/generatorConfig.xml</configurationFile>
+					<overwrite>true</overwrite>
+					<verbose>true</verbose>
+				</configuration>
+				<dependencies>
+					<dependency>
+						<groupId>mysql</groupId>
+						<artifactId>mysql-connector-java</artifactId>
+						<version>${mysql.version}</version>
+					</dependency>
+					<dependency>
+						<groupId>tk.mybatis</groupId>
+						<artifactId>mapper</artifactId>
+						<version>${mapper.version}</version>
+					</dependency>
+				</dependencies>
+			</plugin>
+
+			<!-- 设置为true install命令时 跳过单元测试  只能每个测试单元进行测试 -->
+			 <plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-surefire-plugin</artifactId>
+				 <version>2.18</version>
+				<configuration>
+					<skip>true</skip>
+					 <argLine>-Dfile.encoding=UTF-8</argLine>
+					 <forkMode>never</forkMode>
+					<includes>
+						<include>com/test/application/**</include>
+					</includes>
+					<excludes>
+						<exclude>com/test/utils/**</exclude>
+					</excludes>
+				</configuration>
+			</plugin>
+			 <!-- jetty服务
+			 仓库中各个版本 http://www.mvnrepository.com/artifact/org.mortbay.jetty/jetty-maven-plugin
+			 参考        http://my.oschina.net/cokolin/blog/409164
+			   http://www.mkyong.com/maven/maven-jetty-plugin-examples/
+			   http://wiki.eclipse.org/Jetty/Feature/Jetty_Maven_Plugin
+		注意 The plugin changed groupId from org.mortbay.jetty to org.eclipse.jetty with the 9.x releases
+		但是9.x系列貌似要jdk1.8 暂不考虑
+			  -->
+			<!-- 使用jetty配合jrebel时,需要ctrl+shift+F9编译当前类 或者ctrl+F9 编译器全部-->
+			 <plugin>
+			   <groupId>org.mortbay.jetty</groupId>
+			   <artifactId>jetty-maven-plugin</artifactId>
+			   <version>7.6.16.v20140903</version>
+			   <configuration>
+				   <webApp>
+					   <contextPath>/</contextPath>
+					   <!-- 设置其他项目extraClasspath，多个用";"隔开 -->
+					   <!--
+					   <extraClasspath>../data-service/target/classes;</extraClasspath>
+						-->
+				   </webApp>
+				   <!-- 指定额外需要监控变化的文件或文件夹，主要用于热部署中的识别文件更新 -->
+				   <scanTargetPatterns>
+					   <scanTargetPattern>
+						   <directory>src/main</directory>
+						   <includes>
+							   <include>**/*.java</include>
+							   <include>**/*.properties</include>
+						   </includes>
+						   <!-- <excludes> <exclude>**/*.xml</exclude> <exclude>**/myspecial.properties</exclude> </excludes> -->
+					   </scanTargetPattern>
+				   </scanTargetPatterns>
+				   <!-- 0为关闭自身热部署 -->
+				   <scanIntervalSeconds>0</scanIntervalSeconds>
+				   <connectors>
+					   <connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
+						   <port>8080</port>
+						   <maxIdleTime>300000</maxIdleTime>
+					   </connector>
+				   </connectors>
+				</configuration>
+				<dependencies>
+					<!-- Using GZip Compression and Other Jetty Extensions -->
+					<dependency>
+						<groupId>org.eclipse.jetty</groupId>
+						<artifactId>jetty-servlets</artifactId>
+						<version>7.6.16.v20140903</version>
+					</dependency>
+				</dependencies>
+			 </plugin>
+
+			<!-- jerebel maven 插件，用于生成jrebel.xml -->
+			<plugin>
+				<groupId>org.zeroturnaround</groupId>
+				<artifactId>jrebel-maven-plugin</artifactId>
+				<version>1.1.5</version>
+				<executions>
+					<execution>
+						<id>generate-rebel-xml</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>generate</goal>
+						</goals>
+					</execution>
+				</executions>
+				<configuration>
+					<!-- 指定生成的jrebel.xml放在哪里， 要求放在web应用的 classpath下
+						${basedir}/src/main/webapp/WEB-INF/classes
+						${basedir}/target/${project.artifactId}/webapp/WEB-INF/classes
+					 -->
+					<rebelXmlDirectory>${basedir}/src/main/webapp/WEB-INF/classes</rebelXmlDirectory>
+
+				</configuration>
+			</plugin>
+
+		</plugins>
+	</build>
+
+	<profiles>
+	<!--maven命令 clean package -Pproduction
+		打包发布时 使用的  会根据配置xml里自动替换某些文件里的字段 从而一键生成生产机配置 -->
+		<profile>
+			<id>production</id>
+			<build>
+				<plugins>
+					<plugin>
+						<groupId>com.juvenxu.portable-config-maven-plugin</groupId>
+						<artifactId>portable-config-maven-plugin</artifactId>
+						<version>1.1.4</version>
+						<executions>
+						    <execution>
+						        <goals>
+						            <goal>replace-package</goal>
+						        </goals>
+						    </execution>
+						</executions>
+						<configuration>
+						    <portableConfig>src/main/resources/portable/production.xml</portableConfig>
+						</configuration>
+					</plugin>
+				</plugins>
+			</build>
+		</profile>
+	</profiles>
+
+	<dependencies>
+		<!-- 依赖 如果使用本地的 可以这么配置
+            <dependency>
+                <groupId>org.insightech.er</groupId>
+                <artifactId>ERMaster</artifactId>
+                <version>20121127-2328</version>
+                <scope>system</scope>
+                <systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/org.insightech.er_1.0.0.v20121127-2328.jar</systemPath>
+            </dependency>
+        -->
+
+		<!-- spring相关 -->
 		<dependency>
-			<groupId>org.insightech.er</groupId> 
-			<artifactId>ERMaster</artifactId>
-			<version>20121127-2328</version>
-			<scope>system</scope> 
-			<systemPath>${project.basedir}/src/main/webapp/WEB-INF/lib/org.insightech.er_1.0.0.v20121127-2328.jar</systemPath> 
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context</artifactId>
+			<version>${org.springframework.version}</version>
 		</dependency>
-	-->
-		<!-- 单元测试   -->
 		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>4.9</version>
-			<scope>test</scope>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-context-support</artifactId>
+			<version>${org.springframework.version}</version>
 		</dependency>
-		<!-- 正式jar包 开始 -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-jdbc</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-tx</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<!-- spring webmvc-->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-webmvc</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-web</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<!-- websocket -->
+		<dependency>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-websocket</artifactId>
+			<version>${org.springframework.version}</version>
+		</dependency>
+		<!-- spring end -->
+
+		<!-- AOP begin -->
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjrt</artifactId>
+			<version>1.8.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.aspectj</groupId>
+			<artifactId>aspectjweaver</artifactId>
+			<version>1.8.6</version>
+		</dependency>
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib</artifactId>
+			<version>3.2.1</version>
+			<scope>runtime</scope>
+		</dependency>
+		<!-- AOP end -->
+
+		<!-- jackson spring的依赖包 只填写这个依赖 就把core databind  annotations 3个依赖都引入了 -->
+		<dependency>
+			<groupId>com.fasterxml.jackson.module</groupId>
+			<artifactId>jackson-module-jaxb-annotations</artifactId>
+			<version>2.4.2</version>
+		</dependency>
+
+		<!-- shiro的依赖 -->
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-ehcache</artifactId>
+			<version>${org.apache.shiro.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.shiro</groupId>
+			<artifactId>shiro-spring</artifactId>
+			<version>${org.apache.shiro.version}</version>
+		</dependency>
+		<!-- shiro的依赖 End -->
+
+		<!-- EHCACHE begin -->
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-core</artifactId>
+			<version>${ehcache.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache-web</artifactId>
+			<version>2.0.4</version>
+		</dependency>
+		<!-- EHCACHE end -->
+
+		<!-- hibernate validator  相关jar包 -->
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-validator</artifactId>
 			<version>5.2.2.Final</version>
 		</dependency>
+
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+			<version>14.0.1</version>
+		</dependency>
+
+		<!-- 验证码 -->
+		<dependency>
+			<groupId>com.octo.captcha</groupId>
+			<artifactId>jcaptcha</artifactId>
+			<version>1.0</version>
+			<exclusions>
+				<exclusion>
+					<groupId>com.jhlabs</groupId>
+					<artifactId>imaging</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+		<!--
+		<dependency>
+			<groupId>jmagick</groupId>
+			<artifactId>jmagick</artifactId>
+			<version>6.2.4</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20090211</version>
+		</dependency>-->
+
+		<!-- Database 相关 Begin -->
+		<!-- mysql -->
+		<dependency>
+			<groupId>mysql</groupId>
+			<artifactId>mysql-connector-java</artifactId>
+			<version>${mysql.version}</version>
+		</dependency>
+		<!-- 阿里数据源 -->
+		<dependency>
+			<groupId>com.alibaba</groupId>
+			<artifactId>druid</artifactId>
+			<version>1.0.16</version>
+		</dependency>
+		<!-- mybatis -->
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis</artifactId>
+			<version>3.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.mybatis</groupId>
+			<artifactId>mybatis-spring</artifactId>
+			<version>1.2.3</version>
+		</dependency>
+		<!-- Mybatis Generator -->
+		<dependency>
+			<groupId>org.mybatis.generator</groupId>
+			<artifactId>mybatis-generator-core</artifactId>
+			<version>1.3.2</version>
+			<scope>compile</scope>
+			<optional>true</optional>
+		</dependency>
+		<dependency>
+			<groupId>com.github.pagehelper</groupId>
+			<artifactId>pagehelper</artifactId>
+			<version>4.1.1</version>
+		</dependency>
+		<!--通用Mapper-->
+		<dependency>
+			<groupId>tk.mybatis</groupId>
+			<artifactId>mapper</artifactId>
+			<version>${mapper.version}</version>
+		</dependency>
+		<!-- mybatis需要的
+		<dependency>
+			<groupId>cglib</groupId>
+			<artifactId>cglib-nodep</artifactId>
+			<version>3.1</version>
+		</dependency>-->
+		<!-- atomikos多数据源事物 -->
+		<!--根据依赖关系 只填写transactions-jdbc 会自动加载其他jar包  -->
+		<dependency>
+			<groupId>com.atomikos</groupId>
+			<artifactId>transactions-jdbc</artifactId>
+			<version>3.9.3</version>
+		</dependency>
+		<dependency>
+			<groupId>javax.transaction</groupId>
+			<artifactId>jta</artifactId>
+			<version>1.1</version>
+		</dependency>
+		<!-- Database 相关 End -->
+
+
+		<!-- log4j的依赖 Begin -->
+			<!-- common-logging 实际调用slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jcl-over-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+			<!-- java.util.logging 实际调用slf4j -->
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>jul-to-slf4j</artifactId>
+			<version>${slf4j.version}</version>
+			<scope>runtime</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.slf4j</groupId>
+			<artifactId>slf4j-log4j12</artifactId>
+			<version>${slf4j.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>log4j</groupId>
+			<artifactId>log4j</artifactId>
+			<version>${log4j.version}</version>
+		</dependency>
+		<!-- log4j end -->
+
+		<!-- Apache的commons工具 -->
 		<dependency>
 			<groupId>org.apache.commons</groupId>
 			<artifactId>commons-lang3</artifactId>
 			<version>3.3.2</version>
 		</dependency>
 		<dependency>
-			<groupId>commons-lang</groupId>
-			<artifactId>commons-lang</artifactId>
-			<version>2.4</version>
-		</dependency>
-		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 			<version>1.9</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-collections</groupId>
-			<artifactId>commons-collections</artifactId>
-			<version>3.1</version>
 		</dependency>
 		<dependency>
 			<groupId>org.apache.commons</groupId>
@@ -113,191 +533,21 @@
 			<artifactId>commons-net</artifactId>
 			<version>2.0</version>
 		</dependency>
-		
-		<dependency>
-			<groupId>com.google.guava</groupId>
-			<artifactId>guava</artifactId>
-			<version>14.0.1</version>
-		</dependency>
+		<!-- Apache的commons工具 END -->
 
 		<dependency>
-			<groupId>com.fasterxml.jackson.module</groupId>
-			<artifactId>jackson-module-jaxb-annotations</artifactId>
-			<version>2.4.2</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>com.octo.captcha</groupId>
-			<artifactId>jcaptcha</artifactId>
-			<version>1.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>com.jhlabs</groupId>
-					<artifactId>imaging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>jmagick</groupId>
-			<artifactId>jmagick</artifactId>
-			<version>6.2.4</version>
-		</dependency>
-		<dependency>
-			<groupId>org.json</groupId>
-			<artifactId>json</artifactId>
-			<version>20090211</version>
-		</dependency>
-
-		<!-- shiro的依赖 -->
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-ehcache</artifactId>
-			<version>${org.apache.shiro.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring</artifactId>
-			<version>${org.apache.shiro.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>net.sf.ehcache</groupId>
-			<artifactId>ehcache</artifactId>
-			<version>2.7.4</version>
-		</dependency>
-		
-		<!-- mysql -->
-		<dependency>
-			<groupId>mysql</groupId>
-			<artifactId>mysql-connector-java</artifactId>
-			<version>${mysql.version}</version>
-		</dependency>
-		<!-- 阿里数据源 -->
-		<dependency>
-			<groupId>com.alibaba</groupId>
-			<artifactId>druid</artifactId>
-			<version>1.0.16</version>
-		</dependency>
-		
-		<!-- mybatis -->
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis</artifactId>
-			<version>3.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.mybatis</groupId>
-			<artifactId>mybatis-spring</artifactId>
-			<version>1.2.3</version>
-		</dependency>
-		<!-- mybatis需要的 -->
-		<dependency>
-			<groupId>cglib</groupId>
-			<artifactId>cglib-nodep</artifactId>
-			<version>3.1</version>
-		</dependency>
-		<!-- 多数据源事物 -->
-		<dependency>
-			<groupId>com.atomikos</groupId>
-			<artifactId>transactions-jdbc</artifactId>
-			<version>3.9.3</version>
-		</dependency>
-		<dependency>
-			<groupId>javax.transaction</groupId>
-			<artifactId>jta</artifactId>
-			<version>1.1</version>
-		</dependency>
-
-		<!-- spring相关 -->
-		<!-- spring的各依赖关系 所以 只搞进来3个 就能把这些全拉进来了
-			1 spring-webmvc
-				bean
-				context
-				core
-				expression
-				web
-					aop
-					bean
-					context
-					core
-					
-			2 spring-aspects
-				spring-context-support
-					bean
-					context
-					core
-			
-			3 spring-orm
-				bean
-				core
-				jdbc
-				tx
-					bean
-					core
-		 -->
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-aspects</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-orm</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-webmvc</artifactId>
-			<version>${org.springframework.version}</version>
-		</dependency>
-		<!-- 放在spring加载之后   只排除spring-aop就ok了 其他的只是为了保险-->
-		<dependency>
-			<groupId>com.googlecode.ehcache-spring-annotations</groupId>
-			<artifactId>ehcache-spring-annotations</artifactId>
-			<version>1.2.0</version>
-			<exclusions>
-				<exclusion>
-					<groupId>net.sf.ehcache</groupId>
-					<artifactId>ehcache-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-beans</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-context</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-core</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-expression</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>org.springframework</groupId>
-					<artifactId>spring-aop</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-context-support</artifactId>
-			<version>${org.springframework.version}</version>
+			<groupId>javax.servlet</groupId>
+			<artifactId>jstl</artifactId>
+			<version>1.2</version>
 		</dependency>
 		<!-- websocket的依赖 -->
-        <dependency>
+		<dependency>
 			<groupId>javax.websocket</groupId>
 			<artifactId>javax.websocket-api</artifactId>
 			<version>1.1</version>
-            <scope>provided</scope>
+			<scope>provided</scope>
 		</dependency>
-		<dependency>
-            <groupId>org.springframework</groupId>
-            <artifactId>spring-websocket</artifactId>
-            <version>${org.springframework.version}</version>
-        </dependency>
+
 		<!-- servlet环境 这几个用来保证eclipse中maven工程里相关servlet不报错 -->
 		<dependency>
 			<groupId>javax.servlet</groupId>
@@ -311,175 +561,18 @@
 			<version>2.3.1</version>
 			<scope>provided</scope>
 		</dependency>
+		<!-- 单元测试   -->
 		<dependency>
-			<groupId>javax.servlet</groupId>
-			<artifactId>jstl</artifactId>
-			<version>1.2</version>
-		</dependency>
-		<!-- log4j的依赖 -->
-		<dependency>
-			<groupId>org.slf4j</groupId>
-			<artifactId>slf4j-log4j12</artifactId>
-			<version>1.7.5</version>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>4.9</version>
+			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>org.apache.logging.log4j</groupId>
-			<artifactId>log4j-web</artifactId>
-			<version>2.5</version>
+			<groupId>org.springframework</groupId>
+			<artifactId>spring-test</artifactId>
+			<version>${org.springframework.version}</version>
+			<scope>test</scope>
 		</dependency>
-</dependencies>
-	
-	<build>
-		<finalName>${project.artifactId}</finalName>
-	<plugins>
-     	<!-- Compiler 插件, 设定JDK版本 -->
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-compiler-plugin</artifactId>
-			<version>3.1</version>
-			<configuration>
-				<source>${java.version}</source>
-				<target>${java.version}</target>
-				<showWarnings>true</showWarnings>
-				<encoding>UTF-8</encoding>  
-			</configuration>
-		</plugin>
-		<!-- war打包插件,排除某些文件  绕了很多弯路,记录要点如下:
-			简单一句话说明:
-			warSourceExcludes是在编译周期进行完成后从src/main/webapp目录复制文件时忽略，
-			而packagingExcludes是在复制webapp目录完成后打包时忽略target/ibaby文件夹的文件
-		-->
-		<plugin>
-			<groupId>org.apache.maven.plugins</groupId>
-			<artifactId>maven-war-plugin</artifactId>
-			<version>2.6</version>
-			<configuration>
-				<warName>${project.artifactId}</warName>
-				<packagingExcludes>WEB-INF/classes/portable/**,WEB-INF/classes/_*.*</packagingExcludes>
-			</configuration>
-		</plugin>
-          <!-- 
-	      	有时候，比如mybatis的mapper.xml文件
-	      	我们习惯把它和Mapper.java放一起，都在src/main/java下面
-	      	这样利用maven打包时，就需要修改pom.xml文件
-	      	来把mapper.xml文件一起打包进jar或者war里了
-	      	否则，这些文件不会被打包的。（maven认为src/main/java只是java的源代码路径） 
-      	-->
-		 <plugin>
-			  <groupId>org.apache.maven.plugins</groupId>
-		      <artifactId>maven-resources-plugin</artifactId>  
-		      <version>2.7</version>
-		      <executions>  
-		          <execution>  
-		              <id>copy-xmls</id>  
-		              <phase>process-sources</phase>  
-		              <goals>  
-		                  <goal>copy-resources</goal>  
-		              </goals>  
-		              <configuration>  
-		                  <outputDirectory>${basedir}/target/classes</outputDirectory>  
-		                  <resources>  
-		                      <resource>  
-		                          <directory>${basedir}/src/main/java</directory>  
-		                          <includes>  
-		                              <include>**/*.xml</include>  
-		                          </includes>  
-		                      </resource>  
-		                  </resources>  
-		              </configuration>  
-		          </execution>  
-		      </executions>  
-        	</plugin>  
-			
-		<!-- 设置为true install命令时 跳过单元测试  只能每个测试单元进行测试 -->
-		 <plugin>
-	        <groupId>org.apache.maven.plugins</groupId>
-	        <artifactId>maven-surefire-plugin</artifactId>
-	         <version>2.18</version>
-	        <configuration>
-	        	<skip>true</skip>
-	        	 <argLine>-Dfile.encoding=UTF-8</argLine>
-	        	 <forkMode>never</forkMode> 
-			    <includes>  
-			        <include>com/test/application/**</include>  
-			    </includes>  
-			    <excludes>
-			   	 	<exclude>com/test/utils/**</exclude>
-			    </excludes> 
-	        </configuration>
-      	</plugin>
-         <!-- jetty服务 
-         仓库中各个版本 http://www.mvnrepository.com/artifact/org.mortbay.jetty/jetty-maven-plugin
-         参考        http://my.oschina.net/cokolin/blog/409164
-           http://www.mkyong.com/maven/maven-jetty-plugin-examples/
-           http://wiki.eclipse.org/Jetty/Feature/Jetty_Maven_Plugin
-    注意 The plugin changed groupId from org.mortbay.jetty to org.eclipse.jetty with the 9.x releases
-    但是9.x系列貌似要jdk1.8 暂不考虑
-          --> 
-         <plugin>
-           <groupId>org.mortbay.jetty</groupId>
-           <artifactId>jetty-maven-plugin</artifactId>
-           <version>7.6.16.v20140903</version>
-           <configuration>
-           		<scanIntervalSeconds>5</scanIntervalSeconds>
-                <webApp>
-                   <contextPath>/tan</contextPath>
-               </webApp>
-               <connectors>
-					<connector implementation="org.eclipse.jetty.server.nio.SelectChannelConnector">
-					<port>8888</port>
-					</connector>
-				</connectors>
-            </configuration>
-            <dependencies>
-            	<!-- Using GZip Compression and Other Jetty Extensions -->
-	            <dependency>
-					<groupId>org.eclipse.jetty</groupId>
-					<artifactId>jetty-servlets</artifactId>
-					<version>7.6.16.v20140903</version>
-				</dependency>
-            </dependencies>
-         </plugin>
-         <!-- 使用mvn tomcat7:run 运行 -->
-         <plugin>
-	        <groupId>org.apache.tomcat.maven</groupId>
-	        <artifactId>tomcat7-maven-plugin</artifactId>
-	        <version>2.0</version>
-	        <configuration>
-	          <path>/tan</path>
-	          <port>8081</port>
-			  <uriEncoding>UTF-8</uriEncoding>
-	        </configuration>
-	        
-	      </plugin>
-         
-     </plugins>
-  </build>
-  
-	<profiles>
-	<!--maven命令 clean package -Pproduction  
-		打包发布时 使用的  会根据配置xml里自动替换某些文件里的字段 从而一键生成生产机配置 -->
-		<profile>
-			<id>production</id>
-			<build>
-				<plugins>
-					<plugin>  
-						<groupId>com.juvenxu.portable-config-maven-plugin</groupId>  
-						<artifactId>portable-config-maven-plugin</artifactId>  
-						<version>1.1.4</version>  
-						<executions>  
-						    <execution>  
-						        <goals>  
-						            <goal>replace-package</goal>  
-						        </goals>  
-						    </execution>  
-						</executions>  
-						<configuration>  
-						    <portableConfig>src/main/resources/portable/production.xml</portableConfig>  
-						</configuration>  
-					</plugin>  
-				</plugins>
-			</build>
-		</profile>
-	</profiles>
+	</dependencies>
 </project>

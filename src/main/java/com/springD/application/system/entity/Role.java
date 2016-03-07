@@ -5,12 +5,18 @@ import org.apache.ibatis.annotations.Param;
 
 import java.io.Serializable;
 
+import javax.persistence.Column;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
 import javax.validation.constraints.Size;
 
 
 public class Role implements Serializable{
 	private static final long serialVersionUID = 1L;
-
+	@Id
+	@Column(name = "id")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private String id;	//id
 	@Size(min=3,max=20,message="角色名称需大于3个小于20个字符")	private String name;
 	private String status;
