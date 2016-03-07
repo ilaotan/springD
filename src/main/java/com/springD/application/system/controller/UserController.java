@@ -4,12 +4,9 @@ import com.springD.application.system.entity.User;
 import com.springD.application.system.service.RoleService;
 import com.springD.application.system.service.UserPermissionService;
 import com.springD.framework.common.Constants;
-import com.springD.framework.persistence.Page;
-import com.springD.framework.shiro.ShiroUser;
 import com.springD.framework.utils.Identities;
 import com.springD.framework.utils.ResponseUtils;
 import com.springD.framework.utils.StringUtils;
-import com.springD.framework.utils.UserUtils;
 import com.springD.framework.web.BaseController;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -22,7 +19,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @Controller
