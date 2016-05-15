@@ -81,6 +81,11 @@
 	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
 		<property name="dataSource" ref="dynamicDataSource" />
 		<property name="configLocation" value="classpath:mybatis-config.xml" />
+		<property name="mapperLocations">
+			<array>
+				<value>classpath:mapping/com/springD/application/system/dao/**.xml</value>
+			</array>
+		</property>
 	</bean>
 
      <!-- 配置事务传播特性 -->
