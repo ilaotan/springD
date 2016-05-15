@@ -7,11 +7,7 @@
 	
 	<!-- shiro -->
 	
-	<!-- 缓存管理器 -->
-    <bean id="shiroEhcacheManager" class="com.springD.framework.shiro.SpringCacheManagerWrapper">
-        <property name="cacheManager" ref="cacheManager"/>
-    </bean>
-    
+
 	<!-- 凭证匹配器 -->
     <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
         <property name="hashAlgorithmName" value="md5"/>
@@ -38,21 +34,18 @@
 		<!-- session 管理器 -->
 		<property name="sessionManager" ref="sessionManager" />
 		<!-- 缓存管理器 -->
-		<property name="cacheManager" ref="shiroEhcacheManager" />
+		<property name="cacheManager" ref="redisCacheManager" />
 	</bean>
-	
-	<!-- session管理器 -->
+
+	<!-- sessionManager -->
 	<bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
-		<!-- 超时时间 -->
-		<property name="globalSessionTimeout" value="1800000" />
-		<!-- session存储的实现 -->
-		<property name="sessionDAO" ref="shiroSessionDao" />
+		<property name="sessionDAO" ref="redisSessionDAO" />
 		<!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->
 		<property name="sessionIdCookie" ref="sharesession" />
 		<!-- 定时检查失效的session -->
 		<property name="sessionValidationSchedulerEnabled" value="true" />
 	</bean>
-	
+
 	<!-- sessionIdCookie的实现,用于重写覆盖容器默认的JSESSIONID -->
 	<bean id="sharesession" class="org.apache.shiro.web.servlet.SimpleCookie">
 		<!-- cookie的name,对应的默认是 JSESSIONID -->
@@ -60,12 +53,28 @@
 		<!-- jsessionId的path为 / 用于多个系统共享jsessionId -->
 		<property name="path" value="/" />
 	</bean>
-	
-	<!-- session存储的实现 -->
-	<bean id="shiroSessionDao" class="org.apache.shiro.session.mgt.eis.EnterpriseCacheSessionDAO" />
 
-	<!-- 单机session -->
-	<bean id="shiroCacheManager" class="org.apache.shiro.cache.MemoryConstrainedCacheManager" />
+	<!-- redisSessionDAO -->
+	<bean id="redisSessionDAO" class="com.springD.framework.shiro.redisCache.RedisSessionDAO">
+		<property name="redisManager" ref="redisManager" />
+	</bean>
+
+	<!-- shiro redisManager -->
+	<bean id="redisManager" class="com.springD.framework.shiro.redisCache.RedisManager">
+		<property name="host" value="${redis.host}"/>
+		<property name="port" value="${redis.port}"/>
+		<property name="expire" value="1800"/>
+		<!-- optional properties:
+        <property name="timeout" value="10000"/>
+        <property name="password" value="123456"/>
+        -->
+	</bean>
+
+	<!-- cacheManager -->
+	<bean id="redisCacheManager" class="com.springD.framework.shiro.redisCache.RedisCacheManager">
+		<property name="redisManager" ref="redisManager" />
+	</bean>
+
 	
 	<!--  jCaptcha验证码
 	<bean id="jCaptchaValidateFilter" class="com.springD.framework.jcaptcha.JCaptchaValidateFilter">
@@ -116,8 +125,9 @@
 	
 	<!-- custom filters -->
 	<bean id="systemPermissions" class="com.springD.framework.shiro.SystemPermissionsAuthorizationFilter" />
+
 	<bean id="authcFilter" class="com.springD.framework.shiro.SystemAuthenticationFilter">
-		<constructor-arg ref="shiroEhcacheManager"/>
+		<constructor-arg ref="redisCacheManager"/>
 	</bean>
 	<bean id="logoutFilter" class="com.springD.framework.shiro.SystemLogoutFilter"/>
 
