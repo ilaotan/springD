@@ -16,10 +16,10 @@ Date: 2016-01-07 23:17:08
 SET FOREIGN_KEY_CHECKS=0;
 
 -- ----------------------------
--- Table structure for tbl_menu
+-- Table structure for sys_menu
 -- ----------------------------
-DROP TABLE IF EXISTS `tbl_menu`;
-CREATE TABLE `tbl_menu` (
+DROP TABLE IF EXISTS `sys_menu`;
+CREATE TABLE `sys_menu` (
   `id` smallint(5) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT NULL COMMENT '菜单名称',
   `parent_id` int(10) DEFAULT NULL COMMENT '父ID',
@@ -33,21 +33,21 @@ CREATE TABLE `tbl_menu` (
 ) ENGINE=InnoDB AUTO_INCREMENT=82 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
--- Records of tbl_menu
+-- Records of sys_menu
 -- ----------------------------
-INSERT INTO `tbl_menu` VALUES ('2', '顶级菜单', '0', '#', null, '1', '1', '0,', '2016-01-05 22:50:00');
-INSERT INTO `tbl_menu` VALUES ('13', '系统管理员界面', '2', 'system:admin:*', null, '1', '1', '0,2,', '2015-01-13 17:44:09');
-INSERT INTO `tbl_menu` VALUES ('21', '权限管理', '13', '#', null, '1', '1', '0,2,13,', '2016-01-05 22:50:13');
-INSERT INTO `tbl_menu` VALUES ('22', '账号管理', '21', 'system:userManager:*', null, '1', '1', '0,', '2016-01-05 22:31:37');
-INSERT INTO `tbl_menu` VALUES ('48', '菜单管理', '21', 'system:menu:*', null, '1', '1', '0,2,13,21,', '2016-01-05 22:31:47');
-INSERT INTO `tbl_menu` VALUES ('49', '角色管理', '21', 'system:role:*', null, '1', '1', '0,2,13,21,', '2015-01-13 16:31:07');
-INSERT INTO `tbl_menu` VALUES ('81', '修改密码', '2', 'system:admin:changePwd', null, '1', '1', '0,2,', '2016-01-05 22:32:36');
+INSERT INTO `sys_menu` VALUES ('2', '顶级菜单', '0', '#', null, '1', '1', '0,', '2016-01-05 22:50:00');
+INSERT INTO `sys_menu` VALUES ('13', '系统管理员界面', '2', 'system:admin:*', null, '1', '1', '0,2,', '2015-01-13 17:44:09');
+INSERT INTO `sys_menu` VALUES ('21', '权限管理', '13', '#', null, '1', '1', '0,2,13,', '2016-01-05 22:50:13');
+INSERT INTO `sys_menu` VALUES ('22', '账号管理', '21', 'system:userManager:*', null, '1', '1', '0,', '2016-01-05 22:31:37');
+INSERT INTO `sys_menu` VALUES ('48', '菜单管理', '21', 'system:menu:*', null, '1', '1', '0,2,13,21,', '2016-01-05 22:31:47');
+INSERT INTO `sys_menu` VALUES ('49', '角色管理', '21', 'system:role:*', null, '1', '1', '0,2,13,21,', '2015-01-13 16:31:07');
+INSERT INTO `sys_menu` VALUES ('81', '修改密码', '2', 'system:admin:changePwd', null, '1', '1', '0,2,', '2016-01-05 22:32:36');
 
 -- ----------------------------
--- Table structure for tbl_role
+-- Table structure for sys_role
 -- ----------------------------
-DROP TABLE IF EXISTS `tbl_role`;
-CREATE TABLE `tbl_role` (
+DROP TABLE IF EXISTS `sys_role`;
+CREATE TABLE `sys_role` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `name` varchar(60) NOT NULL COMMENT '角色名称',
   `status` tinyint(1) DEFAULT NULL COMMENT '状态',
@@ -58,31 +58,31 @@ CREATE TABLE `tbl_role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=5 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
--- Records of tbl_role
+-- Records of sys_role
 -- ----------------------------
-INSERT INTO `tbl_role` VALUES ('1', '超级管理员', '1', '超级管理员，拥有所有权限', 'superadmin', '2,12,13,15,16,17,18,19,20,21,22,23,29,30,31,32,33,37,38,39,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63');
-INSERT INTO `tbl_role` VALUES ('2', 'admin', '1', 'asdfasdf', 'admin', '2,13,21,22,48,49,81');
-INSERT INTO `tbl_role` VALUES ('4', '幼儿园管理员', '1', '幼儿园顶级管理员', 'user', '2,13,21,22,48,49,81');
+INSERT INTO `sys_role` VALUES ('1', '超级管理员', '1', '超级管理员，拥有所有权限', 'superadmin', '2,12,13,15,16,17,18,19,20,21,22,23,29,30,31,32,33,37,38,39,40,42,43,44,45,46,47,48,49,50,51,52,53,54,55,56,57,58,59,60,61,62,63');
+INSERT INTO `sys_role` VALUES ('2', 'admin', '1', 'asdfasdf', 'admin', '2,13,21,22,48,49,81');
+INSERT INTO `sys_role` VALUES ('4', '幼儿园管理员', '1', '幼儿园顶级管理员', 'user', '2,13,21,22,48,49,81');
 
 -- ----------------------------
--- Table structure for tbl_role_menu
+-- Table structure for sys_role_menu
 -- ----------------------------
-DROP TABLE IF EXISTS `tbl_role_menu`;
-CREATE TABLE `tbl_role_menu` (
+DROP TABLE IF EXISTS `sys_role_menu`;
+CREATE TABLE `sys_role_menu` (
   `role_id` smallint(5) NOT NULL COMMENT '角色ID',
   `menu_id` smallint(5) NOT NULL COMMENT '菜单ID',
   PRIMARY KEY (`role_id`,`menu_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC COMMENT='角色权限对应表';
 
 -- ----------------------------
--- Records of tbl_role_menu
+-- Records of sys_role_menu
 -- ----------------------------
 
 -- ----------------------------
--- Table structure for tbl_user
+-- Table structure for sys_user
 -- ----------------------------
-DROP TABLE IF EXISTS `tbl_user`;
-CREATE TABLE `tbl_user` (
+DROP TABLE IF EXISTS `sys_user`;
+CREATE TABLE `sys_user` (
   `uid` int(11) unsigned NOT NULL AUTO_INCREMENT COMMENT 'uid',
   `username` char(15) NOT NULL COMMENT '用户名',
   `password` char(32) DEFAULT NULL COMMENT '密码',
@@ -103,20 +103,20 @@ CREATE TABLE `tbl_user` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
--- Records of tbl_user
+-- Records of sys_user
 -- ----------------------------
-INSERT INTO `tbl_user` VALUES ('1', 'tanlsh', '7f733e92fadfd1df8ae68c9d35df5246', '123456@mima4.com', '13553167926', 'alTB3OCV', '1', '', '1', '1', null, '', null, '1', '1', '1');
+INSERT INTO `sys_user` VALUES ('1', 'tanlsh', '7f733e92fadfd1df8ae68c9d35df5246', '123456@mima4.com', '13553167926', 'alTB3OCV', '1', '', '1', '1', null, '', null, '1', '1', '1');
 
 -- ----------------------------
--- Table structure for tbl_user_role
+-- Table structure for sys_user_role
 -- ----------------------------
-DROP TABLE IF EXISTS `tbl_user_role`;
-CREATE TABLE `tbl_user_role` (
+DROP TABLE IF EXISTS `sys_user_role`;
+CREATE TABLE `sys_user_role` (
   `uid` int(11) NOT NULL COMMENT '用户id',
   `role_id` smallint(5) NOT NULL COMMENT '角色id',
   PRIMARY KEY (`uid`,`role_id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 CHECKSUM=1 DELAY_KEY_WRITE=1 ROW_FORMAT=DYNAMIC;
 
 -- ----------------------------
--- Records of tbl_user_role
+-- Records of sys_user_role
 -- ----------------------------

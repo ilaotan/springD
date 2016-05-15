@@ -11,21 +11,21 @@
 	</resultMap>
 	
 	<insert id="save" parameterType="com.springD.application.system.entity.Role" useGeneratedKeys="true" keyProperty="id">
-  		INSERT INTO tbl_role(name,status,remark,code)VALUES(#{name},#{status},#{remark},#{code});
+  		INSERT INTO sys_role(name,status,remark,code)VALUES(#{name},#{status},#{remark},#{code});
  	</insert>
  	
  	<update id="update" parameterType="com.springD.application.system.entity.Role">
- 		UPDATE tbl_role SET name=#{name},status=#{status},remark=#{remark},code=#{code} WHERE id=#{id}
+ 		UPDATE sys_role SET name=#{name},status=#{status},remark=#{remark},code=#{code} WHERE id=#{id}
  	</update>
 
  	<!-- 根据ID查找数据 -->
  	<select id="findById" resultType="com.springD.application.system.entity.Role" parameterType="java.lang.String">
-		SELECT * FROM tbl_role WHERE id=#{id}
+		SELECT * FROM sys_role WHERE id=#{id}
    	</select>
  	
    	<!-- 根据ID查找所有子级数据 -->
  	<select id="findAll" resultType="com.springD.application.system.entity.Role" parameterType="java.util.Map">
-		SELECT * FROM tbl_role
+		SELECT * FROM sys_role
 		WHERE 1 = 1
 		<if test="roleName != null and roleName != ''">
 		AND name like  CONCAT('%','${roleName}','%' )  
@@ -41,15 +41,15 @@
    	
    	<!-- 根据id删除单条数据 -->
    	<delete id="delete" parameterType="java.lang.String">
-		DELETE FROM tbl_role WHERE id = #{id} and NOT EXISTS (SELECT '' FROM tbl_user WHERE role_id = #{id})
+		DELETE FROM sys_role WHERE id = #{id} and NOT EXISTS (SELECT '' FROM sys_user WHERE role_id = #{id})
 	</delete>
 	
 	<update id="savePermission" parameterType="com.springD.application.system.entity.Role">
- 		UPDATE tbl_role SET menu_ids=#{menuIds} WHERE id=#{id}
+ 		UPDATE sys_role SET menu_ids=#{menuIds} WHERE id=#{id}
  	</update>
  	
  	<select id="findBeforeInsert" resultType="com.springD.application.system.entity.Role" parameterType="com.springD.application.system.entity.Role">
- 		SELECT * FROM tbl_role
+ 		SELECT * FROM sys_role
  		WHERE 1 = 2
  		<if test="name != null and name != ''">
  			OR name = #{name }

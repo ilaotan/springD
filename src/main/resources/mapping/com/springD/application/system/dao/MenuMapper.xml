@@ -3,12 +3,12 @@
 <mapper namespace="com.springD.application.system.dao.MenuMapper">
 	
 	<insert id="save" parameterType="com.springD.application.system.entity.Menu" useGeneratedKeys="true" keyProperty="id">
-  		INSERT INTO tbl_menu(name,parent_id,parent_ids,url,isshow,remark,listorder,create_date)VALUES
+  		INSERT INTO sys_menu(name,parent_id,parent_ids,url,isshow,remark,listorder,create_date)VALUES
   		(#{name},#{parentId},#{parentIds},#{url},#{isshow},#{remark},#{listorder},#{createDate});
  	</insert>
  	
  	<update id="update" parameterType="com.springD.application.system.entity.Menu">
- 		UPDATE tbl_menu 
+ 		UPDATE sys_menu 
  		SET name=#{name},parent_id=#{parentId},parent_ids=#{parentIds},url=#{url},
  			isshow=#{isshow},remark=#{remark},listorder=#{listorder},create_date=#{createDate} 
  		WHERE id=#{id}
@@ -16,37 +16,37 @@
 
  	<!-- 根据ID查找数据 -->
  	<select id="findById" resultType="com.springD.application.system.entity.Menu" parameterType="java.lang.String">
-		SELECT * FROM tbl_menu WHERE id=#{id}
+		SELECT * FROM sys_menu WHERE id=#{id}
    	</select>
  	
    	<!-- 根据ID查找所有子级数据 -->
  	<select id="findAll" resultType="com.springD.application.system.entity.Menu">
-		SELECT * FROM tbl_menu order by listorder
+		SELECT * FROM sys_menu order by listorder
    	</select>
    	
    	<!-- 根据ID查找所有子级数据 -->
  	<select id="findAll4Tree" resultType="com.springD.application.system.entity.Menu">
-		SELECT id, name, parent_id, listorder, parent_ids FROM tbl_menu
+		SELECT id, name, parent_id, listorder, parent_ids FROM sys_menu
    	</select>
    	
    	<!-- 根据id删除单条数据 -->
    	<delete id="deleteById" parameterType="java.lang.String">
-		DELETE FROM tbl_menu WHERE id = #{id}
+		DELETE FROM sys_menu WHERE id = #{id}
 	</delete>
 	
 	<!-- 根据pid删除单条数据 -->
    	<delete id="deleteByPid" parameterType="java.lang.String">
-		DELETE FROM tbl_menu WHERE parent_ids LIKE CONCAT('%','${pid}','%' )  
+		DELETE FROM sys_menu WHERE parent_ids LIKE CONCAT('%','${pid}','%' )  
 	</delete>
 	
 	<!-- 根据菜单所有父节点查找菜单 -->
 	<select id="findByParentIdsLike" resultType="com.springD.application.system.entity.Menu" parameterType="java.lang.String">
-		SELECT * FROM tbl_menu WHERE parent_ids LIKE  CONCAT('%','${str}','%' )  
+		SELECT * FROM sys_menu WHERE parent_ids LIKE  CONCAT('%','${str}','%' )  
    	</select>
    	
    	<!-- 添加新菜单项前，查找同名菜单 -->
    	<select id="findBeforeInsert" parameterType="com.springD.application.system.entity.Menu" resultType="com.springD.application.system.entity.Menu">
-   		SELECT * FROM tbl_menu
+   		SELECT * FROM sys_menu
    		WHERE 
    		NAME = #{name}
    	</select>

@@ -7,10 +7,12 @@ import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.Table;
 import javax.validation.constraints.Digits;
 import javax.validation.constraints.Size;
 
 
+@Table(name = "sys_menu")
 public class Menu implements Serializable {
 	private static final long serialVersionUID = 1L;
 	@Id
